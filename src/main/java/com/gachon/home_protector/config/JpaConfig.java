@@ -18,7 +18,7 @@ import java.util.HashMap;
 @EnableTransactionManagement
 public class JpaConfig {
 
-    @Value("${jpa.hibernate.ddl-auto}")
+    @Value("${spring.jpa.hibernate.ddl-auto}")
     String ddlAuto;
 
     @Value("${spring.jpa.database-platform}")
@@ -39,7 +39,7 @@ public class JpaConfig {
         HashMap<String, Object> prop = new HashMap<>();
         prop.put("hibernate.hbm2ddl.auto", ddlAuto);
         entityManagerFactory.setJpaPropertyMap(prop);
-        
+
         return entityManagerFactory;
     }
 
