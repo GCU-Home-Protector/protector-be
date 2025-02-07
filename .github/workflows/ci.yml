@@ -1,7 +1,8 @@
 name: Dockerize & Push Server Image to ECR (CI Step)
 
 on:
-  push:
+  pull_request:
+    types : [opened, synchronize]
     branches: [ "master" ]
 
 env:
