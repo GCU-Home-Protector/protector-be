@@ -7,6 +7,7 @@ build/
 **/src/main/resources/**.properties
 **/src/main/resources/**.yaml
 **/src/main/resources/**.yml
+log
 
 ### STS ###
 .apt_generated
