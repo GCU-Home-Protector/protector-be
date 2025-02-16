@@ -1,4 +1,4 @@
-package com.gachon.home_protector.config;
+package com.gachon.home_protector.config.database;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
