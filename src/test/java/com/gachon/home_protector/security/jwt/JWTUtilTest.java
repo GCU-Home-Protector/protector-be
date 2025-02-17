@@ -21,6 +21,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class JWTUtilTest {
 
+    public static final int REFRESH_TOKEN_DURATION = 24;
+    public static final int ACCESS_TOKEN_DURATION = 1;
     private final String secret = "secretkeysecretkeysecretkeysecretkeysecretkeysecretkeysecretkey";
     private JWTUtil jwtUtil = new JWTUtil(secret);
 
@@ -41,13 +43,44 @@ class JWTUtilTest {
         assertThat(claims.get("username", String.class)).isEqualTo(username);
         assertThat(claims.get("role", String.class)).isEqualTo(role);
         assertThat(Math.abs(claims.getIssuedAt().getTime() - currentTime.getTime())).isLessThan(1000); // 1초 이내 차이 허용
-        assertThat(Math.abs(claims.getExpiration().getTime() - calculateExpirationOfToken(currentTime, 1).getTime())).isLessThan(1000);
+        assertThat(Math.abs(claims.getExpiration().getTime() - calculateExpirationOfToken(currentTime, ACCESS_TOKEN_DURATION).getTime())).isLessThan(1000);
     }
 
-    @DisplayName("Access Token을 만들 때, 입력 값이 유효하지 않으면 예외가 발생해야 한다.")
+    @DisplayName("Access Token을 만들 때, 입력 값은 유효해야 한다.")
     @ParameterizedTest(name = "{4}")
     @MethodSource("invalidTokenParameters")
     void createAccessTokenTest_invalidInputs(String username, String role, Date currentTime, String expectedMessage, String testCaseExplanation) {
+
+        // when // then
+        assertThatThrownBy(() -> jwtUtil.creatAccessToken(username, role, currentTime))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage(expectedMessage);
+    }
+
+    @DisplayName("Refresh Token을 생성할 수 있다.")
+    @Test
+    void createRefreshTokenTest() {
+        // given
+        String username = "username";
+        String role = "role";
+        Date currentTime = new Date(12345671234567L);
+
+        // when
+        String result = jwtUtil.createRefreshToken(username, role, currentTime);
+
+        // then
+        Claims claims = extractPayload(result);
+        assertThat(claims.get("tokenType", String.class)).isEqualTo("refresh");
+        assertThat(claims.get("username", String.class)).isEqualTo(username);
+        assertThat(claims.get("role", String.class)).isEqualTo(role);
+        assertThat(Math.abs(claims.getIssuedAt().getTime() - currentTime.getTime())).isLessThan(1000); // 1초 이내 차이 허용
+        assertThat(Math.abs(claims.getExpiration().getTime() - calculateExpirationOfToken(currentTime, REFRESH_TOKEN_DURATION).getTime())).isLessThan(1000);
+    }
+
+    @DisplayName("Refresh Token을 만들 때, 입력 값은 유효해야 한다.")
+    @ParameterizedTest(name = "{4}")
+    @MethodSource("invalidTokenParameters")
+    void createRefreshTokenTest_invalidInputs(String username, String role, Date currentTime, String expectedMessage, String testCaseExplanation) {
 
         // when // then
         assertThatThrownBy(() -> jwtUtil.creatAccessToken(username, role, currentTime))
