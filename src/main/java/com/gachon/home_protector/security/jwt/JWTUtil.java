@@ -90,11 +90,8 @@ public class JWTUtil {
     }
 
     private static void validateUserInfoAndCurrentTime(String username, String role, Date currentTime) {
-        Assert.notNull(username, "username이 존재하지 않습니다!");
-        Assert.hasText(username, "username이 비어 있으면 안 됩니다!");
-
-        Assert.notNull(role, "role이 존재하지 않습니다!");
-        Assert.hasText(role, "role이 비어 있으면 안 됩니다!");
+        Assert.hasText(username, "username이 존재하지 않습니다!");
+        Assert.hasText(role, "role이 존재하지 않습니다!");
 
         Assert.notNull(currentTime, "currentTime이 존재하지 않습니다!");
         Assert.isTrue(currentTime.getTime() > 0, "currentTime이 잘못되었습니다!");
