@@ -6,14 +6,18 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 import javax.crypto.SecretKey;
+import java.util.Calendar;
 import java.util.Date;
 
 @Component
 public class JWTUtil {
 
     private final SecretKey key;
+    private static final int ACCESS_TOKEN_EXPIRED_HOUR = 1; // 1시간
+    private static final Long REFRESH_TOKEN_EXPIRED_MS = 60 * 60 * 24 * 1000L; // 하루
 
     public JWTUtil(@Value("${spring.jwt.secret}") String secret) {
         byte[] byteSecretKey = Decoders.BASE64.decode(secret);
@@ -42,13 +46,33 @@ public class JWTUtil {
         return expiration.before(currentTime);
     }
 
-    public String createJwt(String tokenType, String username, String role, Long expiredMs) {
+    public String creatAccessToken(String username, String role, Date currentTime) {
+
+        validateUserInfoAndCurrentTime(username, role, currentTime);
+
         return Jwts.builder()
-                .claim("tokenType", tokenType)
+                .claim("tokenType", "access")
                 .claim("username", username)
                 .claim("role", role)
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + expiredMs))
+                .issuedAt(currentTime)
+                .expiration(calculateExpirationOfTokenBasedonCurrentTime(currentTime, ACCESS_TOKEN_EXPIRED_HOUR))
+                .signWith(key)
+                .compact();
+    }
+
+
+
+
+    public String createRefreshToken(String username, String role, Long currentTime) {
+
+//        validateUserInfoAndCurrentTime(username, role, currentTime);
+
+        return Jwts.builder()
+                .claim("tokenType", "refresh")
+                .claim("username", username)
+                .claim("role", role)
+                .issuedAt(new Date(currentTime))
+                .expiration(new Date(currentTime + REFRESH_TOKEN_EXPIRED_MS))
                 .signWith(key)
                 .compact();
     }
@@ -59,5 +83,23 @@ public class JWTUtil {
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
+    }
+
+    private Date calculateExpirationOfTokenBasedonCurrentTime(Date currentTime, int tokenExpireTime) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(currentTime);
+        cal.add(Calendar.HOUR, tokenExpireTime);
+        return cal.getTime();
+    }
+
+    private static void validateUserInfoAndCurrentTime(String username, String role, Date currentTime) {
+        Assert.notNull(username, "username이 존재하지 않습니다!");
+        Assert.hasText(username, "username이 비어 있으면 안 됩니다!");
+
+        Assert.notNull(role, "role이 존재하지 않습니다!");
+        Assert.hasText(role, "role이 비어 있으면 안 됩니다!");
+
+        Assert.notNull(currentTime, "currentTime이 존재하지 않습니다!");
+        Assert.isTrue(currentTime.getTime() > 0, "currentTime이 잘못되었습니다!");
     }
 }
