@@ -17,7 +17,7 @@ public class JWTUtil {
 
     private final SecretKey key;
     private static final int ACCESS_TOKEN_EXPIRED_HOUR = 1; // 1시간
-    private static final Long REFRESH_TOKEN_EXPIRED_MS = 60 * 60 * 24 * 1000L; // 하루
+    private static final int REFRESH_TOKEN_EXPIRED_HOUR = 24; // 하루
 
     public JWTUtil(@Value("${spring.jwt.secret}") String secret) {
         byte[] byteSecretKey = Decoders.BASE64.decode(secret);
@@ -60,19 +60,16 @@ public class JWTUtil {
                 .compact();
     }
 
+    public String createRefreshToken(String username, String role, Date currentTime) {
 
-
-
-    public String createRefreshToken(String username, String role, Long currentTime) {
-
-//        validateUserInfoAndCurrentTime(username, role, currentTime);
+        validateUserInfoAndCurrentTime(username, role, currentTime);
 
         return Jwts.builder()
                 .claim("tokenType", "refresh")
                 .claim("username", username)
                 .claim("role", role)
-                .issuedAt(new Date(currentTime))
-                .expiration(new Date(currentTime + REFRESH_TOKEN_EXPIRED_MS))
+                .issuedAt(currentTime)
+                .expiration(calculateExpirationOfTokenBasedonCurrentTime(currentTime, REFRESH_TOKEN_EXPIRED_HOUR))
                 .signWith(key)
                 .compact();
     }
