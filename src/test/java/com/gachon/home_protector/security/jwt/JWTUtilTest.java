@@ -172,9 +172,9 @@ class JWTUtilTest {
     static Stream<Arguments> invalidTokenParameters() {
         return Stream.of(
                 Arguments.of(null, "role", new Date(12345671234567L), "username이 존재하지 않습니다!", "Token을 만들 때, username이 null이면 안 된다."),
-                Arguments.of("", "role", new Date(12345671234567L), "username이 비어 있으면 안 됩니다!", "Token을 만들 때, username이 비어 잇으면 안 된다."),
+                Arguments.of("", "role", new Date(12345671234567L), "username이 존재하지 않습니다!", "Token을 만들 때, username이 비어 잇으면 안 된다."),
                 Arguments.of("username", null, new Date(12345671234567L), "role이 존재하지 않습니다!", "Token을 만들 때, role이 null이면 안 된다."),
-                Arguments.of("username", "", new Date(12345671234567L), "role이 비어 있으면 안 됩니다!", "Token을 만들 때, role이 비어 있으면 안 된다."),
+                Arguments.of("username", "", new Date(12345671234567L), "role이 존재하지 않습니다!", "Token을 만들 때, role이 비어 있으면 안 된다."),
                 Arguments.of("username", "role", null, "currentTime이 존재하지 않습니다!", "Token을 만들 때, currentTime이 비어 있으면 안 된다."),
                 Arguments.of("username", "role", new Date(-1L), "currentTime이 잘못되었습니다!", "Token을 만들 때, 입력 값이 유효하지 않으면 예외가 발생해야 한다.")
         );
