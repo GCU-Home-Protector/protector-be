@@ -2,7 +2,7 @@ package com.gachon.home_protector.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gachon.home_protector.ControllerTestSupport;
-import com.gachon.home_protector.user.RestLoginRequest;
+import com.gachon.home_protector.user.dto.RestLoginRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;

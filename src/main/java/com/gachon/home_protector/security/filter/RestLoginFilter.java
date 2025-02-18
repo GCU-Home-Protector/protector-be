@@ -1,7 +1,7 @@
 package com.gachon.home_protector.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gachon.home_protector.user.RestLoginRequest;
+import com.gachon.home_protector.user.dto.RestLoginRequest;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

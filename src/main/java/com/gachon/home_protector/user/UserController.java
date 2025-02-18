@@ -1,5 +1,6 @@
 package com.gachon.home_protector.user;
 
+import com.gachon.home_protector.user.dto.UserJoinRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

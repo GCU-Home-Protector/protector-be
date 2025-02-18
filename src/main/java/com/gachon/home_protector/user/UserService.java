@@ -1,5 +1,6 @@
 package com.gachon.home_protector.user;
 
+import com.gachon.home_protector.user.dto.UserJoinServiceRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

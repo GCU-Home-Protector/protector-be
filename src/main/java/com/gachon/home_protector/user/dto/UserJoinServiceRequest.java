@@ -1,5 +1,6 @@
-package com.gachon.home_protector.user;
+package com.gachon.home_protector.user.dto;
 
+import com.gachon.home_protector.user.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
