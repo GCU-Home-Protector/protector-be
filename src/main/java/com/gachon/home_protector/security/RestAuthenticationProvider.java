@@ -9,7 +9,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component("restAuthenticationProvider")
 @RequiredArgsConstructor
 public class RestAuthenticationProvider implements AuthenticationProvider {
 
