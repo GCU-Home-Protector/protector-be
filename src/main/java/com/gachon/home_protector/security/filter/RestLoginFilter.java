@@ -1,6 +1,7 @@
 package com.gachon.home_protector.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gachon.home_protector.security.RestAuthenticationToken;
 import com.gachon.home_protector.user.dto.RestLoginRequest;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,7 +34,8 @@ public class RestLoginFilter extends AbstractAuthenticationProcessingFilter {
         Assert.hasText(userId, "사용자의 ID/PW는 필수입니다!");
         Assert.hasText(password, "사용자의 ID/PW는 필수입니다!");
 
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userId, password);
+        RestAuthenticationToken authentication = RestAuthenticationToken.createUnAuthenticatedToken(userId, password);
+
         return this.getAuthenticationManager().authenticate(authentication);
     }
 }
