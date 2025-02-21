@@ -1,5 +1,6 @@
 package com.gachon.home_protector.security.token;
 
+import com.gachon.home_protector.security.userdetails.RestUserDetails;
 import lombok.Builder;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -31,11 +32,23 @@ public class RestAuthenticationToken extends AbstractAuthenticationToken {
         return token;
     }
 
-    public static RestAuthenticationToken createAuthenticatedToken(Collection<? extends GrantedAuthority> authorities, Object principal, Object credentials) {
+    public static RestAuthenticationToken createAuthenticatedToken(Collection<? extends GrantedAuthority> authorities, Object principal) {
         RestAuthenticationToken token = RestAuthenticationToken.builder()
                 .authorities(authorities)
                 .principal(principal)
-                .credentials(credentials)
+                .credentials(null)
+                .build();
+
+        token.setAuthenticated(true);
+
+        return token;
+    }
+
+    public static RestAuthenticationToken createSecurityContext(Collection<? extends GrantedAuthority> authorities, Object principal) {
+        RestAuthenticationToken token = RestAuthenticationToken.builder()
+                .authorities(authorities)
+                .principal(principal)
+                .credentials(null)
                 .build();
 
         token.setAuthenticated(true);
