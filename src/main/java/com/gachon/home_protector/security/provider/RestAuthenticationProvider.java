@@ -1,4 +1,4 @@
-package com.gachon.home_protector.security;
+package com.gachon.home_protector.security.provider;
 
 import com.gachon.home_protector.security.token.RestAuthenticationToken;
 import com.gachon.home_protector.security.userdetails.RestUserDetails;
