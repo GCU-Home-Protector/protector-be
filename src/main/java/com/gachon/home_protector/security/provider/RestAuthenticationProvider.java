@@ -28,7 +28,7 @@ public class RestAuthenticationProvider implements AuthenticationProvider {
 //            throw new BadCredentialsException("");
 //        }
 
-        return RestAuthenticationToken.createAuthenticatedToken(userDetails.getAuthorities(), userDetails, null);
+        return RestAuthenticationToken.createAuthenticatedToken(userDetails.getAuthorities(), userDetails);
     }
 
     @Override
