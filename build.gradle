@@ -28,6 +28,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'com.google.guava:guava:33.4.0-jre' // for ImmutableMap
+	implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0' // for StringUtils
 
 	// Security
 	implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -39,6 +40,9 @@ dependencies {
 	// DB
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'mysql:mysql-connector-java:8.0.33'
+
+	// Redis
+
 
 	// Lombok
 	compileOnly 'org.projectlombok:lombok'
