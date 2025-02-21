@@ -7,6 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class RestUserLoginResponse {
 
+    private Long id;
     private String userId;
     private String password;
     private String role;
