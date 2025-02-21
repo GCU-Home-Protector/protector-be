@@ -24,6 +24,11 @@ public class JWTUtil {
         this.key = Keys.hmacShaKeyFor(byteSecretKey);
     }
 
+    public Long getId(String token) {
+        return extractPayload(token)
+                .get("id", Long.class);
+    }
+
     public String getUsername(String token) {
         return extractPayload(token)
                 .get("username", String.class);
