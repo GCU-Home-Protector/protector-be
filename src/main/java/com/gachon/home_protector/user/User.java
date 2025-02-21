@@ -63,6 +63,6 @@ public class User extends BaseEntity {
     }
 
     public RestUserLoginResponse toRestUserLoginResponse() {
-        return new RestUserLoginResponse(userId, password, role);
+        return new RestUserLoginResponse(id, userId, password, role);
     }
 }
