@@ -46,7 +46,7 @@ public class JWTUtil {
         return expiration.before(currentTime);
     }
 
-    public String creatAccessToken(String username, String role, Date currentTime) {
+    public String createAccessToken(String username, String role, Date currentTime) {
 
         validateUserInfoAndCurrentTime(username, role, currentTime);
 
