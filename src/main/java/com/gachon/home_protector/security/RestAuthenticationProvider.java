@@ -23,7 +23,7 @@ public class RestAuthenticationProvider implements AuthenticationProvider {
         String rawPassword = (String) authentication.getCredentials();
         String encodedPassword = userDetails.getPassword();
 //        if (isInvalidPassword(rawPassword, encodedPassword)) {
-//            throw new BadCredentialsException("ID 혹은 비밀번호가 잘못되었습니다");
+//            throw new BadCredentialsException("");
 //        }
 
         return RestAuthenticationToken.createAuthenticatedToken(userDetails.getAuthorities(), userDetails, null);
