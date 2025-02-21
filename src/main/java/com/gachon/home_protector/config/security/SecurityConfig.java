@@ -1,8 +1,10 @@
 package com.gachon.home_protector.config.security;
 
+import com.gachon.home_protector.security.filter.JWTFilter;
 import com.gachon.home_protector.security.filter.RestLoginFilter;
 import com.gachon.home_protector.security.handler.RestAuthenticationFailureHandler;
 import com.gachon.home_protector.security.handler.RestAuthenticationSuccessHandler;
+import com.gachon.home_protector.security.jwt.JWTUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +23,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.*;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
+    private final JWTUtil jwtUtil;
     private final AuthenticationConfiguration authenticationConfiguration;
     private final AuthenticationProvider restAuthenticationProvider;
     private final RestAuthenticationSuccessHandler restAuthenticationSuccessHandler;
@@ -42,11 +45,16 @@ public class SecurityConfig {
                         .requestMatchers("/", "/login", "/join", "/reissue").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(createRestLoginFilter("/login"), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(createJWTFilter(jwtUtil), RestLoginFilter.class)
                 .authenticationProvider(restAuthenticationProvider)
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
         ;
 
         return http.build();
+    }
+
+    private JWTFilter createJWTFilter(JWTUtil jwtUtil) {
+        return new JWTFilter(jwtUtil);
     }
 
     private RestLoginFilter createRestLoginFilter(String loginPath) throws Exception {
