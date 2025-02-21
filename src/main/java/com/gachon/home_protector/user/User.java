@@ -1,6 +1,7 @@
 package com.gachon.home_protector.user;
 
 import com.gachon.home_protector.api.BaseEntity;
+import com.gachon.home_protector.user.dto.RestUserLoginResponse;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -25,6 +26,7 @@ public class User extends BaseEntity {
 
     private String role;
 
+    @Enumerated(EnumType.STRING)
     private LoginUserType loginUserType;
 
     @Builder
@@ -58,5 +60,9 @@ public class User extends BaseEntity {
                 .userId(userId)
                 .password(password)
                 .build();
+    }
+
+    public RestUserLoginResponse toRestUserLoginResponse() {
+        return new RestUserLoginResponse(userId, password, role);
     }
 }
