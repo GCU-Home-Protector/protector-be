@@ -22,6 +22,6 @@ public class RestUserDetailsService implements UserDetailsService {
         User user = userRepository.findByUserId(username)
                 .orElseThrow(() -> new UsernameNotFoundException("존재하지 않는 유저입니다!"));
 
-        return new RestUserDetails(user);
+        return new RestUserDetails(user.toRestUserLoginResponse());
     }
 }
