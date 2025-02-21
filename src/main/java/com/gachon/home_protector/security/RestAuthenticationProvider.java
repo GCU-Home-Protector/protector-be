@@ -3,7 +3,6 @@ package com.gachon.home_protector.security;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,16 +22,16 @@ public class RestAuthenticationProvider implements AuthenticationProvider {
 
         String rawPassword = (String) authentication.getCredentials();
         String encodedPassword = userDetails.getPassword();
-        if (isInvalidPassword(rawPassword, encodedPassword)) {
-            throw new BadCredentialsException("ID 혹은 비밀번호가 잘못되었습니다");
-        }
+//        if (isInvalidPassword(rawPassword, encodedPassword)) {
+//            throw new BadCredentialsException("ID 혹은 비밀번호가 잘못되었습니다");
+//        }
 
-        return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        return RestAuthenticationToken.createAuthenticatedToken(userDetails.getAuthorities(), userDetails, null);
     }
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return authentication.isAssignableFrom(UsernamePasswordAuthenticationToken.class);
+        return authentication.isAssignableFrom(RestAuthenticationToken.class);
     }
 
     private boolean isInvalidPassword(String rawPassword, String encodedPassword) {
