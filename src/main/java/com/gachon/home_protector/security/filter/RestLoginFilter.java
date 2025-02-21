@@ -6,7 +6,7 @@ import com.gachon.home_protector.user.dto.RestLoginRequest;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
@@ -19,8 +19,8 @@ public class RestLoginFilter extends AbstractAuthenticationProcessingFilter {
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public RestLoginFilter(String loginPath) {
-        super(new AntPathRequestMatcher(loginPath, "POST"));
+    public RestLoginFilter(String loginPath, AuthenticationManager authenticationManager) {
+        super(new AntPathRequestMatcher(loginPath, "POST"), authenticationManager);
     }
 
     @Override
