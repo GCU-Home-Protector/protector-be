@@ -1,0 +1,62 @@
+package com.gachon.home_protector.security.handler;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gachon.home_protector.security.RestUserDetails;
+import com.gachon.home_protector.security.jwt.JWTUtil;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
+
+@Component("restAuthenticationSuccessHandler")
+@RequiredArgsConstructor
+public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+
+    private final JWTUtil jwtUtil;
+    private final ObjectMapper objectMapper;
+
+    @Override
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+        RestUserDetails principal = (RestUserDetails) authentication.getPrincipal();
+
+        String username = principal.getUsername();
+
+        List<? extends GrantedAuthority> authorities = (List<? extends GrantedAuthority>) principal.getAuthorities();
+        GrantedAuthority grantedAuthority = authorities.get(0);
+        String role = grantedAuthority.getAuthority();
+
+        Date currentTime = new Date();
+        String accessToken = jwtUtil.createAccessToken(username, role, currentTime);
+        String refreshToken = jwtUtil.createRefreshToken(username, role, currentTime);
+
+        response.setHeader("authorization", accessToken);
+        response.addCookie(createCookie("refresh", refreshToken));
+
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+
+        principal.removePassword();
+        objectMapper.writeValue(response.getWriter(), principal);
+
+        response.setStatus(HttpStatus.OK.value());
+    }
+
+    private Cookie createCookie(String key, String token) {
+        Cookie cookie = new Cookie(key, token);
+        cookie.setMaxAge(24*60*60);
+        // cookie.setSecure(true); https 통신 시 사용하기
+        // cookie.setPath("/"); cookie 지정 범위
+        cookie.setHttpOnly(true); // front에서 js로 cookie 접근 못 하도록
+        return cookie;
+    }
+}
