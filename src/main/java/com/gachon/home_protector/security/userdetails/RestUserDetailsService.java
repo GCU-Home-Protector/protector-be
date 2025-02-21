@@ -1,4 +1,4 @@
-package com.gachon.home_protector.security;
+package com.gachon.home_protector.security.userdetails;
 
 import com.gachon.home_protector.user.User;
 import com.gachon.home_protector.user.UserRepository;

@@ -1,7 +1,7 @@
 package com.gachon.home_protector.security.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gachon.home_protector.security.RestUserDetails;
+import com.gachon.home_protector.security.userdetails.RestUserDetails;
 import com.gachon.home_protector.security.jwt.JWTUtil;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
