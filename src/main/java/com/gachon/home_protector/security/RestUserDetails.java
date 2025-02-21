@@ -1,6 +1,6 @@
 package com.gachon.home_protector.security;
 
-import com.gachon.home_protector.user.User;
+import com.gachon.home_protector.user.dto.RestUserLoginResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -14,7 +14,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RestUserDetails implements UserDetails {
 
-    private final User restUser;
+    private final RestUserLoginResponse restUser;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -33,4 +33,7 @@ public class RestUserDetails implements UserDetails {
         return restUser.getUserId();
     }
 
+    public void removePassword() {
+        restUser.removePassword();
+    }
 }
