@@ -5,6 +5,7 @@ import com.gachon.home_protector.security.filter.RestLoginFilter;
 import com.gachon.home_protector.security.handler.RestAuthenticationFailureHandler;
 import com.gachon.home_protector.security.handler.RestAuthenticationSuccessHandler;
 import com.gachon.home_protector.security.jwt.JWTUtil;
+import com.gachon.home_protector.security.token.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,6 +25,8 @@ import static org.springframework.security.config.http.SessionCreationPolicy.*;
 public class SecurityConfig {
 
     private final JWTUtil jwtUtil;
+    private final RefreshTokenRepository refreshTokenRepository;
+
     private final AuthenticationConfiguration authenticationConfiguration;
     private final AuthenticationProvider restAuthenticationProvider;
     private final RestAuthenticationSuccessHandler restAuthenticationSuccessHandler;
@@ -54,7 +57,7 @@ public class SecurityConfig {
     }
 
     private JWTFilter createJWTFilter(JWTUtil jwtUtil) {
-        return new JWTFilter(jwtUtil);
+        return new JWTFilter(jwtUtil, refreshTokenRepository);
     }
 
     private RestLoginFilter createRestLoginFilter(String loginPath) throws Exception {
