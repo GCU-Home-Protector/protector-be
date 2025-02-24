@@ -1,6 +1,7 @@
 package com.gachon.home_protector.security.filter;
 
 import com.gachon.home_protector.security.jwt.JWTUtil;
+import com.gachon.home_protector.security.token.RefreshTokenRepository;
 import com.gachon.home_protector.security.token.RestAuthenticationToken;
 import com.gachon.home_protector.security.userdetails.RestUserDetails;
 import com.gachon.home_protector.user.dto.RestUserLoginResponse;
@@ -22,6 +23,7 @@ import java.util.Date;
 public class JWTFilter extends OncePerRequestFilter {
 
     private final JWTUtil jwtUtil;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -51,7 +53,7 @@ public class JWTFilter extends OncePerRequestFilter {
             return;
         }
 
-        if (jwtUtil.isExpired(refreshToken, new Date())) {
+        if (ifRefreshTokenExpired(accessToken)) {
             PrintWriter writer = response.getWriter();
             writer.print("refresh token expired");
 
@@ -70,6 +72,10 @@ public class JWTFilter extends OncePerRequestFilter {
         SecurityContextHolder.getContext().setAuthentication(securityContext);
 
         filterChain.doFilter(request, response);
+    }
+
+    private boolean ifRefreshTokenExpired(String accessToken) {
+        return refreshTokenRepository.existsById(jwtUtil.getId(accessToken));
     }
 
     private String getCookie(HttpServletRequest request){
