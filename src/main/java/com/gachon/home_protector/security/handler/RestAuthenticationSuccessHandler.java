@@ -1,6 +1,8 @@
 package com.gachon.home_protector.security.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gachon.home_protector.security.token.RefreshToken;
+import com.gachon.home_protector.security.token.RefreshTokenRepository;
 import com.gachon.home_protector.security.userdetails.RestUserDetails;
 import com.gachon.home_protector.security.jwt.JWTUtil;
 import jakarta.servlet.ServletException;
@@ -25,6 +27,7 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 
     private final JWTUtil jwtUtil;
     private final ObjectMapper objectMapper;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
@@ -38,10 +41,12 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 
         Date currentTime = new Date();
         String accessToken = jwtUtil.createAccessToken(username, role, currentTime);
-        String refreshToken = jwtUtil.createRefreshToken(username, role, currentTime);
+
+        RefreshToken refreshToken = RefreshToken.createRefreshToken(principal.getUserId());
+        refreshTokenRepository.save(refreshToken);
 
         response.setHeader("authorization", accessToken);
-        response.addCookie(createCookie("refresh", refreshToken));
+        response.addCookie(createCookie("refresh", refreshToken.getUuid()));
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
