@@ -33,6 +33,10 @@ public class RestUserDetails implements UserDetails {
         return restUser.getUserId();
     }
 
+    public Long getUserId() {
+        return restUser.getId();
+    }
+
     public void removePassword() {
         restUser.removePassword();
     }
