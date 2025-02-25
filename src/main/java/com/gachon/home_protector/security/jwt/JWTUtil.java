@@ -51,11 +51,12 @@ public class JWTUtil {
         return expiration.before(currentTime);
     }
 
-    public String createAccessToken(String username, String role, Date currentTime) {
+    public String createAccessToken(Long userId, String username, String role, Date currentTime) {
 
         validateUserInfoAndCurrentTime(username, role, currentTime);
 
         return Jwts.builder()
+                .claim("id", userId)
                 .claim("tokenType", "access")
                 .claim("username", username)
                 .claim("role", role)
