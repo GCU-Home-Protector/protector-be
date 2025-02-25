@@ -53,7 +53,8 @@ public class JWTFilter extends OncePerRequestFilter {
             return;
         }
 
-        if (ifRefreshTokenExpired(accessToken)) {
+        Long id = jwtUtil.getId(accessToken);
+        if (ifRefreshTokenExpired(id)) {
             PrintWriter writer = response.getWriter();
             writer.print("refresh token expired");
 
@@ -62,7 +63,6 @@ public class JWTFilter extends OncePerRequestFilter {
             return;
         }
 
-        Long id = jwtUtil.getId(accessToken);
         String username = jwtUtil.getUsername(accessToken);
         String role = jwtUtil.getRole(accessToken);
 
@@ -74,8 +74,8 @@ public class JWTFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private boolean ifRefreshTokenExpired(String accessToken) {
-        return refreshTokenRepository.existsById(jwtUtil.getId(accessToken));
+    private boolean ifRefreshTokenExpired(Long id) {
+        return refreshTokenRepository.existsByUserId(id);
     }
 
     private String getCookie(HttpServletRequest request){
