@@ -17,7 +17,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Date;
 
 @RequiredArgsConstructor
 public class JWTFilter extends OncePerRequestFilter {
@@ -54,7 +53,7 @@ public class JWTFilter extends OncePerRequestFilter {
         }
 
         Long id = jwtUtil.getId(accessToken);
-        if (ifRefreshTokenExpired(id)) {
+        if (isRefreshTokenExpired(id)) {
             PrintWriter writer = response.getWriter();
             writer.print("refresh token expired");
 
@@ -74,8 +73,8 @@ public class JWTFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private boolean ifRefreshTokenExpired(Long id) {
-        return refreshTokenRepository.existsByUserId(id);
+    private boolean isRefreshTokenExpired(Long id) {
+        return !refreshTokenRepository.existsById(id);
     }
 
     private String getCookie(HttpServletRequest request){
