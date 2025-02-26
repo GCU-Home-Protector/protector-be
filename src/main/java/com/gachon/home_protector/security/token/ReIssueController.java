@@ -33,7 +33,7 @@ public class ReIssueController {
 
     private boolean isTokenNotExist(HttpServletRequest request) {
 
-        if (StringUtils.isEmpty(request.getHeader("authentication"))) return true;
+        if (StringUtils.isEmpty(request.getHeader("Authorization"))) return true;
 
         String refresh = null;
         Cookie[] cookies = request.getCookies();
