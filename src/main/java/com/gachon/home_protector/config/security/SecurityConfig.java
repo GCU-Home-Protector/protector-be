@@ -1,11 +1,14 @@
 package com.gachon.home_protector.config.security;
 
+import com.gachon.home_protector.security.filter.CustomLogoutFilter;
 import com.gachon.home_protector.security.filter.JWTFilter;
 import com.gachon.home_protector.security.filter.RestLoginFilter;
 import com.gachon.home_protector.security.handler.RestAuthenticationFailureHandler;
 import com.gachon.home_protector.security.handler.RestAuthenticationSuccessHandler;
 import com.gachon.home_protector.security.jwt.JWTUtil;
 import com.gachon.home_protector.security.token.RefreshTokenRepository;
+import jakarta.servlet.Filter;
+import lombok.CustomLog;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +19,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.*;
 
@@ -49,12 +53,14 @@ public class SecurityConfig {
                         .anyRequest().authenticated())
                 .addFilterBefore(createRestLoginFilter("/login"), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(createJWTFilter(jwtUtil), RestLoginFilter.class)
+                .addFilterBefore(createLogoutFilter(jwtUtil, refreshTokenRepository), LogoutFilter.class)
                 .authenticationProvider(restAuthenticationProvider)
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
         ;
 
         return http.build();
     }
+
 
     private JWTFilter createJWTFilter(JWTUtil jwtUtil) {
         return new JWTFilter(jwtUtil, refreshTokenRepository);
@@ -65,5 +71,9 @@ public class SecurityConfig {
         restLoginFilter.setAuthenticationSuccessHandler(restAuthenticationSuccessHandler);
         restLoginFilter.setAuthenticationFailureHandler(restAuthenticationFailureHandler);
         return restLoginFilter;
+    }
+
+    private CustomLogoutFilter createLogoutFilter(JWTUtil jwtUtil, RefreshTokenRepository refreshTokenRepository) {
+        return new CustomLogoutFilter(jwtUtil, refreshTokenRepository);
     }
 }
