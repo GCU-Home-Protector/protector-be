@@ -46,7 +46,7 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
         RefreshToken refreshToken = RefreshToken.createRefreshToken(userId);
         refreshTokenRepository.save(refreshToken);
 
-        response.setHeader("authorization", accessToken);
+        response.setHeader("Authorization", accessToken);
         response.addCookie(createCookie("refresh", refreshToken.getUuid()));
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);

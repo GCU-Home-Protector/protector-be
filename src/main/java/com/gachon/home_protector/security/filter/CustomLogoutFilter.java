@@ -38,7 +38,7 @@ public class CustomLogoutFilter extends GenericFilterBean {
 
         //get refresh token
         String refreshToken = getRefreshToken(request);
-        String accessToken = request.getHeader("authorization");
+        String accessToken = request.getHeader("Authorization");
 
         Long userId = jwtUtil.getId(accessToken);
         if (StringUtils.isEmpty(refreshToken) || isRefreshTokenNotExist(userId)) {
