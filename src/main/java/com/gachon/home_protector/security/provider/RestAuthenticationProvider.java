@@ -19,8 +19,8 @@ public class RestAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        String username = authentication.getName();
-        RestUserDetails userDetails = (RestUserDetails) restUserDetailsService.loadUserByUsername(username);
+        String userId = authentication.getName();
+        RestUserDetails userDetails = (RestUserDetails) restUserDetailsService.loadUserByUsername(userId);
 
         String rawPassword = (String) authentication.getCredentials();
         String encodedPassword = userDetails.getPassword();
