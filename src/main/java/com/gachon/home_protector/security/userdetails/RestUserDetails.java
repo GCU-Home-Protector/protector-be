@@ -33,7 +33,7 @@ public class RestUserDetails implements UserDetails {
         return restUser.getUserId();
     }
 
-    public Long getUserId() {
+    public Long getId() {
         return restUser.getId();
     }
 

@@ -35,7 +35,7 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
         RestUserDetails principal = (RestUserDetails) authentication.getPrincipal();
 
         String username = principal.getUsername();
-        Long userId = principal.getUserId();
+        Long userId = principal.getId();
 
         List<? extends GrantedAuthority> authorities = (List<? extends GrantedAuthority>) principal.getAuthorities();
         GrantedAuthority grantedAuthority = authorities.get(0);
