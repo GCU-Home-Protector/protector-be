@@ -50,5 +50,39 @@ class RefreshTokenRepositoryTest extends IntegrationTestSupport {
         assertThat(result).isFalse();
     }
 
+    @DisplayName("id를 기반으로 token을 제거할 수 있다.")
+    @Test
+    void deleteById() {
+        // given
+        Long userId = 1L;
+        String uuid = UUID.randomUUID().toString();
 
+        RefreshToken refreshToken = RefreshToken.createRefreshToken(userId, uuid);
+        refreshTokenRepository.save(refreshToken);
+
+        // when
+        refreshTokenRepository.deleteById(userId);
+        boolean result = refreshTokenRepository.existsById(userId);
+
+        // then
+        assertThat(result).isFalse();
+    }
+
+    @DisplayName("존재하지 않는 userId를 통해서는 토큰을 제거할 수 없다.")
+    @Test
+    void deleteById_INVALID_USERID() {
+        // given
+        Long userId = -1L;
+        String uuid = UUID.randomUUID().toString();
+
+        RefreshToken refreshToken = RefreshToken.createRefreshToken(userId, uuid);
+        refreshTokenRepository.save(refreshToken);
+
+        // when
+        refreshTokenRepository.deleteById(userId);
+        boolean result = refreshTokenRepository.existsById(userId);
+
+        // then
+        assertThat(result).isFalse();
+    }
 }
