@@ -7,8 +7,6 @@ import com.gachon.home_protector.security.handler.RestAuthenticationFailureHandl
 import com.gachon.home_protector.security.handler.RestAuthenticationSuccessHandler;
 import com.gachon.home_protector.security.jwt.JWTUtil;
 import com.gachon.home_protector.security.token.RefreshTokenRepository;
-import jakarta.servlet.Filter;
-import lombok.CustomLog;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,9 +15,12 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
+import org.springframework.web.cors.CorsConfigurationSource;
+
 
 import static org.springframework.security.config.http.SessionCreationPolicy.*;
 
@@ -31,6 +32,7 @@ public class SecurityConfig {
     private final JWTUtil jwtUtil;
     private final RefreshTokenRepository refreshTokenRepository;
 
+    private final CorsConfigurationSource corsConfigurationSource;
     private final AuthenticationConfiguration authenticationConfiguration;
     private final AuthenticationProvider restAuthenticationProvider;
     private final RestAuthenticationSuccessHandler restAuthenticationSuccessHandler;
@@ -41,13 +43,16 @@ public class SecurityConfig {
         return configuration.getAuthenticationManager();
     }
 
+
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
-                .csrf(auth -> auth.disable())
-                .formLogin(auth -> auth.disable())
-                .httpBasic(auth -> auth.disable())
+                .csrf(AbstractHttpConfigurer::disable)
+                .formLogin(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
+
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/login", "/join", "/reissue").permitAll()
                         .anyRequest().authenticated())
@@ -55,6 +60,8 @@ public class SecurityConfig {
                 .addFilterBefore(createJWTFilter(jwtUtil), RestLoginFilter.class)
                 .addFilterBefore(createLogoutFilter(jwtUtil, refreshTokenRepository), LogoutFilter.class)
                 .authenticationProvider(restAuthenticationProvider)
+
+                .cors((httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource)))
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
         ;
 
