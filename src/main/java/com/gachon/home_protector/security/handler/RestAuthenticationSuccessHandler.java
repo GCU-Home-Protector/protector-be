@@ -20,6 +20,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Component("restAuthenticationSuccessHandler")
 @RequiredArgsConstructor
@@ -43,7 +44,8 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
         Date currentTime = new Date();
         String accessToken = jwtUtil.createAccessToken(userId, username, role, currentTime);
 
-        RefreshToken refreshToken = RefreshToken.createRefreshToken(userId);
+        String uuid = UUID.randomUUID().toString();
+        RefreshToken refreshToken = RefreshToken.createRefreshToken(userId, uuid);
         refreshTokenRepository.save(refreshToken);
 
         response.setHeader("Authorization", accessToken);

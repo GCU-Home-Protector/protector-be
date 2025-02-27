@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -34,7 +36,8 @@ public class RefreshTokenService {
         }
 
         Long userId = jwtUtil.getId(accessToken);
-        RefreshToken refreshToken = RefreshToken.createRefreshToken(userId);
+        String uuid = UUID.randomUUID().toString();
+        RefreshToken refreshToken = RefreshToken.createRefreshToken(userId, uuid);
         refreshTokenRepository.save(refreshToken);
 
         response.addCookie(createCookie("refresh", refreshToken.getUuid()));

@@ -17,8 +17,7 @@ public class RefreshToken {
     private final Long userId;
     private final String uuid;
 
-    public static RefreshToken createRefreshToken(Long userId) {
-        String uuid = UUID.randomUUID().toString();
+    public static RefreshToken createRefreshToken(Long userId, String uuid) {
         return new RefreshToken(userId, uuid);
     }
 }
