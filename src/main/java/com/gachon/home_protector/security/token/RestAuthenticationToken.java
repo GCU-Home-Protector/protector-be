@@ -20,11 +20,11 @@ public class RestAuthenticationToken extends AbstractAuthenticationToken {
         this.credentials = credentials;
     }
 
-    public static RestAuthenticationToken createUnAuthenticatedToken(Object principal, Object credentials) {
+    public static RestAuthenticationToken createUnAuthenticatedToken(Object userId, Object password) {
         RestAuthenticationToken token = RestAuthenticationToken.builder()
                 .authorities(null)
-                .principal(principal)
-                .credentials(credentials)
+                .principal(userId)
+                .credentials(password)
                 .build();
 
         token.setAuthenticated(false);
@@ -32,10 +32,10 @@ public class RestAuthenticationToken extends AbstractAuthenticationToken {
         return token;
     }
 
-    public static RestAuthenticationToken createAuthenticatedToken(Collection<? extends GrantedAuthority> authorities, Object principal) {
+    public static RestAuthenticationToken createAuthenticatedToken(Collection<? extends GrantedAuthority> authorities, Object userDetails) {
         RestAuthenticationToken token = RestAuthenticationToken.builder()
                 .authorities(authorities)
-                .principal(principal)
+                .principal(userDetails)
                 .credentials(null)
                 .build();
 
@@ -44,10 +44,10 @@ public class RestAuthenticationToken extends AbstractAuthenticationToken {
         return token;
     }
 
-    public static RestAuthenticationToken createSecurityContext(Collection<? extends GrantedAuthority> authorities, Object principal) {
+    public static RestAuthenticationToken createSecurityContext(Collection<? extends GrantedAuthority> authorities, Object userDetails) {
         RestAuthenticationToken token = RestAuthenticationToken.builder()
                 .authorities(authorities)
-                .principal(principal)
+                .principal(userDetails)
                 .credentials(null)
                 .build();
 
