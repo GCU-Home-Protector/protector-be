@@ -36,18 +36,16 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
 
         String username = principal.getUsername();
         Long userId = principal.getId();
-
-        List<? extends GrantedAuthority> authorities = (List<? extends GrantedAuthority>) principal.getAuthorities();
-        GrantedAuthority grantedAuthority = authorities.get(0);
-        String role = grantedAuthority.getAuthority();
-
+        String role = extractRole(principal);
         Date currentTime = new Date();
+
         String accessToken = jwtUtil.createAccessToken(userId, username, role, currentTime);
+        RefreshToken refreshToken = createAndSaveRefreshToken(userId);
 
-        String uuid = UUID.randomUUID().toString();
-        RefreshToken refreshToken = RefreshToken.createRefreshToken(userId, uuid);
-        refreshTokenRepository.save(refreshToken);
+        setResponseHeaderAndBody(response, accessToken, refreshToken, principal);
+    }
 
+    private void setResponseHeaderAndBody(HttpServletResponse response, String accessToken, RefreshToken refreshToken, RestUserDetails principal) throws IOException {
         response.setHeader("Authorization", accessToken);
         response.addCookie(createCookie("refresh", refreshToken.getUuid()));
 
@@ -57,6 +55,19 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
         objectMapper.writeValue(response.getWriter(), principal);
 
         response.setStatus(HttpStatus.OK.value());
+    }
+
+    private RefreshToken createAndSaveRefreshToken(Long userId) {
+        String uuid = UUID.randomUUID().toString();
+        RefreshToken refreshToken = RefreshToken.createRefreshToken(userId, uuid);
+        refreshTokenRepository.save(refreshToken);
+        return refreshToken;
+    }
+
+    private static String extractRole(RestUserDetails principal) {
+        List<? extends GrantedAuthority> authorities = (List<? extends GrantedAuthority>) principal.getAuthorities();
+        GrantedAuthority grantedAuthority = authorities.get(0);
+        return grantedAuthority.getAuthority();
     }
 
     private Cookie createCookie(String key, String token) {
