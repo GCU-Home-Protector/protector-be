@@ -53,7 +53,7 @@ public class SecurityConfig {
                 .cors((httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource)))
 
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/login", "/join", "/reissue").permitAll()
+                        .requestMatchers("/", "/login", "/user/join", "/reissue").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(createRestLoginFilter("/login"), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(createJWTFilter(jwtUtil), RestLoginFilter.class)
