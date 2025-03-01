@@ -54,4 +54,44 @@ class UserRepositoryTest extends IntegrationTestSupport {
         // then
         assertTrue(result.isEmpty());
     }
+
+    @DisplayName("같은 userId를 가진 user가 잇는 지 찾을 수 잇다.")
+    @Test
+    void existsByUserId() {
+        // given
+        String userId = "userId";
+        String password = "password";
+        String role = "role";
+
+        User user = User.createRestLoginUser(userId, password, role);
+        userRepository.save(user);
+
+        String newUserId = "newUserId";
+
+        // when
+        Boolean result = userRepository.existsByUserId(newUserId);
+
+        // then
+        assertThat(result).isFalse();
+    }
+
+    @DisplayName("중복된 userId를 가진 user가 잇을 수 있다.")
+    @Test
+    void existsByUserId_DUPLICATE_USERID() {
+        // given
+        String userId = "userId";
+        String password = "password";
+        String role = "role";
+
+        User user = User.createRestLoginUser(userId, password, role);
+        userRepository.save(user);
+
+        String newUserId = "userId";
+
+        // when
+        Boolean result = userRepository.existsByUserId(newUserId);
+
+        // then
+        assertThat(result).isTrue();
+    }
 }
