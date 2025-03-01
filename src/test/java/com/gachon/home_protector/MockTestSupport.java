@@ -15,7 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @ExtendWith(MockitoExtension.class)
-public class MockTestSupport {
+public abstract class MockTestSupport {
 
     // RestAuthenticationProvider 테스트
     @InjectMocks
