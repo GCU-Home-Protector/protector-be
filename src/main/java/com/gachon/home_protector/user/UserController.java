@@ -15,7 +15,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping
+    @PostMapping("/join")
     public ApiResponse<RestUserJoinResponse> joinRestUser(@Valid @RequestBody UserJoinRequest request) {
         return ApiResponse.success(userService.joinRestUser(request.toServiceRequest()));
     }
