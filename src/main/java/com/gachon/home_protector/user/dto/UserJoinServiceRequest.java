@@ -24,7 +24,7 @@ public class UserJoinServiceRequest {
                 .build();
     }
 
-    public User toUser() {
-        return User.of(userId, password);
+    public User toRestUser() {
+        return User.createRestLoginUser(userId, password, "ROLE_USER");
     }
 }
