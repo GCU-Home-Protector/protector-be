@@ -35,7 +35,6 @@ public class RestLoginFilter extends AbstractAuthenticationProcessingFilter {
         Assert.hasText(password, "사용자의 ID/PW는 필수입니다!");
 
         RestAuthenticationToken authentication = RestAuthenticationToken.createUnAuthenticatedToken(userId, password);
-
         return this.getAuthenticationManager().authenticate(authentication);
     }
 }
