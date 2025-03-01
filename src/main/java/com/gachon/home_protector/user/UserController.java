@@ -1,6 +1,7 @@
 package com.gachon.home_protector.user;
 
 import com.gachon.home_protector.user.dto.UserJoinRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,8 +15,8 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public String join(@RequestBody UserJoinRequest request) {
-        return userService.join(request.toServiceRequest());
+    public RestUserJoinResponse joinRestUser(@Valid @RequestBody UserJoinRequest request) {
+        return userService.joinRestUser(request.toServiceRequest());
     }
 
     @GetMapping
