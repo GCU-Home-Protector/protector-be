@@ -1,5 +1,6 @@
 package com.gachon.home_protector.user;
 
+import com.gachon.home_protector.api.ApiResponse;
 import com.gachon.home_protector.user.dto.UserJoinRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +16,8 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public RestUserJoinResponse joinRestUser(@Valid @RequestBody UserJoinRequest request) {
-        return userService.joinRestUser(request.toServiceRequest());
+    public ApiResponse<RestUserJoinResponse> joinRestUser(@Valid @RequestBody UserJoinRequest request) {
+        return ApiResponse.success(userService.joinRestUser(request.toServiceRequest()));
     }
 
     @GetMapping
