@@ -40,4 +40,11 @@ public class ErrorResponse {
                 .message(message)
                 .build();
     }
+
+    public static ErrorResponse internalServerError (String message) {
+        return ErrorResponse.builder()
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .message(message)
+                .build();
+    }
 }
