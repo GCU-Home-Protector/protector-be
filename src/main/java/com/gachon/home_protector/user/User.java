@@ -37,6 +37,10 @@ public class User extends BaseEntity {
         this.loginUserType = loginUserType;
     }
 
+    public void encryptPassword(String encodedPassword) {
+        this.password = encodedPassword;
+    }
+
     public static User createRestLoginUser(String userId, String password, String role) {
         return User.builder()
                 .userId(userId)
@@ -54,15 +58,13 @@ public class User extends BaseEntity {
                 .loginUserType(OAUTH2_LOGIN_USER)
                 .build();
     }
-
-    public static User of (String userId, String password) {
-        return User.builder()
-                .userId(userId)
-                .password(password)
-                .build();
-    }
-
+    
     public RestUserLoginResponse toRestUserLoginResponse() {
         return new RestUserLoginResponse(id, userId, password, role);
     }
+
+    public RestUserJoinResponse toRestUserJoinResponse() {
+        return new RestUserJoinResponse(id, userId, role, loginUserType);
+    }
+
 }
