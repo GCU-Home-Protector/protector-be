@@ -53,9 +53,9 @@ public class SecurityConfig {
                 .cors((httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource)))
 
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/login", "/user/join", "/reissue").permitAll()
+                        .requestMatchers("/", "/user/login", "/user/join", "/user/reissue").permitAll()
                         .anyRequest().authenticated())
-                .addFilterBefore(createRestLoginFilter("/login"), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(createRestLoginFilter("/user/login"), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(createJWTFilter(jwtUtil), RestLoginFilter.class)
                 .addFilterBefore(createLogoutFilter(jwtUtil, refreshTokenRepository), LogoutFilter.class)
                 .authenticationProvider(restAuthenticationProvider)

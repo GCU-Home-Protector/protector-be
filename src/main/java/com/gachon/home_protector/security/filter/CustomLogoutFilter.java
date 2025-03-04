@@ -77,7 +77,7 @@ public class CustomLogoutFilter extends GenericFilterBean {
     }
 
     private static boolean isInvalidLogoutRequest(String requestUri, String requestMethod) {
-        if (!requestUri.matches("/logout")) return true;
+        if (!requestUri.matches("/user/logout")) return true;
         if (!requestMethod.matches("POST")) return true;
         return false;
     }
