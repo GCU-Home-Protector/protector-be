@@ -1,5 +1,6 @@
-package com.gachon.home_protector.user;
+package com.gachon.home_protector.user.dto;
 
+import com.gachon.home_protector.user.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +24,7 @@ public class UserJoinServiceRequest {
                 .build();
     }
 
-    public User toUser() {
-        return User.of(userId, password);
+    public User toRestUser() {
+        return User.createRestLoginUser(userId, password, "ROLE_USER");
     }
 }

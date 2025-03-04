@@ -1,5 +1,6 @@
-package com.gachon.home_protector.user;
+package com.gachon.home_protector.user.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,7 +8,11 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class UserJoinRequest {
+
+    @NotBlank(message = "ID는 필수입니다!")
     private String userId;
+
+    @NotBlank(message = "비밀번호는 필수입니다!")
     private String password;
 
     @Builder

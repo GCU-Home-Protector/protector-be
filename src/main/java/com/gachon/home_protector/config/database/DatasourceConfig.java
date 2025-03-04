@@ -1,4 +1,4 @@
-package com.gachon.home_protector.config;
+package com.gachon.home_protector.config.database;
 
 import com.google.common.collect.ImmutableMap;
 import com.zaxxer.hikari.HikariDataSource;
@@ -8,11 +8,13 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.datasource.LazyConnectionDataSourceProxy;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
 import javax.sql.DataSource;
 
+@Profile("default")
 @Configuration
 public class DatasourceConfig {
 

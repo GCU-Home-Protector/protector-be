@@ -1,4 +1,4 @@
-package com.gachon.home_protector.config;
+package com.gachon.home_protector.config.database;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
