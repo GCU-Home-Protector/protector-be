@@ -17,6 +17,12 @@ public class InvalidTokenHandler {
         return ErrorResponse.unauthorizedError(exception.getMessage());
     }
 
+    @ExceptionHandler(ExpiredRefreshTokenException.class)
+    public ErrorResponse tokenNotFoundExHandler (ExpiredRefreshTokenException exception) {
+        log.info(exception.getMessage());
+        return ErrorResponse.unauthorizedError(exception.getMessage());
+    }
+
     @ExceptionHandler(InvalidAccessTokenException.class)
     public ErrorResponse invalidAccessTokenExHandler (InvalidAccessTokenException exception) {
         log.error(exception.getMessage());
