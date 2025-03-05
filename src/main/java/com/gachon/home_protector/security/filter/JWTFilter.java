@@ -17,6 +17,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 
 @RequiredArgsConstructor
 public class JWTFilter extends OncePerRequestFilter {
@@ -27,6 +28,7 @@ public class JWTFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String accessToken = request.getHeader("Authorization");
+
         if (StringUtils.isEmpty(accessToken)) {
             filterChain.doFilter(request, response);
             return;
@@ -44,24 +46,17 @@ public class JWTFilter extends OncePerRequestFilter {
             return;
         }
 
-        String refreshToken = getCookie(request);
-        if (StringUtils.isEmpty(refreshToken)) {
+        if (jwtUtil.isExpired(accessToken, new Date())) {
+            //response body
             PrintWriter writer = response.getWriter();
-            writer.print("invalid request!");
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return;
-        }
-
-        Long id = jwtUtil.getId(accessToken);
-        if (isRefreshTokenExpired(id)) {
-            PrintWriter writer = response.getWriter();
-            writer.print("refresh token expired");
+            writer.print("expired access token");
 
             //response status code
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
 
+        Long id = jwtUtil.getId(accessToken);
         String username = jwtUtil.getUsername(accessToken);
         String role = jwtUtil.getRole(accessToken);
 
