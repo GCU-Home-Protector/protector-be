@@ -50,6 +50,9 @@ public abstract class ControllerTestSupport {
     @MockitoBean
     protected RefreshTokenService refreshTokenService; // for ReIssueController
 
+    @MockitoBean
+    protected JWTUtil jwtUtil;
+
     /**
      * WebMvcTest로 컨트롤러 테스트 시 개발자가 작성한 SecurityConfig가 아닌, 기본 설정이 들어가므로
      * SecurityTestConfig 통해 컨트롤러 테스트 시에도 실제와 같은 인가 설정 가져오도록 설정
@@ -74,6 +77,8 @@ public abstract class ControllerTestSupport {
 
         @MockitoBean
         private RestAuthenticationFailureHandler restAuthenticationFailureHandler;
+
+
 
 
         @Bean
