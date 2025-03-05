@@ -23,7 +23,7 @@ public class ReIssueController {
      * @return
      */
     @PostMapping("/reissue")
-    public ApiResponse<Object> reissueRefreshToken(HttpServletRequest request, HttpServletResponse response) {
+    public ApiResponse<Object> reissueToken(HttpServletRequest request, HttpServletResponse response) {
        if (isTokenNotExist(request)) {
            throw new TokenNotFoundException("토큰이 존재하지 않습니다!");
        }
