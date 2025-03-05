@@ -30,7 +30,7 @@ public class RefreshTokenService {
      * @param response
      * @return
      */
-    public HttpServletResponse reIssueRefreshToken(HttpServletRequest request, HttpServletResponse response) {
+    public HttpServletResponse reIssueAccessAndRefreshToken(HttpServletRequest request, HttpServletResponse response) {
 
         String accessToken = request.getHeader("Authorization");
         validateAccessTokenAndRefreshToken(accessToken);

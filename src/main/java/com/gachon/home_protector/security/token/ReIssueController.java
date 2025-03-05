@@ -27,7 +27,7 @@ public class ReIssueController {
        if (isTokenNotExist(request)) {
            throw new TokenNotFoundException("토큰이 존재하지 않습니다!");
        }
-       HttpServletResponse reIssuedResponse = refreshTokenService.reIssueRefreshToken(request, response);
+       HttpServletResponse reIssuedResponse = refreshTokenService.reIssueAccessAndRefreshToken(request, response);
        return ApiResponse.success();
     }
 
