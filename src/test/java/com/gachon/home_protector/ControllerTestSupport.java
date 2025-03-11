@@ -7,7 +7,9 @@ import com.gachon.home_protector.security.filter.RestLoginFilter;
 import com.gachon.home_protector.security.handler.RestAuthenticationFailureHandler;
 import com.gachon.home_protector.security.handler.RestAuthenticationSuccessHandler;
 import com.gachon.home_protector.security.jwt.JWTUtil;
+import com.gachon.home_protector.security.token.ReIssueController;
 import com.gachon.home_protector.security.token.RefreshTokenRepository;
+import com.gachon.home_protector.security.token.RefreshTokenService;
 import com.gachon.home_protector.user.UserController;
 import com.gachon.home_protector.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +32,8 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @ActiveProfiles("test")
 @WebMvcTest(controllers = {
         RestLoginFilter.class,
-        UserController.class
+        UserController.class,
+        ReIssueController.class
 })
 @Import({ControllerTestSupport.TestSecurityConfig.class})
 public abstract class ControllerTestSupport {
@@ -42,7 +45,13 @@ public abstract class ControllerTestSupport {
     protected ObjectMapper objectMapper;
 
     @MockitoBean
-    protected UserService userService;
+    protected UserService userService; // for UserController
+
+    @MockitoBean
+    protected RefreshTokenService refreshTokenService; // for ReIssueController
+
+    @MockitoBean
+    protected JWTUtil jwtUtil;
 
     /**
      * WebMvcTest로 컨트롤러 테스트 시 개발자가 작성한 SecurityConfig가 아닌, 기본 설정이 들어가므로
@@ -68,6 +77,8 @@ public abstract class ControllerTestSupport {
 
         @MockitoBean
         private RestAuthenticationFailureHandler restAuthenticationFailureHandler;
+
+
 
 
         @Bean

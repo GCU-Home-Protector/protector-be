@@ -94,4 +94,47 @@ class UserRepositoryTest extends IntegrationTestSupport {
         // then
         assertThat(result).isTrue();
     }
+
+    @DisplayName("특정 id와 userId를 동시에 가진 유저를 찾을 수 있다.")
+    @Test
+    void existsByIdAndUserId() {
+        // given
+        String userId = "userId";
+        String password = "password";
+        String role = "role";
+
+        User user1 = User.createRestLoginUser(userId, password, role);
+        User firstUser = userRepository.save(user1);
+
+        // when
+        Boolean result = userRepository.existsByIdAndUserId(firstUser.getId(), firstUser.getUserId());
+
+        // then
+        assertThat(result).isTrue();
+    }
+
+    @DisplayName("특정 id와 userId를 동시에 가진 유저를 찾지 못할 수 있다.")
+    @Test
+    void existsByIdAndUserId_BAD_INPUT() {
+        // given
+        String userId = "userId";
+        String password = "password";
+        String role = "role";
+
+        String secondUserId = "userId2";
+        String secondPassword = "password2";
+        String secondRole = "role";
+
+        User user1 = User.createRestLoginUser(userId, password, role);
+        User firstUser = userRepository.save(user1);
+
+        User user2 = User.createRestLoginUser(secondUserId, secondPassword, secondRole);
+        User secondUser = userRepository.save(user2);
+
+        // when
+        Boolean result = userRepository.existsByIdAndUserId(firstUser.getId(), secondUser.getUserId());
+
+        // then
+        assertThat(result).isFalse();
+    }
 }

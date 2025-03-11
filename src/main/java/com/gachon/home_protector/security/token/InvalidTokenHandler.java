@@ -1,6 +1,7 @@
 package com.gachon.home_protector.security.token;
 
 import com.gachon.home_protector.api.ErrorResponse;
+import io.jsonwebtoken.MalformedJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -17,8 +18,20 @@ public class InvalidTokenHandler {
         return ErrorResponse.unauthorizedError(exception.getMessage());
     }
 
+    @ExceptionHandler(ExpiredRefreshTokenException.class)
+    public ErrorResponse tokenNotFoundExHandler (ExpiredRefreshTokenException exception) {
+        log.info(exception.getMessage());
+        return ErrorResponse.unauthorizedError(exception.getMessage());
+    }
+
     @ExceptionHandler(InvalidAccessTokenException.class)
     public ErrorResponse invalidAccessTokenExHandler (InvalidAccessTokenException exception) {
+        log.error(exception.getMessage());
+        return ErrorResponse.badRequestError(exception.getMessage());
+    }
+
+    @ExceptionHandler(MalformedJwtException.class)
+    public ErrorResponse malFormedJwtExHandler (MalformedJwtException exception) {
         log.error(exception.getMessage());
         return ErrorResponse.badRequestError(exception.getMessage());
     }
