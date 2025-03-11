@@ -1,7 +1,14 @@
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+}
+
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.4.2'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id "io.sentry.jvm.gradle" version "5.3.0"
 }
 
 group = 'com.gachon'
@@ -52,6 +59,9 @@ dependencies {
 	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
+	// Sentry
+	implementation 'io.sentry:sentry-logback:8.3.0'
+
 	// Test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
@@ -67,23 +77,18 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
-buildscript {
-	repositories {
-		mavenCentral()
-	}
-}
 
-plugins {
-	id "io.sentry.jvm.gradle" version "5.3.0"
-}
 
-sentry {
-	// Generates a JVM (Java, Kotlin, etc.) source bundle and uploads your source code to Sentry.
-	// This enables source context, allowing you to see your source
-	// code as part of your stack traces in Sentry.
-	includeSourceContext = true
 
-	org = "home-protector-ix"
-	projectName = "java-spring-boot"
-	authToken = System.getenv("SENTRY_AUTH_TOKEN")
-}
+
+
+//sentry {
+//	// Generates a JVM (Java, Kotlin, etc.) source bundle and uploads your source code to Sentry.
+//	// This enables source context, allowing you to see your source
+//	// code as part of your stack traces in Sentry.
+//	includeSourceContext = true
+//
+//	org = "home-protector-ix"
+//	projectName = "java-spring-boot"
+//	authToken = System.getenv("SENTRY_AUTH_TOKEN")
+//}
