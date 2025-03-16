@@ -7,7 +7,7 @@ import com.gachon.home_protector.security.filter.RestLoginFilter;
 import com.gachon.home_protector.security.handler.RestAuthenticationFailureHandler;
 import com.gachon.home_protector.security.handler.RestAuthenticationSuccessHandler;
 import com.gachon.home_protector.security.jwt.JWTUtil;
-import com.gachon.home_protector.security.token.ReIssueController;
+import com.gachon.home_protector.security.token.controller.ReIssueController;
 import com.gachon.home_protector.security.token.RefreshTokenRepository;
 import com.gachon.home_protector.security.token.RefreshTokenService;
 import com.gachon.home_protector.user.UserController;
