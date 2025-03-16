@@ -78,8 +78,8 @@ public abstract class ControllerTestSupport {
         @MockitoBean
         private RestAuthenticationFailureHandler restAuthenticationFailureHandler;
 
-
-
+        @MockitoBean
+        private ObjectMapper objectMapper;
 
         @Bean
         public SecurityFilterChain testSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -93,7 +93,7 @@ public abstract class ControllerTestSupport {
                             .anyRequest().authenticated())
                     .addFilterBefore(createRestLoginFilter("/login"), UsernamePasswordAuthenticationFilter.class)
                     .addFilterBefore(createJWTFilter(jwtUtil), RestLoginFilter.class)
-                    .addFilterBefore(createLogoutFilter(jwtUtil, refreshTokenRepository), LogoutFilter.class)
+//                    .addFilterBefore(createLogoutFilter(jwtUtil, objectMapper, refreshTokenRepository), LogoutFilter.class)
                     .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
             ;
 
@@ -108,8 +108,8 @@ public abstract class ControllerTestSupport {
             return new RestLoginFilter(loginPath, authenticationManager(authenticationConfiguration));
         }
 
-        private CustomLogoutFilter createLogoutFilter(JWTUtil jwtUtil, RefreshTokenRepository refreshTokenRepository) {
-            return new CustomLogoutFilter(jwtUtil, refreshTokenRepository);
+        private CustomLogoutFilter createLogoutFilter(JWTUtil jwtUtil, ObjectMapper objectMapper, RefreshTokenRepository refreshTokenRepository) {
+            return new CustomLogoutFilter(jwtUtil, objectMapper, refreshTokenRepository);
         }
 
         private AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
