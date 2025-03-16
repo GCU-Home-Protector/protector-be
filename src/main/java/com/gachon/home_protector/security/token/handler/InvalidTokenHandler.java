@@ -1,4 +1,4 @@
-package com.gachon.home_protector.security.token;
+package com.gachon.home_protector.security.token.handler;
 
 import com.gachon.home_protector.api.ErrorResponse;
 import com.gachon.home_protector.security.token.controller.ReIssueController;
