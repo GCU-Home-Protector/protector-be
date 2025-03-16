@@ -1,7 +1,7 @@
 package com.gachon.home_protector.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gachon.home_protector.api.ApiResponse;
+import com.gachon.home_protector.api.SuccessResponse;
 import com.gachon.home_protector.security.jwt.JWTUtil;
 import com.gachon.home_protector.security.token.RefreshTokenRepository;
 import io.micrometer.common.util.StringUtils;
@@ -65,7 +65,7 @@ public class CustomLogoutFilter extends GenericFilterBean {
         cookie.setPath("/");
 
         response.addCookie(cookie);
-        objectMapper.writeValue(response.getWriter(), ApiResponse.success());
+        objectMapper.writeValue(response.getWriter(), SuccessResponse.success());
         response.setStatus(HttpServletResponse.SC_OK);
     }
 

@@ -1,7 +1,7 @@
 package com.gachon.home_protector.security.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gachon.home_protector.api.ApiResponse;
+import com.gachon.home_protector.api.SuccessResponse;
 import com.gachon.home_protector.security.token.RefreshToken;
 import com.gachon.home_protector.security.token.RefreshTokenRepository;
 import com.gachon.home_protector.security.userdetails.RestUserDetails;
@@ -53,7 +53,7 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
         principal.removePassword();
-        objectMapper.writeValue(response.getWriter(), ApiResponse.success(principal.getUser()));
+        objectMapper.writeValue(response.getWriter(), SuccessResponse.success(principal.getUser()));
 
         response.setStatus(HttpStatus.OK.value());
     }

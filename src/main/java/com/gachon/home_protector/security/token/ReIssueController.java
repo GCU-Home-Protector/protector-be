@@ -1,6 +1,6 @@
 package com.gachon.home_protector.security.token;
 
-import com.gachon.home_protector.api.ApiResponse;
+import com.gachon.home_protector.api.SuccessResponse;
 import io.micrometer.common.util.StringUtils;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,12 +23,12 @@ public class ReIssueController {
      * @return
      */
     @PostMapping("/reissue")
-    public ApiResponse<Object> reissueToken(HttpServletRequest request, HttpServletResponse response) {
+    public SuccessResponse<Object> reissueToken(HttpServletRequest request, HttpServletResponse response) {
        if (isTokenNotExist(request)) {
            throw new TokenNotFoundException("토큰이 존재하지 않습니다!");
        }
        refreshTokenService.reIssueAccessAndRefreshToken(request, response);
-       return ApiResponse.success("토큰 재발급에 성공했습니다!");
+       return SuccessResponse.success("토큰 재발급에 성공했습니다!");
     }
 
     private boolean isTokenNotExist(HttpServletRequest request) {
