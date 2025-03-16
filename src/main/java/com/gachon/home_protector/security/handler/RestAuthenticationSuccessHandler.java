@@ -2,7 +2,7 @@ package com.gachon.home_protector.security.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gachon.home_protector.api.SuccessResponse;
-import com.gachon.home_protector.security.token.RefreshToken;
+import com.gachon.home_protector.security.token.token.RefreshToken;
 import com.gachon.home_protector.security.token.RefreshTokenRepository;
 import com.gachon.home_protector.security.userdetails.RestUserDetails;
 import com.gachon.home_protector.security.jwt.JWTUtil;

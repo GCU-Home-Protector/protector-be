@@ -1,7 +1,7 @@
 package com.gachon.home_protector.security.provider;
 
 import com.gachon.home_protector.MockTestSupport;
-import com.gachon.home_protector.security.token.RestAuthenticationToken;
+import com.gachon.home_protector.security.token.token.RestAuthenticationToken;
 import com.gachon.home_protector.security.userdetails.RestUserDetails;
 import com.gachon.home_protector.user.dto.RestUserLoginResponse;
 import org.junit.jupiter.api.DisplayName;

@@ -3,6 +3,7 @@ package com.gachon.home_protector.security.token;
 import com.gachon.home_protector.security.jwt.JWTUtil;
 import com.gachon.home_protector.security.token.exception.ExpiredRefreshTokenException;
 import com.gachon.home_protector.security.token.exception.InvalidAccessTokenException;
+import com.gachon.home_protector.security.token.token.RefreshToken;
 import com.gachon.home_protector.user.UserRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
