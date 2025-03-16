@@ -1,6 +1,7 @@
 package com.gachon.home_protector.security.token;
 
 import com.gachon.home_protector.api.SuccessResponse;
+import com.gachon.home_protector.security.token.exception.TokenNotFoundException;
 import io.micrometer.common.util.StringUtils;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
