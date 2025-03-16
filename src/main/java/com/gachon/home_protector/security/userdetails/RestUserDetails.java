@@ -40,4 +40,8 @@ public class RestUserDetails implements UserDetails {
     public void removePassword() {
         restUser.removePassword();
     }
+
+    public RestUserLoginResponse getUser() {
+        return restUser;
+    }
 }
