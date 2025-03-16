@@ -1,6 +1,6 @@
 package com.gachon.home_protector.security.userdetails;
 
-import com.gachon.home_protector.user.dto.RestUserLoginResponse;
+import com.gachon.home_protector.user.dto.login.RestUserLoginResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

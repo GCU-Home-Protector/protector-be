@@ -4,7 +4,7 @@ import com.gachon.home_protector.MockTestSupport;
 import com.gachon.home_protector.security.token.token.RefreshToken;
 import com.gachon.home_protector.security.token.token.RestAuthenticationToken;
 import com.gachon.home_protector.security.userdetails.RestUserDetails;
-import com.gachon.home_protector.user.dto.RestUserLoginResponse;
+import com.gachon.home_protector.user.dto.login.RestUserLoginResponse;
 import jakarta.servlet.ServletException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

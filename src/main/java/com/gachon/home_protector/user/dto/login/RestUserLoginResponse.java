@@ -1,4 +1,4 @@
-package com.gachon.home_protector.user.dto;
+package com.gachon.home_protector.user.dto.login;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
