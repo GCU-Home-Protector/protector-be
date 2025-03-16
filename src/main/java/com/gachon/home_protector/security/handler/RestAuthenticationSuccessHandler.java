@@ -53,7 +53,7 @@ public class RestAuthenticationSuccessHandler implements AuthenticationSuccessHa
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
         principal.removePassword();
-        objectMapper.writeValue(response.getWriter(), ApiResponse.success(principal));
+        objectMapper.writeValue(response.getWriter(), ApiResponse.success(principal.getUser()));
 
         response.setStatus(HttpStatus.OK.value());
     }
