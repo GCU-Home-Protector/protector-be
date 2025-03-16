@@ -1,26 +1,19 @@
 package com.gachon.home_protector.security.handler;
 
 import com.gachon.home_protector.MockTestSupport;
-import com.gachon.home_protector.security.token.RefreshToken;
-import com.gachon.home_protector.security.token.RestAuthenticationToken;
+import com.gachon.home_protector.security.token.token.RefreshToken;
+import com.gachon.home_protector.security.token.token.RestAuthenticationToken;
 import com.gachon.home_protector.security.userdetails.RestUserDetails;
-import com.gachon.home_protector.user.dto.RestUserLoginResponse;
+import com.gachon.home_protector.user.dto.login.RestUserLoginResponse;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletOutputStream;
-import jakarta.servlet.http.Cookie;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.BDDMockito;
 import org.springframework.http.HttpStatus;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.*;
 
 class RestAuthenticationSuccessHandlerTest extends MockTestSupport {

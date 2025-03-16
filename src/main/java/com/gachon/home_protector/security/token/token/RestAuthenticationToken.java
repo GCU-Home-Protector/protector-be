@@ -1,6 +1,5 @@
-package com.gachon.home_protector.security.token;
+package com.gachon.home_protector.security.token.token;
 
-import com.gachon.home_protector.security.userdetails.RestUserDetails;
 import lombok.Builder;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;

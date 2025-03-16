@@ -1,5 +1,6 @@
-package com.gachon.home_protector.user;
+package com.gachon.home_protector.user.dto.join;
 
+import com.gachon.home_protector.user.LoginUserType;
 import lombok.Getter;
 
 @Getter

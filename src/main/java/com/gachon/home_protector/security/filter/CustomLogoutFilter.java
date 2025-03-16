@@ -1,5 +1,7 @@
 package com.gachon.home_protector.security.filter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gachon.home_protector.api.SuccessResponse;
 import com.gachon.home_protector.security.jwt.JWTUtil;
 import com.gachon.home_protector.security.token.RefreshTokenRepository;
 import io.micrometer.common.util.StringUtils;
@@ -19,6 +21,7 @@ import java.io.IOException;
 public class CustomLogoutFilter extends GenericFilterBean {
 
     private final JWTUtil jwtUtil;
+    private final ObjectMapper objectMapper;
     private final RefreshTokenRepository refreshTokenRepository;
 
     @Override
@@ -53,7 +56,7 @@ public class CustomLogoutFilter extends GenericFilterBean {
         return !refreshTokenRepository.existsById(userId);
     }
 
-    private void logout(HttpServletResponse response, Long userId) {
+    private void logout(HttpServletResponse response, Long userId) throws IOException {
         refreshTokenRepository.deleteById(userId);
 
         //Refresh 토큰 Cookie 값 0
@@ -62,6 +65,7 @@ public class CustomLogoutFilter extends GenericFilterBean {
         cookie.setPath("/");
 
         response.addCookie(cookie);
+        objectMapper.writeValue(response.getWriter(), SuccessResponse.success());
         response.setStatus(HttpServletResponse.SC_OK);
     }
 

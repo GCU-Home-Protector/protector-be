@@ -1,6 +1,7 @@
 package com.gachon.home_protector.user;
 
-import com.gachon.home_protector.user.dto.UserJoinServiceRequest;
+import com.gachon.home_protector.user.dto.join.RestUserJoinResponse;
+import com.gachon.home_protector.user.dto.join.UserJoinServiceRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

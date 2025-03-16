@@ -1,4 +1,4 @@
-package com.gachon.home_protector.user.dto;
+package com.gachon.home_protector.user.dto.join;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;

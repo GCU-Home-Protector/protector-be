@@ -2,9 +2,9 @@ package com.gachon.home_protector.security.filter;
 
 import com.gachon.home_protector.security.jwt.JWTUtil;
 import com.gachon.home_protector.security.token.RefreshTokenRepository;
-import com.gachon.home_protector.security.token.RestAuthenticationToken;
+import com.gachon.home_protector.security.token.token.RestAuthenticationToken;
 import com.gachon.home_protector.security.userdetails.RestUserDetails;
-import com.gachon.home_protector.user.dto.RestUserLoginResponse;
+import com.gachon.home_protector.user.dto.login.RestUserLoginResponse;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
