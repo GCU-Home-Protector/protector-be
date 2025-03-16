@@ -1,5 +1,6 @@
 package com.gachon.home_protector.config.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gachon.home_protector.security.filter.CustomLogoutFilter;
 import com.gachon.home_protector.security.filter.JWTFilter;
 import com.gachon.home_protector.security.filter.RestLoginFilter;
@@ -30,6 +31,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.*;
 public class SecurityConfig {
 
     private final JWTUtil jwtUtil;
+    private final ObjectMapper objectMapper;
     private final RefreshTokenRepository refreshTokenRepository;
 
     private final CorsConfigurationSource corsConfigurationSource;
@@ -57,7 +59,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated())
                 .addFilterBefore(createRestLoginFilter("/user/login"), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(createJWTFilter(jwtUtil), RestLoginFilter.class)
-                .addFilterBefore(createLogoutFilter(jwtUtil, refreshTokenRepository), LogoutFilter.class)
+                .addFilterBefore(createLogoutFilter(jwtUtil, objectMapper, refreshTokenRepository), LogoutFilter.class)
                 .authenticationProvider(restAuthenticationProvider)
 
                 .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
@@ -78,7 +80,7 @@ public class SecurityConfig {
         return restLoginFilter;
     }
 
-    private CustomLogoutFilter createLogoutFilter(JWTUtil jwtUtil, RefreshTokenRepository refreshTokenRepository) {
-        return new CustomLogoutFilter(jwtUtil, refreshTokenRepository);
+    private CustomLogoutFilter createLogoutFilter(JWTUtil jwtUtil, ObjectMapper objectMapper, RefreshTokenRepository refreshTokenRepository) {
+        return new CustomLogoutFilter(jwtUtil, objectMapper, refreshTokenRepository);
     }
 }
