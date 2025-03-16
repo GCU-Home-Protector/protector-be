@@ -1,6 +1,7 @@
 package com.gachon.home_protector.user;
 
 import com.gachon.home_protector.api.BaseEntity;
+import com.gachon.home_protector.user.dto.join.RestUserJoinResponse;
 import com.gachon.home_protector.user.dto.login.RestUserLoginResponse;
 import jakarta.persistence.*;
 import lombok.AccessLevel;

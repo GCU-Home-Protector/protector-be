@@ -1,6 +1,7 @@
 package com.gachon.home_protector.user;
 
 import com.gachon.home_protector.IntegrationTestSupport;
+import com.gachon.home_protector.user.dto.join.RestUserJoinResponse;
 import com.gachon.home_protector.user.dto.join.UserJoinServiceRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;

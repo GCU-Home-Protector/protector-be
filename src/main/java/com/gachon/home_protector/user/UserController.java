@@ -1,6 +1,7 @@
 package com.gachon.home_protector.user;
 
 import com.gachon.home_protector.api.SuccessResponse;
+import com.gachon.home_protector.user.dto.join.RestUserJoinResponse;
 import com.gachon.home_protector.user.dto.join.UserJoinRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
