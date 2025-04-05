@@ -3,7 +3,7 @@ package com.gachon.home_protector.security.token;
 import com.gachon.home_protector.IntegrationTestSupport;
 import com.gachon.home_protector.security.jwt.JWTUtil;
 import com.gachon.home_protector.token.repository.RefreshTokenRepository;
-import com.gachon.home_protector.token.RefreshTokenService;
+import com.gachon.home_protector.token.service.RefreshTokenService;
 import com.gachon.home_protector.token.exception.ExpiredRefreshTokenException;
 import com.gachon.home_protector.token.exception.InvalidAccessTokenException;
 import com.gachon.home_protector.token.token.RefreshToken;

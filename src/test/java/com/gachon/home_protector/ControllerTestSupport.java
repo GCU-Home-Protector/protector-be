@@ -9,7 +9,7 @@ import com.gachon.home_protector.security.handler.RestAuthenticationSuccessHandl
 import com.gachon.home_protector.security.jwt.JWTUtil;
 import com.gachon.home_protector.token.controller.ReIssueController;
 import com.gachon.home_protector.token.repository.RefreshTokenRepository;
-import com.gachon.home_protector.token.RefreshTokenService;
+import com.gachon.home_protector.token.service.RefreshTokenService;
 import com.gachon.home_protector.user.UserController;
 import com.gachon.home_protector.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

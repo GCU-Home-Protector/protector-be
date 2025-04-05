@@ -1,4 +1,4 @@
-package com.gachon.home_protector.token;
+package com.gachon.home_protector.token.service;
 
 import com.gachon.home_protector.security.jwt.JWTUtil;
 import com.gachon.home_protector.token.exception.ExpiredRefreshTokenException;
