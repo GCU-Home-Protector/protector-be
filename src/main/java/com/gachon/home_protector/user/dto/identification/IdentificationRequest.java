@@ -17,9 +17,9 @@ public class IdentificationRequest {
         this.password = password;
     }
 
-    public static IdentificationRequest of (String pasword) {
+    public static IdentificationRequest of (String password) {
         return IdentificationRequest.builder()
-                .password(pasword)
+                .password(password)
                 .build();
     }
 
