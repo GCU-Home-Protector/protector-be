@@ -1,4 +1,4 @@
-package com.gachon.home_protector.token;
+package com.gachon.home_protector.token.repository;
 
 import com.gachon.home_protector.token.token.RefreshToken;
 import org.springframework.data.repository.CrudRepository;

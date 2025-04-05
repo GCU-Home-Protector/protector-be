@@ -7,7 +7,7 @@ import com.gachon.home_protector.security.filter.RestLoginFilter;
 import com.gachon.home_protector.security.handler.RestAuthenticationFailureHandler;
 import com.gachon.home_protector.security.handler.RestAuthenticationSuccessHandler;
 import com.gachon.home_protector.security.jwt.JWTUtil;
-import com.gachon.home_protector.token.RefreshTokenRepository;
+import com.gachon.home_protector.token.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

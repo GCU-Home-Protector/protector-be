@@ -1,7 +1,7 @@
 package com.gachon.home_protector.security.filter;
 
 import com.gachon.home_protector.security.jwt.JWTUtil;
-import com.gachon.home_protector.token.RefreshTokenRepository;
+import com.gachon.home_protector.token.repository.RefreshTokenRepository;
 import com.gachon.home_protector.token.token.RestAuthenticationToken;
 import com.gachon.home_protector.security.userdetails.RestUserDetails;
 import com.gachon.home_protector.user.dto.login.RestUserLoginResponse;

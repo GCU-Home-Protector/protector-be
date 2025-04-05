@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gachon.home_protector.security.handler.RestAuthenticationSuccessHandler;
 import com.gachon.home_protector.security.jwt.JWTUtil;
 import com.gachon.home_protector.security.provider.RestAuthenticationProvider;
-import com.gachon.home_protector.token.RefreshTokenRepository;
+import com.gachon.home_protector.token.repository.RefreshTokenRepository;
 import com.gachon.home_protector.security.userdetails.RestUserDetailsService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

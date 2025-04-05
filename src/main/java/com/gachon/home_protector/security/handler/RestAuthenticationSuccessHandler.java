@@ -3,7 +3,7 @@ package com.gachon.home_protector.security.handler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gachon.home_protector.api.SuccessResponse;
 import com.gachon.home_protector.token.token.RefreshToken;
-import com.gachon.home_protector.token.RefreshTokenRepository;
+import com.gachon.home_protector.token.repository.RefreshTokenRepository;
 import com.gachon.home_protector.security.userdetails.RestUserDetails;
 import com.gachon.home_protector.security.jwt.JWTUtil;
 import jakarta.servlet.ServletException;
