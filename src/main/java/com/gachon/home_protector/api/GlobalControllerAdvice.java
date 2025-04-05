@@ -1,6 +1,7 @@
 package com.gachon.home_protector.api;
 
 import com.gachon.home_protector.user.UserController;
+import com.gachon.home_protector.user.exception.UserNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
@@ -35,6 +36,18 @@ public class GlobalControllerAdvice {
 
         return ErrorResponse.badRequestError(errorMessage);
     }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(UserNotFoundException.class)
+    public ErrorResponse userNotFoundExHandler(Exception e) {
+        String errorMessage = e.getMessage();
+
+        log.info(errorMessage);
+
+        return ErrorResponse.notFoundError(errorMessage);
+    }
+
+
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)

@@ -1,10 +1,10 @@
-package com.gachon.home_protector.security.token.handler;
+package com.gachon.home_protector.token.handler;
 
 import com.gachon.home_protector.api.ErrorResponse;
-import com.gachon.home_protector.security.token.controller.ReIssueController;
-import com.gachon.home_protector.security.token.exception.ExpiredRefreshTokenException;
-import com.gachon.home_protector.security.token.exception.InvalidAccessTokenException;
-import com.gachon.home_protector.security.token.exception.TokenNotFoundException;
+import com.gachon.home_protector.token.controller.ReIssueController;
+import com.gachon.home_protector.token.exception.ExpiredRefreshTokenException;
+import com.gachon.home_protector.token.exception.InvalidAccessTokenException;
+import com.gachon.home_protector.token.exception.TokenNotFoundException;
 import io.jsonwebtoken.MalformedJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;

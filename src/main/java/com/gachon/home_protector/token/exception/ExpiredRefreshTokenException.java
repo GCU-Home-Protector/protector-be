@@ -1,4 +1,4 @@
-package com.gachon.home_protector.security.token.exception;
+package com.gachon.home_protector.token.exception;
 
 import org.springframework.security.core.AuthenticationException;
 

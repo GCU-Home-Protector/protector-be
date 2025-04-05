@@ -1,10 +1,14 @@
 package com.gachon.home_protector.user;
 
 import com.gachon.home_protector.api.SuccessResponse;
+import com.gachon.home_protector.security.userdetails.RestUserDetails;
+import com.gachon.home_protector.user.dto.identification.IdentificationRequest;
 import com.gachon.home_protector.user.dto.join.RestUserJoinResponse;
 import com.gachon.home_protector.user.dto.join.UserJoinRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,6 +23,14 @@ public class UserController {
     @PostMapping("/join")
     public SuccessResponse<RestUserJoinResponse> joinRestUser(@Valid @RequestBody UserJoinRequest request) {
         return SuccessResponse.success(userService.joinRestUser(request.toServiceRequest()));
+    }
+
+    @PostMapping("/identification")
+    public SuccessResponse<String> identification(@AuthenticationPrincipal RestUserDetails userDetails,
+                                                  @Valid @RequestBody IdentificationRequest request,
+                                                  HttpServletResponse response) {
+        userService.identify(request.toServiceRequest(), userDetails, response);
+        return SuccessResponse.success("비밀번호 인증에 성공하셨습니다!");
     }
 
     @GetMapping
