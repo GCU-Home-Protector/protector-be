@@ -1,9 +1,10 @@
 name: Dockerize & Push Server Image to ECR (CI Step)
 
 on:
-  pull_request:
-    types : [opened, synchronize]
-    branches: [ "master" ]
+  workflow_dispatch:
+#  pull_request:
+#    types : [opened, synchronize]
+#    branches: [ "master" ]
 
 env:
   AWS_REGION: ap-northeast-2                   
