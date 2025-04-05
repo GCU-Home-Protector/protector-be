@@ -2,9 +2,11 @@ package com.gachon.home_protector.security.token;
 
 import com.gachon.home_protector.IntegrationTestSupport;
 import com.gachon.home_protector.security.jwt.JWTUtil;
-import com.gachon.home_protector.security.token.exception.ExpiredRefreshTokenException;
-import com.gachon.home_protector.security.token.exception.InvalidAccessTokenException;
-import com.gachon.home_protector.security.token.token.RefreshToken;
+import com.gachon.home_protector.token.RefreshTokenRepository;
+import com.gachon.home_protector.token.RefreshTokenService;
+import com.gachon.home_protector.token.exception.ExpiredRefreshTokenException;
+import com.gachon.home_protector.token.exception.InvalidAccessTokenException;
+import com.gachon.home_protector.token.token.RefreshToken;
 import com.gachon.home_protector.user.User;
 import com.gachon.home_protector.user.UserRepository;
 import jakarta.servlet.http.Cookie;

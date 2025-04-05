@@ -3,7 +3,7 @@ package com.gachon.home_protector.security.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gachon.home_protector.api.SuccessResponse;
 import com.gachon.home_protector.security.jwt.JWTUtil;
-import com.gachon.home_protector.security.token.RefreshTokenRepository;
+import com.gachon.home_protector.token.RefreshTokenRepository;
 import io.micrometer.common.util.StringUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

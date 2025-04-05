@@ -1,6 +1,6 @@
 package com.gachon.home_protector.security.provider;
 
-import com.gachon.home_protector.security.token.token.RestAuthenticationToken;
+import com.gachon.home_protector.token.token.RestAuthenticationToken;
 import com.gachon.home_protector.security.userdetails.RestUserDetails;
 import com.gachon.home_protector.security.userdetails.RestUserDetailsService;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.gachon.home_protector.security.token.token;
+package com.gachon.home_protector.token.token;
 
 import lombok.Builder;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
