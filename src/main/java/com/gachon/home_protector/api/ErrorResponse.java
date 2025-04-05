@@ -47,4 +47,11 @@ public class ErrorResponse {
                 .message(message)
                 .build();
     }
+
+    public static ErrorResponse notFoundError(String errorMessage) {
+        return ErrorResponse.builder()
+                .status(HttpStatus.NOT_FOUND)
+                .message(errorMessage)
+                .build();
+    }
 }
