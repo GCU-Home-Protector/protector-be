@@ -19,7 +19,7 @@
 ---
 
 ## 🔗 관련 이슈
-- closes #3
+- closes #[issue number]
 
 ---
 
