@@ -6,13 +6,13 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class RecommendMusicResponse {
+public class MusicRecommendResponse {
 
     private String recommenedSong;
 
     private String recommenedSongUrl;
 
-    public RecommendMusicResponse(String recommenedSong, String recommenedSongUrl) {
+    public MusicRecommendResponse(String recommenedSong, String recommenedSongUrl) {
         this.recommenedSong = recommenedSong;
         this.recommenedSongUrl = recommenedSongUrl;
     }

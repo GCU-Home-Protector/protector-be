@@ -5,11 +5,11 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class RecommendMusicServiceRequest {
+public class MusicRecommendServiceRequest {
 
     private String encodedImage;
 
-    public RecommendMusicServiceRequest(String encodedImage) {
+    public MusicRecommendServiceRequest(String encodedImage) {
         this.encodedImage = encodedImage;
     }
 }

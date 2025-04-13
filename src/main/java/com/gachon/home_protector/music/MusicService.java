@@ -1,7 +1,7 @@
 package com.gachon.home_protector.music;
 
-import com.gachon.home_protector.music.dto.recommend.RecommendMusicResponse;
-import com.gachon.home_protector.music.dto.recommend.RecommendMusicServiceRequest;
+import com.gachon.home_protector.music.dto.recommend.MusicRecommendResponse;
+import com.gachon.home_protector.music.dto.recommend.MusicRecommendServiceRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatusCode;
@@ -28,15 +28,15 @@ public class MusicService {
 
 
     @Transactional
-    public RecommendMusicResponse recommendMusic(RecommendMusicServiceRequest request) {
+    public MusicRecommendResponse recommendMusic(MusicRecommendServiceRequest request) {
 
-        RecommendMusicResponse response = recommendMusicFromAi(request);
+        MusicRecommendResponse response = recommendMusicFromAi(request);
 
         musicRepository.save(response.toMusic());
         return response;
     }
 
-    private RecommendMusicResponse recommendMusicFromAi(RecommendMusicServiceRequest request) {
+    private MusicRecommendResponse recommendMusicFromAi(MusicRecommendServiceRequest request) {
         RestClient restClient = RestClient.create();
 
         return restClient.post()
@@ -50,6 +50,6 @@ public class MusicService {
                 .onStatus(HttpStatusCode::is5xxServerError, (req, res) -> {
                     throw new IllegalArgumentException("파이썬 내부에서 에러 발생했습니다!");
                 })
-                .body(RecommendMusicResponse.class);
+                .body(MusicRecommendResponse.class);
     }
 }
