@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UpdateIdentificationRequest {
 
-    @NotBlank
+    @NotBlank(message = "새로운 사용자 ID는 필수입니다!")
     private String userId;
 
-    @NotBlank
+    @NotBlank(message = "새로운 사용자 비밀번호는 필수입니다!")
     private String password;
 
     @Builder
