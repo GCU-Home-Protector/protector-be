@@ -1,5 +1,6 @@
 package com.gachon.home_protector.api;
 
+import com.gachon.home_protector.music.MusicController;
 import com.gachon.home_protector.user.exception.InvalidIdentificationTokenException;
 import com.gachon.home_protector.user.UserController;
 import com.gachon.home_protector.user.exception.*;
@@ -13,7 +14,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
 @RestControllerAdvice(assignableTypes = {
-        UserController.class
+        UserController.class,
+        MusicController.class
 })
 public class GlobalControllerAdvice {
 
