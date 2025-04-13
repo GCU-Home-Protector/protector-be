@@ -9,6 +9,7 @@ import com.gachon.home_protector.user.dto.join.RestUserJoinResponse;
 import com.gachon.home_protector.user.dto.join.UserJoinServiceRequest;
 import com.gachon.home_protector.user.exception.DuplicatePasswordException;
 import com.gachon.home_protector.user.exception.DuplicateUserIdException;
+import com.gachon.home_protector.user.exception.InvalidIdentificationTokenException;
 import com.gachon.home_protector.user.exception.UserNotFoundException;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

@@ -10,6 +10,7 @@ import com.gachon.home_protector.user.dto.join.UserJoinServiceRequest;
 import com.gachon.home_protector.user.dto.login.RestUserLoginResponse;
 import com.gachon.home_protector.user.exception.DuplicatePasswordException;
 import com.gachon.home_protector.user.exception.DuplicateUserIdException;
+import com.gachon.home_protector.user.exception.InvalidIdentificationTokenException;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
