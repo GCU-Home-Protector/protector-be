@@ -1,9 +1,8 @@
 package com.gachon.home_protector.api;
 
+import com.gachon.home_protector.user.InvalidIdentificationTokenException;
 import com.gachon.home_protector.user.UserController;
-import com.gachon.home_protector.user.exception.EmptyIdentificationHeaderException;
-import com.gachon.home_protector.user.exception.NullIdentificationHeaderException;
-import com.gachon.home_protector.user.exception.UserNotFoundException;
+import com.gachon.home_protector.user.exception.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
@@ -33,6 +32,36 @@ public class GlobalControllerAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IllegalArgumentException.class)
     public ErrorResponse invalidInputFromUserHandler(Exception e) {
+        String errorMessage = e.getMessage();
+
+        log.warn(errorMessage);
+
+        return ErrorResponse.badRequestError(errorMessage);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(InvalidIdentificationTokenException.class)
+    public ErrorResponse invalidIdentificationTokenExHandler(Exception e) {
+        String errorMessage = e.getMessage();
+
+        log.warn(errorMessage);
+
+        return ErrorResponse.badRequestError(errorMessage);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(DuplicateUserIdException.class)
+    public ErrorResponse duplicateUserIdExHandler(Exception e) {
+        String errorMessage = e.getMessage();
+
+        log.warn(errorMessage);
+
+        return ErrorResponse.badRequestError(errorMessage);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(DuplicatePasswordException.class)
+    public ErrorResponse duplicatePasswordExHandler(Exception e) {
         String errorMessage = e.getMessage();
 
         log.warn(errorMessage);
