@@ -1,6 +1,8 @@
 package com.gachon.home_protector;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gachon.home_protector.music.MusicController;
+import com.gachon.home_protector.music.MusicService;
 import com.gachon.home_protector.security.filter.CustomLogoutFilter;
 import com.gachon.home_protector.security.filter.JWTFilter;
 import com.gachon.home_protector.security.filter.RestLoginFilter;
@@ -32,7 +34,8 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @WebMvcTest(controllers = {
         RestLoginFilter.class,
         UserController.class,
-        ReIssueController.class
+        ReIssueController.class,
+        MusicController.class
 })
 @Import({ControllerTestSupport.TestSecurityConfig.class})
 public abstract class ControllerTestSupport {
@@ -48,6 +51,9 @@ public abstract class ControllerTestSupport {
 
     @MockitoBean
     protected RefreshTokenService refreshTokenService; // for ReIssueController
+
+    @MockitoBean
+    protected MusicService musicService;
 
     @MockitoBean
     protected JWTUtil jwtUtil;
@@ -92,7 +98,6 @@ public abstract class ControllerTestSupport {
                             .anyRequest().authenticated())
                     .addFilterBefore(createRestLoginFilter("/login"), UsernamePasswordAuthenticationFilter.class)
                     .addFilterBefore(createJWTFilter(jwtUtil), RestLoginFilter.class)
-//                    .addFilterBefore(createLogoutFilter(jwtUtil, objectMapper, refreshTokenRepository), LogoutFilter.class)
                     .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
             ;
 
@@ -106,11 +111,7 @@ public abstract class ControllerTestSupport {
         private RestLoginFilter createRestLoginFilter(String loginPath) throws Exception {
             return new RestLoginFilter(loginPath, authenticationManager(authenticationConfiguration));
         }
-
-        private CustomLogoutFilter createLogoutFilter(JWTUtil jwtUtil, ObjectMapper objectMapper, RefreshTokenRepository refreshTokenRepository) {
-            return new CustomLogoutFilter(jwtUtil, objectMapper, refreshTokenRepository);
-        }
-
+        
         private AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
             return configuration.getAuthenticationManager();
         }
