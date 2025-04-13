@@ -1,6 +1,6 @@
 package com.gachon.home_protector.config;
 
-import com.gachon.home_protector.user.ValidIdentificationHeaderArgumentResolver;
+import com.gachon.home_protector.user.ValidIdentificationTokenArgumentResolver;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -12,6 +12,6 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(new ValidIdentificationHeaderArgumentResolver());
+        resolvers.add(new ValidIdentificationTokenArgumentResolver());
     }
 }
