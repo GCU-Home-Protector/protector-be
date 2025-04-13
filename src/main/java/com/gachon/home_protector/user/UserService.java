@@ -13,7 +13,6 @@ import com.gachon.home_protector.user.exception.InvalidIdentificationTokenExcept
 import com.gachon.home_protector.user.exception.UserNotFoundException;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -88,13 +87,13 @@ public class UserService {
         // 3. 기존 userId, PW와 중복되는지 확인
         checkIfNewUserIdDuplicate(newUserId);
         User user = findUserBy(userId);
-        checkIfNewPasswordDuplicate(user.getPassword(), newPassword);
+        checkIfNewPasswordDuplicate(passwordEncoder, user.getPassword(), newPassword);
 
         // 4. 사용된 identification token 제거
         removeAlreadyUsedIdentificationToken(identificationToken);
 
         // 5. 기존 유저 정보 업데이트
-        user.updateIdentification(newUserId, newPassword);
+        user.updateIdentification(newUserId, passwordEncoder.encode(newPassword));
         userRepository.save(user);
 
         return "갱신에 성공했습니다!";
@@ -104,8 +103,9 @@ public class UserService {
         identificationTokenRepository.deleteById(identificationToken);
     }
 
-    private static void checkIfNewPasswordDuplicate(String password, String newPassword) {
-        if (StringUtils.equals(password, newPassword)) {
+    private static void checkIfNewPasswordDuplicate(PasswordEncoder passwordEncoder, String password, String newPassword) {
+
+        if (passwordEncoder.matches(newPassword, password)) {
             throw new DuplicatePasswordException("다른 비밀번호를 사용해주세요!");
         }
     }
