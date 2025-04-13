@@ -25,7 +25,7 @@ public class GlobalControllerAdvice {
         ObjectError objectError = e.getBindingResult().getAllErrors().get(0);
         String errorMessage = objectError.getDefaultMessage();
 
-        log.info(errorMessage);
+        log.warn(errorMessage);
 
         return ErrorResponse.badRequestError(errorMessage);
     }
@@ -35,7 +35,7 @@ public class GlobalControllerAdvice {
     public ErrorResponse invalidInputFromUserHandler(Exception e) {
         String errorMessage = e.getMessage();
 
-        log.info(errorMessage);
+        log.warn(errorMessage);
 
         return ErrorResponse.badRequestError(errorMessage);
     }
@@ -60,7 +60,7 @@ public class GlobalControllerAdvice {
     public ErrorResponse userNotFoundExHandler(Exception e) {
         String errorMessage = e.getMessage();
 
-        log.info(errorMessage);
+        log.warn(errorMessage);
 
         return ErrorResponse.notFoundError(errorMessage);
     }
