@@ -30,52 +30,26 @@ public class GlobalControllerAdvice {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ErrorResponse invalidInputFromUserHandler(Exception e) {
+    @ExceptionHandler({
+            IllegalArgumentException.class,
+            InvalidIdentificationTokenException.class,
+            DuplicateUserIdException.class,
+            DuplicatePasswordException.class
+    })
+    public ErrorResponse badRequestExHandler(Exception e) {
         String errorMessage = e.getMessage();
 
         log.warn(errorMessage);
 
         return ErrorResponse.badRequestError(errorMessage);
     }
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(InvalidIdentificationTokenException.class)
-    public ErrorResponse invalidIdentificationTokenExHandler(Exception e) {
-        String errorMessage = e.getMessage();
-
-        log.warn(errorMessage);
-
-        return ErrorResponse.badRequestError(errorMessage);
-    }
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(DuplicateUserIdException.class)
-    public ErrorResponse duplicateUserIdExHandler(Exception e) {
-        String errorMessage = e.getMessage();
-
-        log.warn(errorMessage);
-
-        return ErrorResponse.badRequestError(errorMessage);
-    }
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(DuplicatePasswordException.class)
-    public ErrorResponse duplicatePasswordExHandler(Exception e) {
-        String errorMessage = e.getMessage();
-
-        log.warn(errorMessage);
-
-        return ErrorResponse.badRequestError(errorMessage);
-    }
-
 
 
     // 401
     // Protector-Identification, Custom header 자체가 없을 경우 발생, 만약 header 사용할 일이 또 생길 경우 예외 다르게 처리 고민해보자
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(NullIdentificationHeaderException.class)
-    public ErrorResponse headerNotFoundExHandler(Exception e) {
+    public ErrorResponse unauthorizedExHandler(Exception e) {
         String errorMessage = e.getMessage();
         log.warn(errorMessage);
         return ErrorResponse.unauthorizedError(errorMessage);
@@ -86,7 +60,7 @@ public class GlobalControllerAdvice {
     // 404
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(UserNotFoundException.class)
-    public ErrorResponse userNotFoundExHandler(Exception e) {
+    public ErrorResponse notFoundExHandler(Exception e) {
         String errorMessage = e.getMessage();
 
         log.warn(errorMessage);
@@ -96,22 +70,15 @@ public class GlobalControllerAdvice {
 
 
     // 500
-    // Custom header은 존재하지만, 내부 값이 없을 경우
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(EmptyIdentificationHeaderException.class)
-    public ErrorResponse blankHeaderExHandler(Exception e) {
+    @ExceptionHandler({
+            EmptyIdentificationHeaderException.class,
+            Exception.class
+    })
+    public ErrorResponse serverExHandler(Exception e) {
         String errorMessage = e.getMessage();
         log.error(errorMessage);
         return ErrorResponse.internalServerError(errorMessage);
     }
 
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(Exception.class)
-    public ErrorResponse otherExHandler(Exception e) {
-        String errorMessage = e.getMessage();
-
-        log.error(errorMessage);
-
-        return ErrorResponse.internalServerError(errorMessage);
-    }
 }
