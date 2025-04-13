@@ -2,7 +2,9 @@ package com.gachon.home_protector.user;
 
 import com.gachon.home_protector.api.SuccessResponse;
 import com.gachon.home_protector.security.userdetails.RestUserDetails;
+import com.gachon.home_protector.user.annotation.valid_identification_token.ValidateIdentificationToken;
 import com.gachon.home_protector.user.dto.identification.IdentificationRequest;
+import com.gachon.home_protector.user.dto.identification.UpdateIdentificationRequest;
 import com.gachon.home_protector.user.dto.join.RestUserJoinResponse;
 import com.gachon.home_protector.user.dto.join.UserJoinRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -31,6 +33,14 @@ public class UserController {
                                                   HttpServletResponse response) {
         userService.identify(request.toServiceRequest(), userDetails, response);
         return SuccessResponse.success("비밀번호 인증에 성공하셨습니다!");
+    }
+
+    @PatchMapping("/update-identification")
+    public SuccessResponse<String> updateIdentification(@AuthenticationPrincipal RestUserDetails userDetails,
+                                                        @ValidateIdentificationToken String identificationToken,
+                                                        @Valid @RequestBody UpdateIdentificationRequest request) {
+
+        return SuccessResponse.success(userService.updateIdentification(userDetails, identificationToken, request.toServiceRequest()));
     }
 
     @GetMapping

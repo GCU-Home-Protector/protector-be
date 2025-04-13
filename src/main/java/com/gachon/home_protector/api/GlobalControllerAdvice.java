@@ -1,7 +1,8 @@
 package com.gachon.home_protector.api;
 
+import com.gachon.home_protector.user.exception.InvalidIdentificationTokenException;
 import com.gachon.home_protector.user.UserController;
-import com.gachon.home_protector.user.exception.UserNotFoundException;
+import com.gachon.home_protector.user.exception.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
@@ -16,46 +17,68 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 })
 public class GlobalControllerAdvice {
 
+    // 400
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BindException.class)
     public ErrorResponse bindExHandler(BindException e) {
         ObjectError objectError = e.getBindingResult().getAllErrors().get(0);
         String errorMessage = objectError.getDefaultMessage();
 
-        log.info(errorMessage);
+        log.warn(errorMessage);
 
         return ErrorResponse.badRequestError(errorMessage);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ErrorResponse invalidInputFromUserHandler(Exception e) {
+    @ExceptionHandler({
+            IllegalArgumentException.class,
+            InvalidIdentificationTokenException.class,
+            DuplicateUserIdException.class,
+            DuplicatePasswordException.class
+    })
+    public ErrorResponse badRequestExHandler(Exception e) {
         String errorMessage = e.getMessage();
 
-        log.info(errorMessage);
+        log.warn(errorMessage);
 
         return ErrorResponse.badRequestError(errorMessage);
     }
 
+
+    // 401
+    // Protector-Identification, Custom header 자체가 없을 경우 발생, 만약 header 사용할 일이 또 생길 경우 예외 다르게 처리 고민해보자
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(NullIdentificationHeaderException.class)
+    public ErrorResponse unauthorizedExHandler(Exception e) {
+        String errorMessage = e.getMessage();
+        log.warn(errorMessage);
+        return ErrorResponse.unauthorizedError(errorMessage);
+    }
+
+
+
+    // 404
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(UserNotFoundException.class)
-    public ErrorResponse userNotFoundExHandler(Exception e) {
+    public ErrorResponse notFoundExHandler(Exception e) {
         String errorMessage = e.getMessage();
 
-        log.info(errorMessage);
+        log.warn(errorMessage);
 
         return ErrorResponse.notFoundError(errorMessage);
     }
 
 
-
+    // 500
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(Exception.class)
-    public ErrorResponse otherExHandler(Exception e) {
+    @ExceptionHandler({
+            EmptyIdentificationHeaderException.class,
+            Exception.class
+    })
+    public ErrorResponse serverExHandler(Exception e) {
         String errorMessage = e.getMessage();
-
         log.error(errorMessage);
-
         return ErrorResponse.internalServerError(errorMessage);
     }
+
 }
