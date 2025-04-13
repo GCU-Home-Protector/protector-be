@@ -1,4 +1,4 @@
-package com.gachon.home_protector.user;
+package com.gachon.home_protector.user.annotation.valid_identification_token;
 
 import com.gachon.home_protector.user.exception.EmptyIdentificationHeaderException;
 import com.gachon.home_protector.user.exception.NullIdentificationHeaderException;

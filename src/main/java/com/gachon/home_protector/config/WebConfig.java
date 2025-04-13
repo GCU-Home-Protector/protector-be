@@ -1,6 +1,6 @@
 package com.gachon.home_protector.config;
 
-import com.gachon.home_protector.user.ValidIdentificationTokenArgumentResolver;
+import com.gachon.home_protector.user.annotation.valid_identification_token.ValidIdentificationTokenArgumentResolver;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;

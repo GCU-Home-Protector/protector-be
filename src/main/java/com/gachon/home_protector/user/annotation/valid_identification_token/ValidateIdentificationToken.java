@@ -1,4 +1,4 @@
-package com.gachon.home_protector.user;
+package com.gachon.home_protector.user.annotation.valid_identification_token;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

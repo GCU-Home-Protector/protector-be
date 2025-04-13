@@ -2,6 +2,7 @@ package com.gachon.home_protector.user;
 
 import com.gachon.home_protector.api.SuccessResponse;
 import com.gachon.home_protector.security.userdetails.RestUserDetails;
+import com.gachon.home_protector.user.annotation.valid_identification_token.ValidateIdentificationToken;
 import com.gachon.home_protector.user.dto.identification.IdentificationRequest;
 import com.gachon.home_protector.user.dto.identification.UpdateIdentificationRequest;
 import com.gachon.home_protector.user.dto.join.RestUserJoinResponse;
