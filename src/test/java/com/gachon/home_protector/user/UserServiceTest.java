@@ -13,6 +13,7 @@ import com.gachon.home_protector.user.exception.DuplicateUserIdException;
 import com.gachon.home_protector.user.exception.InvalidIdentificationTokenException;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Collection;
 import java.util.List;
@@ -22,6 +23,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class UserServiceTest extends IntegrationTestSupport {
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Autowired
     UserService userService;
@@ -82,7 +86,7 @@ class UserServiceTest extends IntegrationTestSupport {
         String userId = "userId";
         String password = "password";
         String role = "ROLE_USER";
-        User user = userRepository.save(User.createRestLoginUser(userId, password, role));
+        User user = userRepository.save(User.createRestLoginUser(userId, passwordEncoder.encode(password), role));
 
         String newUserId = "newUserId";
         String newPassword = "newPassword";
@@ -90,6 +94,7 @@ class UserServiceTest extends IntegrationTestSupport {
 
         Long id = user.getId();
         RestUserLoginResponse response = new RestUserLoginResponse(id, userId, password, role);
+        response.removePassword();
         RestUserDetails restUserDetails = new RestUserDetails(response);
 
         String uuid = "uuid";
@@ -103,9 +108,8 @@ class UserServiceTest extends IntegrationTestSupport {
 
         Optional<User> resultUser = userRepository.findById(id);
         assertThat(resultUser).isPresent();
-        assertThat(resultUser.get())
-                .extracting("userId", "password")
-                .containsExactlyInAnyOrder(newUserId, newPassword);
+        assertThat(resultUser.get().getUserId()).isEqualTo(newUserId);
+        assertThat(passwordEncoder.matches(newPassword, resultUser.get().getPassword())).isTrue();
     }
 
     @DisplayName("토큰이 redis에 없을 경우에는 신원 정보를 변경할 수 없다.")
@@ -123,10 +127,10 @@ class UserServiceTest extends IntegrationTestSupport {
 
         Long id = user.getId();
         RestUserLoginResponse response = new RestUserLoginResponse(id, userId, password, role);
+        response.removePassword();
         RestUserDetails restUserDetails = new RestUserDetails(response);
 
         String uuid = "uuid";
-
 
         // when // then
         assertThatThrownBy(() -> userService.updateIdentification(restUserDetails, uuid, request))
@@ -149,6 +153,7 @@ class UserServiceTest extends IntegrationTestSupport {
 
         Long id = user.getId();
         RestUserLoginResponse response = new RestUserLoginResponse(id, userId, password, role);
+        response.removePassword();
         RestUserDetails restUserDetails = new RestUserDetails(response);
 
         String uuid = "uuid";
@@ -167,7 +172,7 @@ class UserServiceTest extends IntegrationTestSupport {
         String userId = "userId";
         String password = "password";
         String role = "ROLE_USER";
-        User user = userRepository.save(User.createRestLoginUser(userId, password, role));
+        User user = userRepository.save(User.createRestLoginUser(userId, passwordEncoder.encode(password), role));
 
         String newUserId = "newUserId";
         String newPassword = password;
@@ -175,6 +180,7 @@ class UserServiceTest extends IntegrationTestSupport {
 
         Long id = user.getId();
         RestUserLoginResponse response = new RestUserLoginResponse(id, userId, password, role);
+        response.removePassword();
         RestUserDetails restUserDetails = new RestUserDetails(response);
 
         String uuid = "uuid";
@@ -192,7 +198,7 @@ class UserServiceTest extends IntegrationTestSupport {
         String userId = "userId";
         String password = "password";
         String role = "ROLE_USER";
-        User user = userRepository.save(User.createRestLoginUser(userId, password, role));
+        User user = userRepository.save(User.createRestLoginUser(userId, passwordEncoder.encode(password), role));
 
         String newUserId = "newUserId";
         String newPassword = "newPassword";
@@ -200,6 +206,7 @@ class UserServiceTest extends IntegrationTestSupport {
 
         Long id = user.getId();
         RestUserLoginResponse response = new RestUserLoginResponse(id, userId, password, role);
+        response.removePassword();
         RestUserDetails restUserDetails = new RestUserDetails(response);
 
         String uuid = "uuid";
@@ -216,9 +223,8 @@ class UserServiceTest extends IntegrationTestSupport {
 
                     Optional<User> resultUser = userRepository.findById(id);
                     assertThat(resultUser).isPresent();
-                    assertThat(resultUser.get())
-                            .extracting("userId", "password")
-                            .containsExactlyInAnyOrder(newUserId, newPassword);
+                    assertThat(resultUser.get().getUserId()).isEqualTo(newUserId);
+                    assertThat(passwordEncoder.matches(newPassword, resultUser.get().getPassword())).isTrue();
 
                 }),
                 DynamicTest.dynamicTest("이미 사용된 토큰은 신원정보 변경에 다시 활용될 수 없다.", () -> {
