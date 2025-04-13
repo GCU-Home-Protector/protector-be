@@ -23,12 +23,24 @@ public class ValidIdentificationTokenArgumentResolver implements HandlerMethodAr
 
         String identificationToken = webRequest.getHeader("Protector-Identification");
 
-        // 401, custom header 자체가 없을 경우
-        if (identificationToken == null) throw new NullIdentificationHeaderException("header의 값이 존재하지 않습니다!");
-
-        // 500, custom header는 존재하지만 그 값이 비어 있는 경우
-        if (StringUtils.isBlank(identificationToken)) throw new EmptyIdentificationHeaderException("이전 페이지에서 비밀번호를 다시 입력해주세요!");
+        checkidentificationHeaderisBlank(identificationToken);
 
         return identificationToken;
+    }
+
+    private static void checkidentificationHeaderisBlank(String identificationToken) {
+        // 401, custom header 자체가 없을 경우
+        if (identificationHeaderNotExists(identificationToken)) throw new NullIdentificationHeaderException("header의 값이 존재하지 않습니다!");
+
+        // 500, custom header는 존재하지만 그 값이 비어 있는 경우
+        if (identificationHeaderIsEmpty(identificationToken)) throw new EmptyIdentificationHeaderException("이전 페이지에서 비밀번호를 다시 입력해주세요!");
+    }
+
+    private static boolean identificationHeaderIsEmpty(String identificationToken) {
+        return StringUtils.isBlank(identificationToken);
+    }
+
+    private static boolean identificationHeaderNotExists(String identificationToken) {
+        return identificationToken == null;
     }
 }
