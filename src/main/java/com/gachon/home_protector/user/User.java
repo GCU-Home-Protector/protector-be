@@ -42,6 +42,12 @@ public class User extends BaseEntity {
         this.password = encodedPassword;
     }
 
+    public void updateIdentification(String userId, String encodedPassword) {
+        this.userId = userId;
+        this.password = encodedPassword;
+    }
+
+
     public static User createRestLoginUser(String userId, String password, String role) {
         return User.builder()
                 .userId(userId)
