@@ -1,6 +1,6 @@
 package com.gachon.home_protector.api;
 
-import com.gachon.home_protector.music.dto.recommend.MusicRecommendResponse;;
+import com.gachon.home_protector.music.dto.recommend.MusicRecommendResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Assert;
 
