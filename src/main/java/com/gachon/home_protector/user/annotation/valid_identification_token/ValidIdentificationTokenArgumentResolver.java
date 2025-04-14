@@ -20,11 +20,8 @@ public class ValidIdentificationTokenArgumentResolver implements HandlerMethodAr
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-
         String identificationToken = webRequest.getHeader("Protector-Identification");
-
         checkidentificationHeaderIsBlank(identificationToken);
-
         return identificationToken;
     }
 
