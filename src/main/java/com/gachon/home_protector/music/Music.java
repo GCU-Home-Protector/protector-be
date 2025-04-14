@@ -19,20 +19,20 @@ public class Music extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String recommenedSong;
+    private String recommendSong;
 
-    private String recommenedSongUrl;
+    private String recommendSongUrl;
 
     @Builder
-    private Music(String recommenedSong, String recommenedSongUrl) {
-        this.recommenedSong = recommenedSong;
-        this.recommenedSongUrl = recommenedSongUrl;
+    private Music(String recommendSong, String recommendSongUrl) {
+        this.recommendSong = recommendSong;
+        this.recommendSongUrl = recommendSongUrl;
     }
 
     public static Music of (String recommenedSong, String recommenedSongUrl) {
         return Music.builder()
-                .recommenedSong(recommenedSong)
-                .recommenedSongUrl(recommenedSongUrl)
+                .recommendSong(recommenedSong)
+                .recommendSongUrl(recommenedSongUrl)
                 .build();
     }
 }
