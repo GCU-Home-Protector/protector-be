@@ -29,10 +29,10 @@ public class Music extends BaseEntity {
         this.recommendSongUrl = recommendSongUrl;
     }
 
-    public static Music of (String recommenedSong, String recommenedSongUrl) {
+    public static Music of (String recommendSong, String recommendSongUrl) {
         return Music.builder()
-                .recommendSong(recommenedSong)
-                .recommendSongUrl(recommenedSongUrl)
+                .recommendSong(recommendSong)
+                .recommendSongUrl(recommendSongUrl)
                 .build();
     }
 }
