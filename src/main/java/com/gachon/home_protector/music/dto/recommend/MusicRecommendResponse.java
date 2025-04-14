@@ -8,16 +8,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MusicRecommendResponse {
 
-    private String recommenedSong;
+    private String recommendSong;
 
-    private String recommenedSongUrl;
+    private String recommendSongUrl;
 
-    public MusicRecommendResponse(String recommenedSong, String recommenedSongUrl) {
-        this.recommenedSong = recommenedSong;
-        this.recommenedSongUrl = recommenedSongUrl;
+    public MusicRecommendResponse(String recommendSong, String recommendSongUrl) {
+        this.recommendSong = recommendSong;
+        this.recommendSongUrl = recommendSongUrl;
     }
 
     public Music toMusic() {
-        return Music.of(recommenedSong, recommenedSongUrl);
+        return Music.of(recommendSong, recommendSongUrl);
     }
 }
