@@ -3,6 +3,7 @@ package com.gachon.home_protector.music;
 import com.gachon.home_protector.MockTestSupport;
 import com.gachon.home_protector.music.dto.recommend.MusicRecommendResponse;
 import com.gachon.home_protector.music.dto.recommend.MusicRecommendServiceRequest;
+import com.gachon.home_protector.music.exception.ai.MusicNotRecommendException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -32,7 +33,7 @@ class MusicServiceTest extends MockTestSupport {
         // then
         verify(musicRepository).save(any(Music.class));
         assertThat(result).extracting("recommendSong", "recommendSongUrl")
-                .containsExactlyInAnyOrder(recommendSong, recommendSongUrl);
+                .containsExactly(recommendSong, recommendSongUrl);
     }
 
     @DisplayName("AI에게서 받은 결과 중 음악 제목만 받을 수 있다.")
@@ -49,7 +50,7 @@ class MusicServiceTest extends MockTestSupport {
 
         // when // then
         assertThatThrownBy(() -> musicService.recommendMusic(request))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(MusicNotRecommendException.class)
                 .hasMessage("추천 결과가 없습니다!");
     }
 
@@ -67,7 +68,7 @@ class MusicServiceTest extends MockTestSupport {
 
         // when // then
         assertThatThrownBy(() -> musicService.recommendMusic(request))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(MusicNotRecommendException.class)
                 .hasMessage("추천 결과가 없습니다!");
     }
 
@@ -81,7 +82,7 @@ class MusicServiceTest extends MockTestSupport {
 
         // when // then
         assertThatThrownBy(() -> musicService.recommendMusic(request))
-                .isInstanceOf(IllegalArgumentException.class)
+                .isInstanceOf(MusicNotRecommendException.class)
                 .hasMessage("추천 결과가 없습니다!");
     }
 }
