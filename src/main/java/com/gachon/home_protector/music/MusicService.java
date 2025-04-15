@@ -3,6 +3,7 @@ package com.gachon.home_protector.music;
 import com.gachon.home_protector.api.MusicAssert;
 import com.gachon.home_protector.music.client.MusicRecommendClient;
 import com.gachon.home_protector.music.dto.FavoriteMusicListResponse;
+import com.gachon.home_protector.music.dto.AddFavoriteMusicServiceRequest;
 import com.gachon.home_protector.music.dto.recommend.MusicRecommendResponse;
 import com.gachon.home_protector.music.dto.recommend.MusicRecommendResponseFromAI;
 import com.gachon.home_protector.music.dto.recommend.MusicRecommendServiceRequest;
@@ -37,5 +38,10 @@ public class MusicService {
         return favoriteMusicList.stream()
                 .map(Music::toFavoriteMusicListResponse)
                 .toList();
+    }
+
+    public String addOrDeleteFavoriteMusic(RestUserDetails userDetails, AddFavoriteMusicServiceRequest serviceRequest) {
+
+        return null;
     }
 }
