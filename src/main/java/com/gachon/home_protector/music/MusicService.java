@@ -19,7 +19,7 @@ public class MusicService {
     @Transactional
     public MusicRecommendResponse recommendMusic(MusicRecommendServiceRequest request) {
         MusicRecommendResponse response = musicRecommendClient.requestRecommendation(request);
-        MusicAssert.recommendMusicNotNull(response, "추천 결과가 없습니다!"); // IllegalArgumentException throw
+        MusicAssert.validateMusicRecommendation(response, "추천 결과가 없습니다!"); // IllegalArgumentException throw
         musicRepository.save(response.toMusic());
         return response;
     }
