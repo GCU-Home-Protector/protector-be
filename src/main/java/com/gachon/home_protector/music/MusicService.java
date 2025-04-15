@@ -1,13 +1,19 @@
 package com.gachon.home_protector.music;
 
 import com.gachon.home_protector.api.MusicAssert;
+import com.gachon.home_protector.favorite_music.FavoriteMusic;
+import com.gachon.home_protector.favorite_music.FavoriteMusicRepository;
 import com.gachon.home_protector.music.client.MusicRecommendClient;
 import com.gachon.home_protector.music.dto.FavoriteMusicListResponse;
 import com.gachon.home_protector.music.dto.AddFavoriteMusicServiceRequest;
 import com.gachon.home_protector.music.dto.recommend.MusicRecommendResponse;
 import com.gachon.home_protector.music.dto.recommend.MusicRecommendResponseFromAI;
 import com.gachon.home_protector.music.dto.recommend.MusicRecommendServiceRequest;
+import com.gachon.home_protector.music.exception.MusicNotFoundException;
 import com.gachon.home_protector.security.userdetails.RestUserDetails;
+import com.gachon.home_protector.user.User;
+import com.gachon.home_protector.user.UserRepository;
+import com.gachon.home_protector.user.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +26,8 @@ import java.util.List;
 public class MusicService {
 
     private final MusicRepository musicRepository;
+    private final UserRepository userRepository;
+    private final FavoriteMusicRepository favoriteMusicRepository;
     private final MusicRecommendClient musicRecommendClient;
 
     @Transactional
@@ -40,8 +48,29 @@ public class MusicService {
                 .toList();
     }
 
+    @Transactional
     public String addOrDeleteFavoriteMusic(RestUserDetails userDetails, AddFavoriteMusicServiceRequest serviceRequest) {
+        Long userId = userDetails.getId();
+        Long songId = serviceRequest.getSongId();
 
-        return null;
+        return favoriteMusicRepository.findByUserAndMusicId(userId, songId)
+                .map(this::removeFavoriteMusic)
+                .orElseGet(() -> addFavoriteMusic(userId, songId));
+    }
+
+    private String addFavoriteMusic(Long userId, Long songId) {
+        Music music = musicRepository.findById(songId)
+                .orElseThrow(() -> new MusicNotFoundException("존재하지 않는 음악입니다!"));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("존재하지 않는 유저입니다!"));
+
+        FavoriteMusic favoriteMusic = FavoriteMusic.of(user, music);
+        favoriteMusicRepository.save(favoriteMusic);
+        return "좋아요를 눌렀습니다!";
+    }
+
+    private String removeFavoriteMusic(FavoriteMusic favoriteMusic) {
+        favoriteMusicRepository.delete(favoriteMusic);
+        return "좋아요를 취소했습니다!";
     }
 }
