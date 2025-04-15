@@ -13,7 +13,7 @@ import org.testcontainers.utility.DockerImageName;
 @SpringBootTest
 public abstract class IntegrationTestSupport {
 
-    private static final String MYSQL_VERSION = "alpine/mysql:latest";
+    private static final String MYSQL_VERSION = "mysql:latest";
     private static final String REDIS_VERSION = "redis:latest";
 
     private static final MySQLContainer<?> mySQL;
