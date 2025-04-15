@@ -1,6 +1,9 @@
 package com.gachon.home_protector;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gachon.home_protector.music.MusicRepository;
+import com.gachon.home_protector.music.MusicService;
+import com.gachon.home_protector.music.client.MusicRecommendClient;
 import com.gachon.home_protector.security.handler.RestAuthenticationSuccessHandler;
 import com.gachon.home_protector.security.jwt.JWTUtil;
 import com.gachon.home_protector.security.provider.RestAuthenticationProvider;
@@ -28,6 +31,7 @@ public abstract class MockTestSupport {
     protected PasswordEncoder passwordEncoder;
 
 
+
     // RestAuthenticationSuccessHandler 테스트
     @InjectMocks
     protected RestAuthenticationSuccessHandler restAuthenticationSuccessHandler;
@@ -47,4 +51,15 @@ public abstract class MockTestSupport {
     @Mock
     protected HttpServletResponse httpServletResponse;
 
+
+
+    // MusicService 테스트
+    @InjectMocks
+    protected MusicService musicService;
+
+    @Mock
+    protected MusicRepository musicRepository;
+
+    @Mock
+    protected MusicRecommendClient musicRecommendClient;
 }

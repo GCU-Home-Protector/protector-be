@@ -1,0 +1,38 @@
+package com.gachon.home_protector.music;
+
+import com.gachon.home_protector.api.BaseEntity;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Music extends BaseEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String recommendSong;
+
+    private String recommendSongUrl;
+
+    @Builder
+    private Music(String recommendSong, String recommendSongUrl) {
+        this.recommendSong = recommendSong;
+        this.recommendSongUrl = recommendSongUrl;
+    }
+
+    public static Music of (String recommendSong, String recommendSongUrl) {
+        return Music.builder()
+                .recommendSong(recommendSong)
+                .recommendSongUrl(recommendSongUrl)
+                .build();
+    }
+}

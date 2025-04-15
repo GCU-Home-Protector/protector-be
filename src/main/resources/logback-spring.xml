@@ -11,7 +11,7 @@
     <!-- ERROR 로그를 error.log에 저장 -->
     <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
 
-        <!--log level이 error일 경우 ACCEPT, 아니면 DENY, 즉 log.error() 결과물이 기록도미-->
+        <!--log level이 error일 경우 ACCEPT, 아니면 DENY, 즉 log.error() 결과물이 기록됨-->
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>error</level>
             <onMatch>ACCEPT</onMatch>
@@ -29,17 +29,17 @@
         </encoder>
     </appender>
 
-    <!--        INFO 레벨 로그를 access.log에 저장-->
+    <!--WARN 레벨 로그를 warn.log에 저장-->
     <appender name="ACCESS_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>info</level>
+            <level>warn</level>
             <onMatch>ACCEPT</onMatch>
             <onMismatch>DENY</onMismatch>
         </filter>
 
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <maxHistory>50</maxHistory>
-            <fileNamePattern>log/access/access.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>log/warn/warn.%d{yyyy-MM-dd}.log</fileNamePattern>
         </rollingPolicy>
 
         <encoder>
@@ -47,23 +47,21 @@
         </encoder>
     </appender>
 
-<!--    log.error() 발생 시 Sentry에 보냄-->
+<!--    log.warn(), error() 발생 시 Sentry에 보냄-->
     <appender name="Sentry" class="io.sentry.logback.SentryAppender">
-
-        <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>error</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
-        </filter>
-
+<!--        <filter class="ch.qos.logback.classic.filter.LevelFilter">-->
+<!--            <level>error</level>-->
+<!--            <onMatch>ACCEPT</onMatch>-->
+<!--            <onMismatch>DENY</onMismatch>-->
+<!--        </filter>-->
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
     </appender>
 
-    <!--INFO 레벨 이상 로그 대해서만 xml 파일 통해 관리-->
+    <!--WARN 레벨 이상 로그 대해서만 xml 파일 통해 관리-->
     <!--이 통해 STDOUT, ERROR_FILE appender 대해 적용-->
-    <root level="INFO">
+    <root level="WARN">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="ERROR_FILE"/>
         <appender-ref ref="ACCESS_FILE"/>

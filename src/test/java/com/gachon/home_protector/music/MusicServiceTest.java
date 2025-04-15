@@ -1,0 +1,87 @@
+package com.gachon.home_protector.music;
+
+import com.gachon.home_protector.MockTestSupport;
+import com.gachon.home_protector.music.dto.recommend.MusicRecommendResponse;
+import com.gachon.home_protector.music.dto.recommend.MusicRecommendServiceRequest;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.*;
+import static org.mockito.Mockito.verify;
+
+class MusicServiceTest extends MockTestSupport {
+
+    @DisplayName("AI에게서 음악을 추천받을 수 있다.")
+    @Test
+    void recommendMusic() {
+        // given
+        String recommendSong = "recommendSong";
+        String recommendSongUrl = "recommendSongUrl";
+
+        MusicRecommendServiceRequest request = new MusicRecommendServiceRequest("encodedImage");
+        MusicRecommendResponse response = new MusicRecommendResponse(recommendSong, recommendSongUrl);
+
+        given(musicRecommendClient.requestRecommendation(any(MusicRecommendServiceRequest.class))).willReturn(response);
+
+        // when
+        MusicRecommendResponse result = musicService.recommendMusic(request);
+
+        // then
+        verify(musicRepository).save(any(Music.class));
+        assertThat(result).extracting("recommendSong", "recommendSongUrl")
+                .containsExactlyInAnyOrder(recommendSong, recommendSongUrl);
+    }
+
+    @DisplayName("AI에게서 받은 결과 중 음악 제목만 받을 수 있다.")
+    @Test
+    void recommendMusic_EMPTY_URL() {
+        // given
+        String recommendSong = "recommendSong";
+        String recommendSongUrl = null;
+
+        MusicRecommendServiceRequest request = new MusicRecommendServiceRequest("encodedImage");
+        MusicRecommendResponse response = new MusicRecommendResponse(recommendSong, recommendSongUrl);
+
+        given(musicRecommendClient.requestRecommendation(any(MusicRecommendServiceRequest.class))).willReturn(response);
+
+        // when // then
+        assertThatThrownBy(() -> musicService.recommendMusic(request))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("추천 결과가 없습니다!");
+    }
+
+    @DisplayName("AI에게서 받은 결과 중 음악 URL만 받을 수 있다.")
+    @Test
+    void recommendMusic_EMPTY_TITLE() {
+        // given
+        String recommendSong = null;
+        String recommendSongUrl = "recommendSongUrl";
+
+        MusicRecommendServiceRequest request = new MusicRecommendServiceRequest("encodedImage");
+        MusicRecommendResponse response = new MusicRecommendResponse(recommendSong, recommendSongUrl);
+
+        given(musicRecommendClient.requestRecommendation(any(MusicRecommendServiceRequest.class))).willReturn(response);
+
+        // when // then
+        assertThatThrownBy(() -> musicService.recommendMusic(request))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("추천 결과가 없습니다!");
+    }
+
+    @DisplayName("AI에게서 받은 추천 음악이 없을 수 있다.")
+    @Test
+    void recommendMusic_EMPTY_RECOMMEND() {
+        // given
+        MusicRecommendServiceRequest request = new MusicRecommendServiceRequest("encodedImage");
+
+        given(musicRecommendClient.requestRecommendation(any(MusicRecommendServiceRequest.class))).willReturn(null);
+
+        // when // then
+        assertThatThrownBy(() -> musicService.recommendMusic(request))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("추천 결과가 없습니다!");
+    }
+}
