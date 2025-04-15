@@ -1,6 +1,5 @@
 package com.gachon.home_protector.music.dto.recommend;
 
-import com.gachon.home_protector.music.Music;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -8,16 +7,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MusicRecommendResponse {
 
+    private Long songId;
     private String recommendSong;
-
     private String recommendSongUrl;
 
-    public MusicRecommendResponse(String recommendSong, String recommendSongUrl) {
+    public MusicRecommendResponse(Long songId, String recommendSong, String recommendSongUrl) {
+        this.songId = songId;
         this.recommendSong = recommendSong;
         this.recommendSongUrl = recommendSongUrl;
-    }
-
-    public Music toMusic() {
-        return Music.of(recommendSong, recommendSongUrl);
     }
 }
