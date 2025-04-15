@@ -28,7 +28,7 @@ public class MusicRecommendClient {
     @Value("${ai.recommend.path}")
     private String aiPath;
 
-    private final RestClient restClient;
+    private final RestClient restClient = RestClient.create();
 
     public MusicRecommendResponse requestRecommendation(MusicRecommendServiceRequest request) {
 
