@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/music")
@@ -23,7 +25,7 @@ public class MusicController {
     }
 
     @GetMapping("/likes")
-    public SuccessResponse<FavoriteMusicListResponse> getFavoriteMusicList(@AuthenticationPrincipal RestUserDetails userDetails) {
+    public SuccessResponse<List<FavoriteMusicListResponse>> getFavoriteMusicList(@AuthenticationPrincipal RestUserDetails userDetails) {
         return SuccessResponse.success(musicService.getFavoriteMusicList(userDetails));
     }
 }
