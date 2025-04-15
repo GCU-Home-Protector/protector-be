@@ -2,9 +2,11 @@ package com.gachon.home_protector.music;
 
 import com.gachon.home_protector.api.MusicAssert;
 import com.gachon.home_protector.music.client.MusicRecommendClient;
+import com.gachon.home_protector.music.dto.FavoriteMusicListResponse;
 import com.gachon.home_protector.music.dto.recommend.MusicRecommendResponse;
 import com.gachon.home_protector.music.dto.recommend.MusicRecommendResponseFromAI;
 import com.gachon.home_protector.music.dto.recommend.MusicRecommendServiceRequest;
+import com.gachon.home_protector.security.userdetails.RestUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,5 +25,9 @@ public class MusicService {
         MusicAssert.validateMusicRecommendation(aiResponse, "추천 결과가 없습니다!"); // IllegalArgumentException throw
         Music savedMusic = musicRepository.save(aiResponse.toMusic());
         return savedMusic.toRecommendResponse();
+    }
+
+    public FavoriteMusicListResponse getFavoriteMusicList(RestUserDetails userDetails) {
+        return null;
     }
 }
