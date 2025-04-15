@@ -18,7 +18,7 @@ class MusicControllerTest extends ControllerTestSupport {
     @WithMockUser(roles = "USER")
     @DisplayName("음악을 추천할 수 있다.")
     @Test
-    void updateIdentification() throws Exception {
+    void recommendMusic() throws Exception {
         // given
         String encodedFaceImage = "image";
         MusicRecommendRequest request = new MusicRecommendRequest(encodedFaceImage);
@@ -37,7 +37,7 @@ class MusicControllerTest extends ControllerTestSupport {
     @WithMockUser(roles = "USER")
     @DisplayName("음악을 추천할 때 이미지는 필수이다.")
     @Test
-    void updateIdentification_BLANK_IMAGE() throws Exception {
+    void recommendMusic_BLANK_IMAGE() throws Exception {
         // given
         MusicRecommendRequest request = new MusicRecommendRequest("");
 
@@ -52,4 +52,8 @@ class MusicControllerTest extends ControllerTestSupport {
                 .andExpect(jsonPath("$.status").value("BAD_REQUEST"))
                 .andExpect(jsonPath("$.message").value("아기 얼굴은 필수입니다!"));
     }
+
+
+
+
 }
