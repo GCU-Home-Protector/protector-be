@@ -1,6 +1,7 @@
 package com.gachon.home_protector.music;
 
 import com.gachon.home_protector.ControllerTestSupport;
+import com.gachon.home_protector.music.dto.AddFavoriteMusicRequest;
 import com.gachon.home_protector.music.dto.recommend.MusicRecommendRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -71,6 +72,63 @@ class MusicControllerTest extends ControllerTestSupport {
                 .andExpect(jsonPath("$.code").value("200"))
                 .andExpect(jsonPath("$.status").value("OK"))
                 .andExpect(jsonPath("$.message").value("OK"));
+    }
+
+    @WithMockUser(roles = "USER")
+    @DisplayName("음악 좋아요를 누르거나 취소할 수 있다.")
+    @Test
+    void addOrDeleteFavoriteMusic() throws Exception {
+        // given
+        Long songId = 1L;
+        AddFavoriteMusicRequest request = new AddFavoriteMusicRequest(songId);
+
+        mockMvc.perform(post("/music/likes")
+                        .content(objectMapper.writeValueAsString(request))
+                        .contentType(APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value("200"))
+                .andExpect(jsonPath("$.status").value("OK"))
+                .andExpect(jsonPath("$.message").value("OK"));
+    }
+
+    @WithMockUser(roles = "USER")
+    @DisplayName("음악 좋아요를 누르거나 취소할 때 PK의 값은 NULL이면 안 된다.")
+    @Test
+    void addOrDeleteFavoriteMusic_NULL() throws Exception {
+        // given
+        Long songId = null;
+        AddFavoriteMusicRequest request = new AddFavoriteMusicRequest(songId);
+
+        mockMvc.perform(post("/music/likes")
+                        .content(objectMapper.writeValueAsString(request))
+                        .contentType(APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("400"))
+                .andExpect(jsonPath("$.status").value("BAD_REQUEST"))
+                .andExpect(jsonPath("$.message").value("노래의 ID는 필수입니다!"));
+    }
+
+    @WithMockUser(roles = "USER")
+    @DisplayName("음악 좋아요를 누르거나 취소할 때 PK의 값은 1 이상이여야 한다")
+    @Test
+    void addOrDeleteFavoriteMusic_POSITIVE() throws Exception {
+        // given
+        Long songId = 0L;
+        AddFavoriteMusicRequest request = new AddFavoriteMusicRequest(songId);
+
+        mockMvc.perform(post("/music/likes")
+                        .content(objectMapper.writeValueAsString(request))
+                        .contentType(APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("400"))
+                .andExpect(jsonPath("$.status").value("BAD_REQUEST"))
+                .andExpect(jsonPath("$.message").value("노래의 ID는 1 이상이어야 합니다!"));
     }
 
 }

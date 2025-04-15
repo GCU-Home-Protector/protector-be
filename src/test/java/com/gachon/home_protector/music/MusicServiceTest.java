@@ -3,6 +3,7 @@ package com.gachon.home_protector.music;
 import com.gachon.home_protector.IntegrationTestSupport;
 import com.gachon.home_protector.favorite_music.FavoriteMusic;
 import com.gachon.home_protector.favorite_music.FavoriteMusicRepository;
+import com.gachon.home_protector.music.dto.AddFavoriteMusicServiceRequest;
 import com.gachon.home_protector.music.dto.FavoriteMusicListResponse;
 import com.gachon.home_protector.music.exception.FavoriteMusicNotFoundException;
 import com.gachon.home_protector.security.userdetails.RestUserDetails;
@@ -108,6 +109,71 @@ class MusicServiceTest extends IntegrationTestSupport {
                 .isInstanceOf(FavoriteMusicNotFoundException.class)
                 .hasMessage("좋아요를 누른 음악이 없습니다!");
 
+    }
+
+    @DisplayName("특정 음악에 대해 좋아요를 누를 수 있다.")
+    @Test
+    void addOrDeleteFavoriteMusic_LIKE_NORMAL() {
+        // given
+        String userId = "userId";
+        String password = "password";
+        String role = "role";
+
+        User user = User.createRestLoginUser(userId, password, role);
+        User user2 = User.createRestLoginUser("userId2", "password2", "role");
+        userRepository.saveAll(List.of(user, user2));
+
+        Long id = user.getId();
+        RestUserLoginResponse response = new RestUserLoginResponse(id, userId, password, role);
+        response.removePassword();
+        RestUserDetails restUserDetails = new RestUserDetails(response);
+
+        Music music1 = Music.of("title1", "url1");
+        Music music2 = Music.of("title2", "url2");
+        List<Music> musics = musicRepository.saveAll(List.of(music1, music2));
+
+        AddFavoriteMusicServiceRequest request = new AddFavoriteMusicServiceRequest(musics.get(0).getId());
+
+        // when
+        String result = musicService.addOrDeleteFavoriteMusic(restUserDetails, request);
+
+        // then
+        assertThat(favoriteMusicRepository.findAll()).hasSize(1);
+        assertThat(result).isEqualTo("좋아요를 눌렀습니다!");
+    }
+
+    @DisplayName("특정 음악에 대해 좋아요를 취소할 수 있다.")
+    @Test
+    void addOrDeleteFavoriteMusic_LIKE_CANCEL_NORMAL() {
+        // given
+        String userId = "userId";
+        String password = "password";
+        String role = "role";
+
+        User user = User.createRestLoginUser(userId, password, role);
+        User user2 = User.createRestLoginUser("userId2", "password2", "role");
+        List<User> users = userRepository.saveAll(List.of(user, user2));
+
+        Long id = user.getId();
+        RestUserLoginResponse response = new RestUserLoginResponse(id, userId, password, role);
+        response.removePassword();
+        RestUserDetails restUserDetails = new RestUserDetails(response);
+
+        Music music1 = Music.of("title1", "url1");
+        Music music2 = Music.of("title2", "url2");
+        List<Music> musics = musicRepository.saveAll(List.of(music1, music2));
+
+        FavoriteMusic f1 = FavoriteMusic.of(users.get(0), musics.get(0));
+        favoriteMusicRepository.saveAll(List.of(f1));
+
+        AddFavoriteMusicServiceRequest request = new AddFavoriteMusicServiceRequest(musics.get(0).getId());
+
+        // when
+        String result = musicService.addOrDeleteFavoriteMusic(restUserDetails, request);
+
+        // then
+        assertThat(favoriteMusicRepository.findAll()).isEmpty();
+        assertThat(result).isEqualTo("좋아요를 취소했습니다!");
     }
 
 }

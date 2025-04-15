@@ -2,6 +2,7 @@ package com.gachon.home_protector.api;
 
 import com.gachon.home_protector.music.MusicController;
 import com.gachon.home_protector.music.exception.FavoriteMusicNotFoundException;
+import com.gachon.home_protector.music.exception.MusicNotFoundException;
 import com.gachon.home_protector.music.exception.ai.BadRequestFromAIException;
 import com.gachon.home_protector.music.exception.ai.InternalServerErrorFromAIException;
 import com.gachon.home_protector.user.exception.InvalidIdentificationTokenException;
@@ -65,7 +66,10 @@ public class GlobalControllerAdvice {
 
     // 404
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @ExceptionHandler(UserNotFoundException.class)
+    @ExceptionHandler({
+            UserNotFoundException.class,
+            MusicNotFoundException.class
+    })
     public ErrorResponse notFoundExHandler(Exception e) {
         String errorMessage = e.getMessage();
 
