@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -56,10 +57,10 @@ class FavoriteMusicRepositoryTest extends IntegrationTestSupport {
         favoriteMusicRepository.saveAll(List.of(f1, f2, f3));
 
         // when
-        boolean result = favoriteMusicRepository.existsByUserAndMusic(users.get(0).getId(), musics.get(0).getId());
+        Optional<FavoriteMusic> result = favoriteMusicRepository.findByUserAndMusicId(users.get(0).getId(), musics.get(0).getId());
 
         // then
-        assertThat(result).isTrue();
+        assertThat(result).isPresent();
     }
 
     @DisplayName("특정 유저가 특정 음악에 대해 좋아요를 안 눌렀는지 확인할 수 있다.")
@@ -84,10 +85,10 @@ class FavoriteMusicRepositoryTest extends IntegrationTestSupport {
         favoriteMusicRepository.saveAll(List.of(f1, f2, f3));
 
         // when
-        boolean result = favoriteMusicRepository.existsByUserAndMusic(users.get(1).getId(), musics.get(1).getId());
+        Optional<FavoriteMusic> result = favoriteMusicRepository.findByUserAndMusicId(users.get(1).getId(), musics.get(1).getId());
 
         // then
-        assertThat(result).isFalse();
+        assertThat(result).isEmpty();
     }
 
 }
