@@ -5,6 +5,7 @@ import com.gachon.home_protector.music.dto.recommend.MusicRecommendResponse;
 import com.gachon.home_protector.music.dto.recommend.MusicRecommendServiceRequest;
 import com.gachon.home_protector.music.exception.ai.BadRequestFromAIException;
 import com.gachon.home_protector.music.exception.ai.InternalServerErrorFromAIException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.client.MockRestServiceServer;
+import org.springframework.web.client.RestClient;
 import org.testcontainers.shaded.com.fasterxml.jackson.core.JsonProcessingException;
 import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -41,12 +43,20 @@ class MusicRecommendClientTest {
     private String aiPath;
 
     @Autowired
+    private RestClient restClient;
+
+    @Autowired
     private MusicRecommendClient musicRecommendClient;
 
     @Autowired
     private MockRestServiceServer mockServer;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
+
+//    @BeforeEach
+//    void setUp() {
+//        mockServer = MockRestServiceServer.bindTo(restClient).build();
+//    }
 
     @DisplayName("AI 서버와 통신할 수 있다.")
     @Test
@@ -70,7 +80,7 @@ class MusicRecommendClientTest {
 
         // then
         assertThat(result).extracting("recommendSong", "recommendSongUrl")
-                .containsExactlyInAnyOrder(recommendSong, recommendSongUrl);
+                .containsExactly(recommendSong, recommendSongUrl);
     }
 
     @DisplayName("AI 서버에 잘못된 요청을 날릴 수도 있다.")
