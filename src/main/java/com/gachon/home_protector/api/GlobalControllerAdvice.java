@@ -1,6 +1,8 @@
 package com.gachon.home_protector.api;
 
 import com.gachon.home_protector.music.MusicController;
+import com.gachon.home_protector.music.exception.ai.BadRequestFromAIException;
+import com.gachon.home_protector.music.exception.ai.InternalServerErrorFromAIException;
 import com.gachon.home_protector.user.exception.InvalidIdentificationTokenException;
 import com.gachon.home_protector.user.UserController;
 import com.gachon.home_protector.user.exception.*;
@@ -75,6 +77,8 @@ public class GlobalControllerAdvice {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler({
             EmptyIdentificationHeaderException.class,
+            BadRequestFromAIException.class,
+            InternalServerErrorFromAIException.class,
             Exception.class
     })
     public ErrorResponse serverExHandler(Exception e) {
