@@ -1,6 +1,7 @@
 package com.gachon.home_protector.api;
 
 import com.gachon.home_protector.music.MusicController;
+import com.gachon.home_protector.music.exception.FavoriteMusicNotFoundException;
 import com.gachon.home_protector.music.exception.ai.BadRequestFromAIException;
 import com.gachon.home_protector.music.exception.ai.InternalServerErrorFromAIException;
 import com.gachon.home_protector.user.exception.InvalidIdentificationTokenException;
@@ -38,7 +39,8 @@ public class GlobalControllerAdvice {
             IllegalArgumentException.class,
             InvalidIdentificationTokenException.class,
             DuplicateUserIdException.class,
-            DuplicatePasswordException.class
+            DuplicatePasswordException.class,
+            FavoriteMusicNotFoundException.class
     })
     public ErrorResponse badRequestExHandler(Exception e) {
         String errorMessage = e.getMessage();

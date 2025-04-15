@@ -1,88 +1,113 @@
 package com.gachon.home_protector.music;
 
-import com.gachon.home_protector.MockTestSupport;
-import com.gachon.home_protector.music.dto.recommend.MusicRecommendResponse;
-import com.gachon.home_protector.music.dto.recommend.MusicRecommendServiceRequest;
-import com.gachon.home_protector.music.exception.ai.MusicNotRecommendException;
+import com.gachon.home_protector.IntegrationTestSupport;
+import com.gachon.home_protector.favorite_music.FavoriteMusic;
+import com.gachon.home_protector.favorite_music.FavoriteMusicRepository;
+import com.gachon.home_protector.music.dto.FavoriteMusicListResponse;
+import com.gachon.home_protector.music.exception.FavoriteMusicNotFoundException;
+import com.gachon.home_protector.security.userdetails.RestUserDetails;
+import com.gachon.home_protector.user.User;
+import com.gachon.home_protector.user.UserRepository;
+import com.gachon.home_protector.user.dto.login.RestUserLoginResponse;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.*;
-import static org.mockito.Mockito.verify;
+import java.util.List;
 
-class MusicServiceTest extends MockTestSupport {
+import static org.assertj.core.api.Assertions.*;
 
-    @DisplayName("AI에게서 음악을 추천받을 수 있다.")
+class MusicServiceTest extends IntegrationTestSupport {
+
+    @Autowired
+    MusicRepository musicRepository;
+
+    @Autowired
+    FavoriteMusicRepository favoriteMusicRepository;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    MusicService musicService;
+
+
+    @AfterEach
+    void tearDown() {
+        favoriteMusicRepository.deleteAllInBatch();
+        musicRepository.deleteAllInBatch();
+        userRepository.deleteAllInBatch();
+    }
+
+    @DisplayName("특정 사용자의 좋아요 음악 리스트를 가져올 수 있다.")
     @Test
-    void recommendMusic() {
+    void getFavoriteMusicList() {
         // given
-        String recommendSong = "recommendSong";
-        String recommendSongUrl = "recommendSongUrl";
+        String userId = "userId";
+        String password = "password";
+        String role = "role";
 
-        MusicRecommendServiceRequest request = new MusicRecommendServiceRequest("encodedImage");
-        MusicRecommendResponse response = new MusicRecommendResponse(recommendSong, recommendSongUrl);
+        User user = User.createRestLoginUser(userId, password, role);
+        User user2 = User.createRestLoginUser("userId2", "password2", "role");
+        List<User> users = userRepository.saveAll(List.of(user, user2));
 
-        given(musicRecommendClient.requestRecommendation(any(MusicRecommendServiceRequest.class))).willReturn(response);
+        Long id = user.getId();
+        RestUserLoginResponse response = new RestUserLoginResponse(id, userId, password, role);
+        response.removePassword();
+        RestUserDetails restUserDetails = new RestUserDetails(response);
+
+        Music music1 = Music.of("title1", "url1");
+        Music music2 = Music.of("title2", "url2");
+        List<Music> musics = musicRepository.saveAll(List.of(music1, music2));
+
+        FavoriteMusic f1 = FavoriteMusic.of(users.get(0), musics.get(0));
+        FavoriteMusic f2 = FavoriteMusic.of(users.get(0), musics.get(1));
+        FavoriteMusic f3 = FavoriteMusic.of(users.get(1), musics.get(0));
+        favoriteMusicRepository.saveAll(List.of(f1, f2, f3));
 
         // when
-        MusicRecommendResponse result = musicService.recommendMusic(request);
+        List<FavoriteMusicListResponse> result = musicService.getFavoriteMusicList(restUserDetails);
 
         // then
-        verify(musicRepository).save(any(Music.class));
-        assertThat(result).extracting("recommendSong", "recommendSongUrl")
-                .containsExactly(recommendSong, recommendSongUrl);
+        assertThat(result).hasSize(2)
+                .extracting("songId", "songName", "songUrl")
+                .containsExactlyInAnyOrder(
+                        tuple(musics.get(0).getId(), "title1", "url1"),
+                        tuple(musics.get(1).getId(), "title2", "url2")
+                );
     }
 
-    @DisplayName("AI에게서 받은 결과 중 음악 제목만 받을 수 있다.")
+    @DisplayName("특정 사용자의 좋아요 음악 리스트가 없을 수 있다.")
     @Test
-    void recommendMusic_EMPTY_URL() {
+    void getFavoriteMusicList_EMPTY_FAVORITE_MUSIC() {
         // given
-        String recommendSong = "recommendSong";
-        String recommendSongUrl = null;
+        String userId = "userId";
+        String password = "password";
+        String role = "role";
 
-        MusicRecommendServiceRequest request = new MusicRecommendServiceRequest("encodedImage");
-        MusicRecommendResponse response = new MusicRecommendResponse(recommendSong, recommendSongUrl);
+        User user = User.createRestLoginUser(userId, password, role);
+        User user2 = User.createRestLoginUser("userId2", "password2", "role");
+        List<User> users = userRepository.saveAll(List.of(user, user2));
 
-        given(musicRecommendClient.requestRecommendation(any(MusicRecommendServiceRequest.class))).willReturn(response);
+        Long id = user.getId();
+        RestUserLoginResponse response = new RestUserLoginResponse(id, userId, password, role);
+        response.removePassword();
+        RestUserDetails restUserDetails = new RestUserDetails(response);
+
+        Music music1 = Music.of("title1", "url1");
+        Music music2 = Music.of("title2", "url2");
+        List<Music> musics = musicRepository.saveAll(List.of(music1, music2));
+
+
+        FavoriteMusic f3 = FavoriteMusic.of(users.get(1), musics.get(0));
+        favoriteMusicRepository.saveAll(List.of(f3));
 
         // when // then
-        assertThatThrownBy(() -> musicService.recommendMusic(request))
-                .isInstanceOf(MusicNotRecommendException.class)
-                .hasMessage("추천 결과가 없습니다!");
+        assertThatThrownBy(() -> musicService.getFavoriteMusicList(restUserDetails))
+                .isInstanceOf(FavoriteMusicNotFoundException.class)
+                .hasMessage("좋아요를 누른 음악이 없습니다!");
+
     }
 
-    @DisplayName("AI에게서 받은 결과 중 음악 URL만 받을 수 있다.")
-    @Test
-    void recommendMusic_EMPTY_TITLE() {
-        // given
-        String recommendSong = null;
-        String recommendSongUrl = "recommendSongUrl";
-
-        MusicRecommendServiceRequest request = new MusicRecommendServiceRequest("encodedImage");
-        MusicRecommendResponse response = new MusicRecommendResponse(recommendSong, recommendSongUrl);
-
-        given(musicRecommendClient.requestRecommendation(any(MusicRecommendServiceRequest.class))).willReturn(response);
-
-        // when // then
-        assertThatThrownBy(() -> musicService.recommendMusic(request))
-                .isInstanceOf(MusicNotRecommendException.class)
-                .hasMessage("추천 결과가 없습니다!");
-    }
-
-    @DisplayName("AI에게서 받은 추천 음악이 없을 수 있다.")
-    @Test
-    void recommendMusic_EMPTY_RECOMMEND() {
-        // given
-        MusicRecommendServiceRequest request = new MusicRecommendServiceRequest("encodedImage");
-
-        given(musicRecommendClient.requestRecommendation(any(MusicRecommendServiceRequest.class))).willReturn(null);
-
-        // when // then
-        assertThatThrownBy(() -> musicService.recommendMusic(request))
-                .isInstanceOf(MusicNotRecommendException.class)
-                .hasMessage("추천 결과가 없습니다!");
-    }
 }

@@ -1,6 +1,6 @@
 package com.gachon.home_protector.music.client;
 
-import com.gachon.home_protector.music.dto.recommend.MusicRecommendResponse;
+import com.gachon.home_protector.music.dto.recommend.MusicRecommendResponseFromAI;
 import com.gachon.home_protector.music.dto.recommend.MusicRecommendServiceRequest;
 import com.gachon.home_protector.music.exception.ai.BadRequestFromAIException;
 import com.gachon.home_protector.music.exception.ai.InternalServerErrorFromAIException;
@@ -11,8 +11,6 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
-
-import java.time.Duration;
 
 @Slf4j
 @Service
@@ -30,7 +28,7 @@ public class MusicRecommendClient {
 
     private final RestClient restClient = RestClient.create();
 
-    public MusicRecommendResponse requestRecommendation(MusicRecommendServiceRequest request) {
+    public MusicRecommendResponseFromAI requestRecommendation(MusicRecommendServiceRequest request) {
 
         return restClient.post()
                 .uri(String.format("http://%s:%s/%s", aiDomain, aiPort, aiPath))
@@ -47,6 +45,6 @@ public class MusicRecommendClient {
                     throw new InternalServerErrorFromAIException("AI 서버 내부에서 에러 발생했습니다!");
                 })
 
-                .body(MusicRecommendResponse.class);
+                .body(MusicRecommendResponseFromAI.class);
     }
 }
