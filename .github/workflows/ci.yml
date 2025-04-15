@@ -38,11 +38,13 @@ jobs:
            mkdir -p src/main/resources
            echo "${{secrets.APPLICATION_YML}}" | base64 --decode > src/main/resources/application.yml
 
-#      # Build (feat. TestContainers) (테스트 계속 실패해서 일단 주석, 로컬에서는 테스트 성공)
-#      - name : Build with Gradle
-#        run : |
-#          chmod +x ./gradlew
-#          ./gradlew build --info --stacktrace
+#
+
+      - name: Set Gradlew Executable Permissions
+        run: chmod +x ./gradlew
+#
+#      - name : Run tests
+#        run : ./gradlew test --no-parallel --no-daemon --info --stacktrace
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -64,3 +66,10 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           # echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+
+      # Build (feat. TestContainers)
+#      - name : Build with Gradle
+#        run : |
+#           chmod +x ./gradlew
+#           ./gradlew test --no-parallel --no-daemon --info --stacktrace
