@@ -2,6 +2,7 @@ package com.gachon.home_protector.music;
 
 import com.gachon.home_protector.MockTestSupport;
 import com.gachon.home_protector.music.dto.recommend.MusicRecommendResponse;
+import com.gachon.home_protector.music.dto.recommend.MusicRecommendResponseFromAI;
 import com.gachon.home_protector.music.dto.recommend.MusicRecommendServiceRequest;
 import com.gachon.home_protector.music.exception.ai.MusicNotRecommendException;
 import org.junit.jupiter.api.DisplayName;
@@ -23,17 +24,18 @@ class MusicServiceTest extends MockTestSupport {
         String recommendSongUrl = "recommendSongUrl";
 
         MusicRecommendServiceRequest request = new MusicRecommendServiceRequest("encodedImage");
-        MusicRecommendResponse response = new MusicRecommendResponse(recommendSong, recommendSongUrl);
+        MusicRecommendResponseFromAI response = new MusicRecommendResponseFromAI(recommendSong, recommendSongUrl);
 
         given(musicRecommendClient.requestRecommendation(any(MusicRecommendServiceRequest.class))).willReturn(response);
+        given(musicRepository.save(any(Music.class))).willReturn(createMusicEntityForTest(recommendSong, recommendSongUrl));
 
         // when
         MusicRecommendResponse result = musicService.recommendMusic(request);
 
         // then
         verify(musicRepository).save(any(Music.class));
-        assertThat(result).extracting("recommendSong", "recommendSongUrl")
-                .containsExactly(recommendSong, recommendSongUrl);
+        assertThat(result).extracting("songId", "recommendSong", "recommendSongUrl")
+                .containsExactly(1L, recommendSong, recommendSongUrl);
     }
 
     @DisplayName("AI에게서 받은 결과 중 음악 제목만 받을 수 있다.")
@@ -44,7 +46,7 @@ class MusicServiceTest extends MockTestSupport {
         String recommendSongUrl = null;
 
         MusicRecommendServiceRequest request = new MusicRecommendServiceRequest("encodedImage");
-        MusicRecommendResponse response = new MusicRecommendResponse(recommendSong, recommendSongUrl);
+        MusicRecommendResponseFromAI response = new MusicRecommendResponseFromAI(recommendSong, recommendSongUrl);
 
         given(musicRecommendClient.requestRecommendation(any(MusicRecommendServiceRequest.class))).willReturn(response);
 
@@ -62,7 +64,7 @@ class MusicServiceTest extends MockTestSupport {
         String recommendSongUrl = "recommendSongUrl";
 
         MusicRecommendServiceRequest request = new MusicRecommendServiceRequest("encodedImage");
-        MusicRecommendResponse response = new MusicRecommendResponse(recommendSong, recommendSongUrl);
+        MusicRecommendResponseFromAI response = new MusicRecommendResponseFromAI(recommendSong, recommendSongUrl);
 
         given(musicRecommendClient.requestRecommendation(any(MusicRecommendServiceRequest.class))).willReturn(response);
 
@@ -84,5 +86,13 @@ class MusicServiceTest extends MockTestSupport {
         assertThatThrownBy(() -> musicService.recommendMusic(request))
                 .isInstanceOf(MusicNotRecommendException.class)
                 .hasMessage("추천 결과가 없습니다!");
+    }
+
+    public static Music createMusicEntityForTest(String recommendSong, String recommendSongUrl) {
+        return Music.builder()
+                .id(1L)
+                .recommendSong(recommendSong)
+                .recommendSongUrl(recommendSongUrl)
+                .build();
     }
 }
