@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -27,7 +29,13 @@ public class MusicService {
         return savedMusic.toRecommendResponse();
     }
 
-    public FavoriteMusicListResponse getFavoriteMusicList(RestUserDetails userDetails) {
-        return null;
+    public List<FavoriteMusicListResponse> getFavoriteMusicList(RestUserDetails userDetails) {
+        Long userId = userDetails.getId();
+        List<Music> favoriteMusicList = musicRepository.findFavoriteMusicByUserId(userId);
+        MusicAssert.validateFavoriteMusicListEmpty(favoriteMusicList, "좋아요를 누른 음악이 없습니다!");
+
+        return favoriteMusicList.stream()
+                .map(Music::toFavoriteMusicListResponse)
+                .toList();
     }
 }
