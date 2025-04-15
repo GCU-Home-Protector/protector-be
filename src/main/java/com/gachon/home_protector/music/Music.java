@@ -1,6 +1,7 @@
 package com.gachon.home_protector.music;
 
 import com.gachon.home_protector.api.BaseEntity;
+import com.gachon.home_protector.music.dto.FavoriteMusicListResponse;
 import com.gachon.home_protector.music.dto.recommend.MusicRecommendResponse;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -40,5 +41,9 @@ public class Music extends BaseEntity {
 
     public MusicRecommendResponse toRecommendResponse() {
         return new MusicRecommendResponse(id, recommendSong, recommendSongUrl);
+    }
+
+    public FavoriteMusicListResponse toFavoriteMusicListResponse() {
+        return new FavoriteMusicListResponse(id, recommendSong, recommendSongUrl);
     }
 }
