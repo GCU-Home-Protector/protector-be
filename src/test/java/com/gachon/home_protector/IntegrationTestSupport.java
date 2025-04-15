@@ -6,13 +6,14 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.utility.DockerImageName;
 
 @ActiveProfiles("test")
 @SpringBootTest
 public abstract class IntegrationTestSupport {
 
-    private static final String MYSQL_VERSION = "mysql:latest";
+    private static final String MYSQL_VERSION = "alpine/mysql:latest";
     private static final String REDIS_VERSION = "redis:latest";
 
     private static final MySQLContainer<?> mySQL;
@@ -21,7 +22,8 @@ public abstract class IntegrationTestSupport {
     public static final int REDIS_PORT = 6379;
 
     static {
-        mySQL = new MySQLContainer<>(MYSQL_VERSION);
+        mySQL = new MySQLContainer<>(MYSQL_VERSION).waitingFor(Wait.forListeningPort());
+
         Redis = new GenericContainer(DockerImageName.parse(REDIS_VERSION))
                 .withExposedPorts(REDIS_PORT)
                 .withReuse(true);
