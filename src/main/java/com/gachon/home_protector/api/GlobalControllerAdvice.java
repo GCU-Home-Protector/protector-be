@@ -40,8 +40,7 @@ public class GlobalControllerAdvice {
             IllegalArgumentException.class,
             InvalidIdentificationTokenException.class,
             DuplicateUserIdException.class,
-            DuplicatePasswordException.class,
-            FavoriteMusicNotFoundException.class
+            DuplicatePasswordException.class
     })
     public ErrorResponse badRequestExHandler(Exception e) {
         String errorMessage = e.getMessage();
@@ -68,7 +67,8 @@ public class GlobalControllerAdvice {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler({
             UserNotFoundException.class,
-            MusicNotFoundException.class
+            MusicNotFoundException.class,
+            FavoriteMusicNotFoundException.class
     })
     public ErrorResponse notFoundExHandler(Exception e) {
         String errorMessage = e.getMessage();
