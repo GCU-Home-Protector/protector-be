@@ -43,8 +43,8 @@ jobs:
       - name: Set Gradlew Executable Permissions
         run: chmod +x ./gradlew
 #
-#      - name : Run tests
-#        run : ./gradlew test --no-parallel --no-daemon --info --stacktrace
+      - name : Run tests
+        run : ./gradlew test --no-parallel --no-daemon --info --stacktrace
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
