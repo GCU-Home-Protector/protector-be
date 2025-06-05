@@ -20,7 +20,7 @@ WORKDIR /app
 # 빌드된 JAR 파일을 실행할 디렉토리로 복사
 COPY --from=builder /app/build/libs/*.jar app.jar
 
-# container 내 파일 시스템과 노드 파일 시스템 심볼릭 링크로 연결 (컨테이너 내 로그파일을 노드에서도 볼 수 잇도록)
+# container 내 파일 시스템과 노드 파일 시스템 심볼릭 링크로 연결 (컨테이너 내 로그파일을 노드 파일 시스템에서도 볼 수 잇도록)
 RUN mkdir -p /logs/error && ln -s /dev/stderr /logs/error &&  \
     mkdir -p /logs/access && ln -s /dev/stdout /logs/access
 

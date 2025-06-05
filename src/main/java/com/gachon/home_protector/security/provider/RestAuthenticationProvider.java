@@ -23,7 +23,13 @@ public class RestAuthenticationProvider implements AuthenticationProvider {
         String userId = authentication.getName();
         RestUserDetails userDetails = (RestUserDetails) restUserDetailsService.loadUserByUsername(userId);
 
-        determineCorrectPassword(authentication, userDetails);
+        String rawPassword = (String) authentication.getCredentials();
+        String encodedPassword = userDetails.getPassword();
+
+        if (!rawPassword.equals(encodedPassword)) {
+            throw new BadCredentialsException("");
+        }
+//        determineCorrectPassword(authentication, userDetails);
 
         return RestAuthenticationToken.createAuthenticatedToken(userDetails.getAuthorities(), userDetails);
     }
