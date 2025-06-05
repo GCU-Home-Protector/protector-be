@@ -61,7 +61,7 @@
 
     <!--WARN 레벨 이상 로그 대해서만 xml 파일 통해 관리-->
     <!--이 통해 STDOUT, ERROR_FILE appender 대해 적용-->
-    <root level="WARN">
+    <root level="INFO">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="ERROR_FILE"/>
         <appender-ref ref="ACCESS_FILE"/>
