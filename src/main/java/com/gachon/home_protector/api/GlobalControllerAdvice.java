@@ -11,7 +11,8 @@ import com.gachon.home_protector.user.exception.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
-import org.springframework.validation.ObjectError;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -25,13 +26,13 @@ public class GlobalControllerAdvice {
 
     // 400
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(BindException.class)
-    public ErrorResponse bindExHandler(BindException e) {
-        ObjectError objectError = e.getBindingResult().getAllErrors().get(0);
-        String errorMessage = objectError.getDefaultMessage();
-
+    @ExceptionHandler({
+            BindException.class,
+            MethodArgumentNotValidException.class
+    })
+    public ErrorResponse bindExHandler(Exception e) {
+        String errorMessage = extractBindingResult(e).getAllErrors().get(0).getDefaultMessage();
         log.warn(errorMessage);
-
         return ErrorResponse.badRequestError(errorMessage);
     }
 
@@ -93,4 +94,9 @@ public class GlobalControllerAdvice {
         return ErrorResponse.internalServerError(errorMessage);
     }
 
+    private BindingResult extractBindingResult(Exception e) {
+        if (e instanceof BindException ex) return ex.getBindingResult();
+        if (e instanceof MethodArgumentNotValidException ex) return ex.getBindingResult();
+        return null;
+    }
 }
