@@ -18,6 +18,7 @@ public class RestAuthenticationProvider implements AuthenticationProvider {
     private final RestUserDetailsService restUserDetailsService;
     private final PasswordEncoder passwordEncoder;
 
+    // passwordEncoder 로 encoding 된 pw 가 db 에 없을 경우 determineCorrectPassword() 주석화하기
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String userId = authentication.getName();
@@ -29,7 +30,7 @@ public class RestAuthenticationProvider implements AuthenticationProvider {
         if (!rawPassword.equals(encodedPassword)) {
             throw new BadCredentialsException("");
         }
-//        determineCorrectPassword(authentication, userDetails);
+        determineCorrectPassword(authentication, userDetails);
 
         return RestAuthenticationToken.createAuthenticatedToken(userDetails.getAuthorities(), userDetails);
     }
