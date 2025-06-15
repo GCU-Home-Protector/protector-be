@@ -1,0 +1,31 @@
+name: Create Jira Feat Issue
+on:
+  issues:
+    types:
+      - opened
+
+jobs:
+  create-issue:
+    if : "startsWith(github.event.issue.title, 'Feat')"
+    name: Create Jira issue # Jira Login
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout default branch code # 뒤의 Issue Parser 위해 checkout 필요함
+        uses: actions/checkout@v4
+        with:
+          ref: master
+
+      - name: Issue Parser
+        uses: stefanbuck/github-issue-praser@v3
+        id: issue-parser
+        with:
+          template-path: .github/ISSUE_TEMPLATE/feat-issue-form.yml # issue template path
+
+      - name: Create branch with Ticket number
+        env:
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+        run: |
+          SAFE_TITLE=$(echo "$ISSUE_TITLE" | sed 's/ /_/g')
+          BRANCH_NAME="${SAFE_TITLE}"
+          git checkout -b "$BRANCH_NAME"
+          git push origin "$BRANCH_NAME"
