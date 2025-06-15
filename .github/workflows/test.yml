@@ -1,4 +1,4 @@
-name: Dockerize & Push Server Image to ECR (CI Step)
+name: Run Test Code
 
 on:
   pull_request:
