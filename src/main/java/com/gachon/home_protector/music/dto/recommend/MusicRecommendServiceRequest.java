@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MusicRecommendServiceRequest {
 
-    private String encodedImage;
+    private String encodedFaceImage;
 
-    public MusicRecommendServiceRequest(String encodedImage) {
-        this.encodedImage = encodedImage;
+    public MusicRecommendServiceRequest(String encodedFaceImage) {
+        this.encodedFaceImage = encodedFaceImage;
     }
 }
