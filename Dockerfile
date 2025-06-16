@@ -10,6 +10,7 @@ RUN chmod +x ./gradlew && ./gradlew dependencies --no-daemon
 
 # 프로젝트 소스 코드 복사 및 빌드
 COPY . .
+RUN chmod +x ./gradlew
 RUN ./gradlew bootJar --no-daemon
 
 # 2단계: 실행 단계
