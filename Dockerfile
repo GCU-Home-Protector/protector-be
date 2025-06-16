@@ -6,7 +6,7 @@ WORKDIR /app
 # Gradle 캐싱을 활용하여 빌드 속도 향상
 COPY gradle gradle
 COPY build.gradle settings.gradle gradlew ./
-RUN chmod +x gradlew && ./gradlew dependencies --no-daemon
+RUN chmod +x ./gradlew && ./gradlew dependencies --no-daemon
 
 # 프로젝트 소스 코드 복사 및 빌드
 COPY . .
