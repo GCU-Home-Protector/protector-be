@@ -1,4 +1,4 @@
-package com.gachon.home_protector.config.database;
+package com.gachon.home_protector.global.config.database;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;

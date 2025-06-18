@@ -1,4 +1,4 @@
-package com.gachon.home_protector.config.security;
+package com.gachon.home_protector.global.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gachon.home_protector.security.filter.CustomLogoutFilter;

@@ -1,4 +1,4 @@
-package com.gachon.home_protector.config;
+package com.gachon.home_protector.global.config;
 
 import com.gachon.home_protector.user.annotation.valid_identification_token.ValidIdentificationTokenArgumentResolver;
 import org.springframework.context.annotation.Configuration;

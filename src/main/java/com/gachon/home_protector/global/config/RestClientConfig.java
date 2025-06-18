@@ -1,4 +1,4 @@
-package com.gachon.home_protector.config;
+package com.gachon.home_protector.global.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

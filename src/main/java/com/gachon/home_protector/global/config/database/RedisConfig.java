@@ -1,4 +1,4 @@
-package com.gachon.home_protector.config.database;
+package com.gachon.home_protector.global.config.database;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

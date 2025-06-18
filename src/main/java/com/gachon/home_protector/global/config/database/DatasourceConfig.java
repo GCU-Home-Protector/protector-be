@@ -1,4 +1,4 @@
-package com.gachon.home_protector.config.database;
+package com.gachon.home_protector.global.config.database;
 
 import com.google.common.collect.ImmutableMap;
 import com.zaxxer.hikari.HikariDataSource;
