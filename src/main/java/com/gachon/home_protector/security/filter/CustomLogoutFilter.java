@@ -1,7 +1,7 @@
 package com.gachon.home_protector.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gachon.home_protector.api.SuccessResponse;
+import com.gachon.home_protector.domain.common.SuccessResponse;
 import com.gachon.home_protector.security.jwt.JWTUtil;
 import com.gachon.home_protector.token.repository.RefreshTokenRepository;
 import io.micrometer.common.util.StringUtils;

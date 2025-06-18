@@ -1,6 +1,6 @@
 package com.gachon.home_protector.music;
 
-import com.gachon.home_protector.api.MusicAssert;
+import com.gachon.home_protector.domain.common.MusicAssert;
 import com.gachon.home_protector.favorite_music.FavoriteMusic;
 import com.gachon.home_protector.favorite_music.FavoriteMusicRepository;
 import com.gachon.home_protector.music.client.MusicRecommendClient;

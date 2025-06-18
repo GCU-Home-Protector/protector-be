@@ -1,6 +1,6 @@
 package com.gachon.home_protector.music;
 
-import com.gachon.home_protector.api.BaseEntity;
+import com.gachon.home_protector.domain.common.BaseEntity;
 import com.gachon.home_protector.music.dto.FavoriteMusicListResponse;
 import com.gachon.home_protector.music.dto.recommend.MusicRecommendResponse;
 import jakarta.persistence.Entity;

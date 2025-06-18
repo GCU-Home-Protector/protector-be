@@ -1,4 +1,4 @@
-package com.gachon.home_protector.api;
+package com.gachon.home_protector.domain.common;
 
 import com.gachon.home_protector.music.Music;
 import com.gachon.home_protector.music.dto.recommend.MusicRecommendResponseFromAI;

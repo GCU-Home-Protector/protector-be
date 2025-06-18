@@ -1,4 +1,4 @@
-package com.gachon.home_protector.api;
+package com.gachon.home_protector.domain.common;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;

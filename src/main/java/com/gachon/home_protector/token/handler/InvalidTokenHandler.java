@@ -1,6 +1,6 @@
 package com.gachon.home_protector.token.handler;
 
-import com.gachon.home_protector.api.ErrorResponse;
+import com.gachon.home_protector.domain.common.ErrorResponse;
 import com.gachon.home_protector.token.controller.ReIssueController;
 import com.gachon.home_protector.token.exception.ExpiredRefreshTokenException;
 import com.gachon.home_protector.token.exception.InvalidAccessTokenException;

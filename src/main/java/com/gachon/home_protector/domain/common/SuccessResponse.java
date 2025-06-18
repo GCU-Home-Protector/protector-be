@@ -1,4 +1,4 @@
-package com.gachon.home_protector.api;
+package com.gachon.home_protector.domain.common;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

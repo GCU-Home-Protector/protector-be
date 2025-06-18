@@ -1,6 +1,6 @@
 package com.gachon.home_protector.token.controller;
 
-import com.gachon.home_protector.api.SuccessResponse;
+import com.gachon.home_protector.domain.common.SuccessResponse;
 import com.gachon.home_protector.token.service.RefreshTokenService;
 import com.gachon.home_protector.token.exception.TokenNotFoundException;
 import io.micrometer.common.util.StringUtils;

@@ -1,7 +1,7 @@
 package com.gachon.home_protector.security.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gachon.home_protector.api.ErrorResponse;
+import com.gachon.home_protector.domain.common.ErrorResponse;
 import com.gachon.home_protector.security.AuthenticationErrorType;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

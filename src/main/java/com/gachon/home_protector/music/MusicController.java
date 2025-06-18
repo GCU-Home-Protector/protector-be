@@ -1,6 +1,6 @@
 package com.gachon.home_protector.music;
 
-import com.gachon.home_protector.api.SuccessResponse;
+import com.gachon.home_protector.domain.common.SuccessResponse;
 import com.gachon.home_protector.music.dto.FavoriteMusicListResponse;
 import com.gachon.home_protector.music.dto.AddFavoriteMusicRequest;
 import com.gachon.home_protector.music.dto.recommend.MusicRecommendRequest;
