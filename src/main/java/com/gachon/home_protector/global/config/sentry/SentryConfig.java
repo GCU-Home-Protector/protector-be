@@ -1,4 +1,4 @@
-package com.gachon.home_protector.global.sentry;
+package com.gachon.home_protector.global.config.sentry;
 
 import io.sentry.Sentry;
 import jakarta.annotation.PostConstruct;
