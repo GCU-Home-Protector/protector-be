@@ -1,5 +1,6 @@
 package com.gachon.home_protector.security.jwt;
 
+import com.gachon.home_protector.domain.security.jwt.JWTUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;

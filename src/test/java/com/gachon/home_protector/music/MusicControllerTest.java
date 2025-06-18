@@ -1,8 +1,8 @@
 package com.gachon.home_protector.music;
 
 import com.gachon.home_protector.ControllerTestSupport;
-import com.gachon.home_protector.music.dto.AddFavoriteMusicRequest;
-import com.gachon.home_protector.music.dto.recommend.MusicRecommendRequest;
+import com.gachon.home_protector.domain.music.dto.AddFavoriteMusicRequest;
+import com.gachon.home_protector.domain.music.dto.recommend.MusicRecommendRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.test.context.support.WithMockUser;

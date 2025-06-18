@@ -1,9 +1,9 @@
 package com.gachon.home_protector.domain.common;
 
-import com.gachon.home_protector.music.Music;
-import com.gachon.home_protector.music.dto.recommend.MusicRecommendResponseFromAI;
-import com.gachon.home_protector.music.exception.FavoriteMusicNotFoundException;
-import com.gachon.home_protector.music.exception.ai.MusicNotRecommendException;
+import com.gachon.home_protector.domain.music.Music;
+import com.gachon.home_protector.domain.music.dto.recommend.MusicRecommendResponseFromAI;
+import com.gachon.home_protector.domain.music.exception.FavoriteMusicNotFoundException;
+import com.gachon.home_protector.domain.music.exception.ai.MusicNotRecommendException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Assert;
 

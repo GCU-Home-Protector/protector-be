@@ -1,9 +1,9 @@
 package com.gachon.home_protector.security.provider;
 
 import com.gachon.home_protector.MockTestSupport;
-import com.gachon.home_protector.token.token.RestAuthenticationToken;
-import com.gachon.home_protector.security.userdetails.RestUserDetails;
-import com.gachon.home_protector.user.dto.login.RestUserLoginResponse;
+import com.gachon.home_protector.domain.token.token.RestAuthenticationToken;
+import com.gachon.home_protector.domain.security.userdetails.RestUserDetails;
+import com.gachon.home_protector.domain.user.dto.login.RestUserLoginResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.authentication.BadCredentialsException;

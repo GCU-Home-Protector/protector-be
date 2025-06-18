@@ -1,14 +1,14 @@
 package com.gachon.home_protector;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gachon.home_protector.music.MusicRepository;
-import com.gachon.home_protector.music.MusicService;
-import com.gachon.home_protector.music.client.MusicRecommendClient;
-import com.gachon.home_protector.security.handler.RestAuthenticationSuccessHandler;
-import com.gachon.home_protector.security.jwt.JWTUtil;
-import com.gachon.home_protector.security.provider.RestAuthenticationProvider;
-import com.gachon.home_protector.token.repository.RefreshTokenRepository;
-import com.gachon.home_protector.security.userdetails.RestUserDetailsService;
+import com.gachon.home_protector.domain.music.MusicRepository;
+import com.gachon.home_protector.domain.music.MusicService;
+import com.gachon.home_protector.domain.music.client.MusicRecommendClient;
+import com.gachon.home_protector.domain.security.handler.RestAuthenticationSuccessHandler;
+import com.gachon.home_protector.domain.security.jwt.JWTUtil;
+import com.gachon.home_protector.domain.security.provider.RestAuthenticationProvider;
+import com.gachon.home_protector.domain.token.repository.RefreshTokenRepository;
+import com.gachon.home_protector.domain.security.userdetails.RestUserDetailsService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.extension.ExtendWith;

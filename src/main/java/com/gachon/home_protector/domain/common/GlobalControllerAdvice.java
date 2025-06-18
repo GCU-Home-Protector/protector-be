@@ -1,13 +1,12 @@
 package com.gachon.home_protector.domain.common;
 
-import com.gachon.home_protector.music.MusicController;
-import com.gachon.home_protector.music.exception.FavoriteMusicNotFoundException;
-import com.gachon.home_protector.music.exception.MusicNotFoundException;
-import com.gachon.home_protector.music.exception.ai.BadRequestFromAIException;
-import com.gachon.home_protector.music.exception.ai.InternalServerErrorFromAIException;
-import com.gachon.home_protector.user.exception.InvalidIdentificationTokenException;
-import com.gachon.home_protector.user.UserController;
-import com.gachon.home_protector.user.exception.*;
+import com.gachon.home_protector.domain.music.MusicController;
+import com.gachon.home_protector.domain.music.exception.FavoriteMusicNotFoundException;
+import com.gachon.home_protector.domain.music.exception.MusicNotFoundException;
+import com.gachon.home_protector.domain.music.exception.ai.BadRequestFromAIException;
+import com.gachon.home_protector.domain.music.exception.ai.InternalServerErrorFromAIException;
+import com.gachon.home_protector.domain.user.exception.*;
+import com.gachon.home_protector.domain.user.UserController;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;

@@ -1,13 +1,13 @@
 package com.gachon.home_protector.global.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gachon.home_protector.security.filter.CustomLogoutFilter;
-import com.gachon.home_protector.security.filter.JWTFilter;
-import com.gachon.home_protector.security.filter.RestLoginFilter;
-import com.gachon.home_protector.security.handler.RestAuthenticationFailureHandler;
-import com.gachon.home_protector.security.handler.RestAuthenticationSuccessHandler;
-import com.gachon.home_protector.security.jwt.JWTUtil;
-import com.gachon.home_protector.token.repository.RefreshTokenRepository;
+import com.gachon.home_protector.domain.security.filter.CustomLogoutFilter;
+import com.gachon.home_protector.domain.security.filter.JWTFilter;
+import com.gachon.home_protector.domain.security.filter.RestLoginFilter;
+import com.gachon.home_protector.domain.security.handler.RestAuthenticationFailureHandler;
+import com.gachon.home_protector.domain.security.handler.RestAuthenticationSuccessHandler;
+import com.gachon.home_protector.domain.security.jwt.JWTUtil;
+import com.gachon.home_protector.domain.token.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
