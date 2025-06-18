@@ -1,10 +1,11 @@
 package com.gachon.home_protector.music;
 
 import com.gachon.home_protector.MockTestSupport;
-import com.gachon.home_protector.music.dto.recommend.MusicRecommendResponse;
-import com.gachon.home_protector.music.dto.recommend.MusicRecommendResponseFromAI;
-import com.gachon.home_protector.music.dto.recommend.MusicRecommendServiceRequest;
-import com.gachon.home_protector.music.exception.ai.MusicNotRecommendException;
+import com.gachon.home_protector.domain.music.Music;
+import com.gachon.home_protector.domain.music.dto.recommend.MusicRecommendResponse;
+import com.gachon.home_protector.domain.music.dto.recommend.MusicRecommendResponseFromAI;
+import com.gachon.home_protector.domain.music.dto.recommend.MusicRecommendServiceRequest;
+import com.gachon.home_protector.domain.music.exception.ai.MusicNotRecommendException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

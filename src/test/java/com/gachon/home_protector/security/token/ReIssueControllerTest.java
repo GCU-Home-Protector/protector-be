@@ -1,20 +1,16 @@
 package com.gachon.home_protector.security.token;
 
 import com.gachon.home_protector.ControllerTestSupport;
-import com.gachon.home_protector.security.jwt.JWTUtil;
+import com.gachon.home_protector.domain.security.jwt.JWTUtil;
 import jakarta.servlet.http.Cookie;
-import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.BDDMockito;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;

@@ -1,8 +1,8 @@
 package com.gachon.home_protector.user;
 
 import com.gachon.home_protector.ControllerTestSupport;
-import com.gachon.home_protector.user.dto.identification.UpdateIdentificationRequest;
-import com.gachon.home_protector.user.dto.join.UserJoinRequest;
+import com.gachon.home_protector.domain.user.dto.identification.UpdateIdentificationRequest;
+import com.gachon.home_protector.domain.user.dto.join.UserJoinRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.test.context.support.WithMockUser;

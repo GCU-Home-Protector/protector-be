@@ -1,10 +1,12 @@
 package com.gachon.home_protector.favorite_music;
 
 import com.gachon.home_protector.IntegrationTestSupport;
-import com.gachon.home_protector.music.Music;
-import com.gachon.home_protector.music.MusicRepository;
-import com.gachon.home_protector.user.User;
-import com.gachon.home_protector.user.UserRepository;
+import com.gachon.home_protector.domain.favorite_music.FavoriteMusic;
+import com.gachon.home_protector.domain.favorite_music.FavoriteMusicRepository;
+import com.gachon.home_protector.domain.music.Music;
+import com.gachon.home_protector.domain.music.MusicRepository;
+import com.gachon.home_protector.domain.user.User;
+import com.gachon.home_protector.domain.user.UserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

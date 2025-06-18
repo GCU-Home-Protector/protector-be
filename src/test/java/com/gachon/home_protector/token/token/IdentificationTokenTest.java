@@ -1,7 +1,8 @@
 package com.gachon.home_protector.token.token;
 
 import com.gachon.home_protector.IntegrationTestSupport;
-import com.gachon.home_protector.token.repository.IdentificationTokenRepository;
+import com.gachon.home_protector.domain.token.repository.IdentificationTokenRepository;
+import com.gachon.home_protector.domain.token.token.IdentificationToken;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

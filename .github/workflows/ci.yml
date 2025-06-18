@@ -28,10 +28,10 @@ jobs:
           distribution: 'temurin' # https://github.com/actions/setup-java
 
       # base64 형태 저장된 application.yml 가져와 저장
-      - name: Set YML
-        run: |
-          mkdir -p src/main/resources
-          echo "${{secrets.APPLICATION_YML}}" | base64 --decode > src/main/resources/application.yml
+#      - name: Set YML
+#        run: |
+#          mkdir -p src/main/resources
+#          echo "${{secrets.APPLICATION_YML}}" | base64 --decode > src/main/resources/application.yml
 
 #      - name: Cache Gradle packages
 #        uses: actions/cache@v4
