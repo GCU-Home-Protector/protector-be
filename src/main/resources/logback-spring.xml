@@ -5,8 +5,7 @@
               value="[%d{yyyy-MM-dd HH:mm:ss}:%-4relative] %green([%thread]) %highlight(%-5level) [%X{traceId:-},%X{spanId:-}] %boldWhite([%C.%M:%yellow(%L)]) - %msg%n"/>
 
     <!--console 에 출력되는 로그 형식 지정-->
-    <appender name="CONSOLE"
-              class="ch.qos.logback.core.ConsoleAppender">
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>${LOG_PATTERN}</pattern>
         </encoder>
