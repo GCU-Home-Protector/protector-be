@@ -92,5 +92,4 @@ class FavoriteMusicRepositoryTest extends IntegrationTestSupport {
         // then
         assertThat(result).isEmpty();
     }
-
 }
