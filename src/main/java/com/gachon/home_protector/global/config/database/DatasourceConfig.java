@@ -14,7 +14,7 @@ import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 
 import javax.sql.DataSource;
 
-@Profile("default")
+@Profile("!test")
 @Configuration
 public class DatasourceConfig {
 

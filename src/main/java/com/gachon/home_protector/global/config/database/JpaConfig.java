@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.sql.DataSource;
 import java.util.HashMap;
 
-@Profile("default")
+@Profile("!test")
 @Configuration
 @EnableTransactionManagement
 public class JpaConfig {
