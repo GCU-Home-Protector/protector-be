@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
-@Profile("default")
+@Profile("!test")
 public class DynamicRoutingDataSource extends AbstractRoutingDataSource {
 
     @Override
