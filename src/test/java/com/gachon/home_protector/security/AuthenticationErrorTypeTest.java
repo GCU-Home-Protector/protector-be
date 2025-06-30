@@ -1,5 +1,6 @@
 package com.gachon.home_protector.security;
 
+import com.gachon.home_protector.domain.security.AuthenticationErrorType;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

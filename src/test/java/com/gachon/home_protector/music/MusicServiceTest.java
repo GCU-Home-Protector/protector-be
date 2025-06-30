@@ -1,15 +1,18 @@
 package com.gachon.home_protector.music;
 
 import com.gachon.home_protector.IntegrationTestSupport;
-import com.gachon.home_protector.favorite_music.FavoriteMusic;
-import com.gachon.home_protector.favorite_music.FavoriteMusicRepository;
-import com.gachon.home_protector.music.dto.AddFavoriteMusicServiceRequest;
-import com.gachon.home_protector.music.dto.FavoriteMusicListResponse;
-import com.gachon.home_protector.music.exception.FavoriteMusicNotFoundException;
-import com.gachon.home_protector.security.userdetails.RestUserDetails;
-import com.gachon.home_protector.user.User;
-import com.gachon.home_protector.user.UserRepository;
-import com.gachon.home_protector.user.dto.login.RestUserLoginResponse;
+import com.gachon.home_protector.domain.favorite_music.FavoriteMusic;
+import com.gachon.home_protector.domain.favorite_music.FavoriteMusicRepository;
+import com.gachon.home_protector.domain.music.Music;
+import com.gachon.home_protector.domain.music.MusicRepository;
+import com.gachon.home_protector.domain.music.MusicService;
+import com.gachon.home_protector.domain.music.dto.AddFavoriteMusicServiceRequest;
+import com.gachon.home_protector.domain.music.dto.FavoriteMusicListResponse;
+import com.gachon.home_protector.domain.music.exception.FavoriteMusicNotFoundException;
+import com.gachon.home_protector.domain.security.userdetails.RestUserDetails;
+import com.gachon.home_protector.domain.user.User;
+import com.gachon.home_protector.domain.user.UserRepository;
+import com.gachon.home_protector.domain.user.dto.login.RestUserLoginResponse;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

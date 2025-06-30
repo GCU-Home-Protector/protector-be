@@ -1,14 +1,14 @@
 package com.gachon.home_protector.security.token;
 
 import com.gachon.home_protector.IntegrationTestSupport;
-import com.gachon.home_protector.security.jwt.JWTUtil;
-import com.gachon.home_protector.token.repository.RefreshTokenRepository;
-import com.gachon.home_protector.token.service.RefreshTokenService;
-import com.gachon.home_protector.token.exception.ExpiredRefreshTokenException;
-import com.gachon.home_protector.token.exception.InvalidAccessTokenException;
-import com.gachon.home_protector.token.token.RefreshToken;
-import com.gachon.home_protector.user.User;
-import com.gachon.home_protector.user.UserRepository;
+import com.gachon.home_protector.domain.security.jwt.JWTUtil;
+import com.gachon.home_protector.domain.token.repository.RefreshTokenRepository;
+import com.gachon.home_protector.domain.token.service.RefreshTokenService;
+import com.gachon.home_protector.domain.token.exception.ExpiredRefreshTokenException;
+import com.gachon.home_protector.domain.token.exception.InvalidAccessTokenException;
+import com.gachon.home_protector.domain.token.token.RefreshToken;
+import com.gachon.home_protector.domain.user.User;
+import com.gachon.home_protector.domain.user.UserRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.AfterEach;

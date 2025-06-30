@@ -1,6 +1,9 @@
 package com.gachon.home_protector.user;
 
 import com.gachon.home_protector.IntegrationTestSupport;
+import com.gachon.home_protector.domain.user.LoginUserType;
+import com.gachon.home_protector.domain.user.User;
+import com.gachon.home_protector.domain.user.UserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

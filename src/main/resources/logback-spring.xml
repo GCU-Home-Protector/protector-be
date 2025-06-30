@@ -1,8 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <!-- 콘솔에 출력되는 로그 양식 설정 -->
-    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <property name="LOG_PATTERN"
+              value="[%d{yyyy-MM-dd HH:mm:ss}:%-4relative] %green([%thread]) %highlight(%-5level) [%X{traceId:-},%X{spanId:-}] %boldWhite([%C.%M:%yellow(%L)]) - %msg%n"/>
+
+    <!--console 에 출력되는 로그 형식 지정-->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="Sentry" class="io.sentry.logback.SentryAppender">
+
+        <maxRequestBodySize>always</maxRequestBodySize>
+        <sendDefaultPii>true</sendDefaultPii>
+        <tracesSampleRate>1.0</tracesSampleRate>
+        <minimumEventLevel>ERROR</minimumEventLevel>
+        <minimumBreadcrumbLevel>DEBUG</minimumBreadcrumbLevel>
+
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
         </encoder>
@@ -18,7 +34,6 @@
             <onMismatch>DENY</onMismatch>
         </filter>
 
-        <!---->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>log/error/error_%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>7</maxHistory>
@@ -47,24 +62,22 @@
         </encoder>
     </appender>
 
-<!--    log.warn(), error() 발생 시 Sentry에 보냄-->
-    <appender name="Sentry" class="io.sentry.logback.SentryAppender">
-<!--        <filter class="ch.qos.logback.classic.filter.LevelFilter">-->
-<!--            <level>error</level>-->
-<!--            <onMatch>ACCEPT</onMatch>-->
-<!--            <onMismatch>DENY</onMismatch>-->
-<!--        </filter>-->
-        <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
-        </encoder>
-    </appender>
-
     <!--WARN 레벨 이상 로그 대해서만 xml 파일 통해 관리-->
     <!--이 통해 STDOUT, ERROR_FILE appender 대해 적용-->
-    <root level="INFO">
-        <appender-ref ref="STDOUT"/>
-        <appender-ref ref="ERROR_FILE"/>
-        <appender-ref ref="ACCESS_FILE"/>
-    </root>
+
+    <springProfile name="local">
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="dev">
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="SENTRY"/>
+            <appender-ref ref="ERROR_FILE"/>
+            <appender-ref ref="ACCESS_FILE"/>
+        </root>
+    </springProfile>
 </configuration>
 
