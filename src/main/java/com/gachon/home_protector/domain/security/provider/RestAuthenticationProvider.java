@@ -4,6 +4,7 @@ import com.gachon.home_protector.domain.token.token.RestAuthenticationToken;
 import com.gachon.home_protector.domain.security.userdetails.RestUserDetails;
 import com.gachon.home_protector.domain.security.userdetails.RestUserDetailsService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
@@ -27,9 +28,9 @@ public class RestAuthenticationProvider implements AuthenticationProvider {
         String rawPassword = (String) authentication.getCredentials();
         String encodedPassword = userDetails.getPassword();
 
-        if (!rawPassword.equals(encodedPassword)) {
-            throw new BadCredentialsException("");
-        }
+//        if (!rawPassword.equals(encodedPassword)) {
+//            throw new BadCredentialsException("");
+//        }
         determineCorrectPassword(authentication, userDetails);
 
         return RestAuthenticationToken.createAuthenticatedToken(userDetails.getAuthorities(), userDetails);
