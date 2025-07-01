@@ -69,10 +69,11 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           # echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
 
+#     주석용
       - name : Checkout k8s repository
         uses : actions/checkout@v4
         with:
-          repository : GCU-Home-Protector/home-protector-infra
+          repository : GCU-Home-Protector/protector-infra
           ref : main
           token : ${{secrets.ACTION_TOKEN}}
           path : home-protector-infra
