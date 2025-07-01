@@ -79,9 +79,12 @@ jobs:
 
       - name : Update backend image
         if : success()
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
         run : |
           cd home-protector-infra/overlays/develop/backend
-          sed -i 's|image: 637423458012.dkr.ecr.ap-northeast-2.amazonaws.com/home-protector.*|image: 637423458012.dkr.ecr.ap-northeast-2.amazonaws.com/home-protector:${{ github.sha }}|' patch-image.yaml
+          sed -i "s|image: ${ECR_REGISTRY}/${ECR_REPOSITORY}.*$|image: ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}|" patch-image.yaml
           cat patch-image.yaml
 
       - name : Push updated manifest
