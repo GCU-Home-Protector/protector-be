@@ -96,7 +96,7 @@ jobs:
             git commit -m "chore : Update backend image tag to ${{ github.sha }}"
           else
             echo "No changes detected, creating empty commit to trigger ArgoCD"
-            git comiit --allow-empty -m "chore : Tag update fail"
+            git commit --allow-empty -m "chore : Tag update fail"
           fi
           
           git push origin main
