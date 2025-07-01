@@ -30,7 +30,7 @@ public class RestAuthenticationProvider implements AuthenticationProvider {
         if (!rawPassword.equals(encodedPassword)) {
             throw new BadCredentialsException("");
         }
-//        determineCorrectPassword(authentication, userDetails);
+        determineCorrectPassword(authentication, userDetails);
 
         return RestAuthenticationToken.createAuthenticatedToken(userDetails.getAuthorities(), userDetails);
     }
