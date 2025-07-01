@@ -7,18 +7,15 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 
-@Profile({"local, test"})
+@Profile("dev")
 @Configuration
-public class RedisConfig {
+public class RedisClusterConfig {
 
-    @Value("${spring.data.redis.host}")
+    @Value("${spring.data.redis.cluster.nodes}")
     private String host;
-
-    @Value("${spring.data.redis.port}")
-    private int port;
 
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
-        return new LettuceConnectionFactory(host, port);
+        return new LettuceConnectionFactory(host, 6379);
     }
 }
