@@ -72,7 +72,7 @@ jobs:
       - name : Checkout k8s repository
         uses : actions/checkout@v4
         with:
-          repository : GCU-Home-Protector/home-protector-infra
+          repository : GCU-Home-Protector/protector-infra
           ref : main
           token : ${{secrets.ACTION_TOKEN}}
           path : home-protector-infra
