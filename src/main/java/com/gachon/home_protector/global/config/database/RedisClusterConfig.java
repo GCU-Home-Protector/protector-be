@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
+import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 
 @Profile("dev")
@@ -16,6 +18,12 @@ public class RedisClusterConfig {
 
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
-        return new LettuceConnectionFactory(host, 6379);
+        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
+        redisStandaloneConfiguration.setHostName(host);
+        redisStandaloneConfiguration.setPort(6379);
+
+        // SSL 사용 위해
+        LettuceClientConfiguration lettuceClientConfiguration = LettuceClientConfiguration.builder().useSsl().disablePeerVerification().build();
+        return new LettuceConnectionFactory(redisStandaloneConfiguration, lettuceClientConfiguration);
     }
 }
