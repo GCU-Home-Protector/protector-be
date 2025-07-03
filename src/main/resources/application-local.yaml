@@ -29,6 +29,16 @@ spring:
       host: ${REDIS_HOST}
       port: ${REDIS_PORT}
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - "health"
+          - "info"
+          - "prometheus"
+          - "metrics"
+
 server:
   servlet:
     encoding:
