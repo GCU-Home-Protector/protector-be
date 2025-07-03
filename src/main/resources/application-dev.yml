@@ -33,6 +33,12 @@ spring:
         nodes: ${REDIS_HOST}
         max-redirects: 3
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
 server:
   servlet:
     encoding:
