@@ -40,6 +40,15 @@ public class SecurityConfig {
     private final RestAuthenticationSuccessHandler restAuthenticationSuccessHandler;
     private final RestAuthenticationFailureHandler restAuthenticationFailureHandler;
 
+    private String [] getWhiteList() {
+        return new String[] {
+                "/health/**",
+                "/actuator/**",
+                "/user/login",
+                "/user/join",
+                "/user/reissue"
+        };
+    }
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
@@ -55,7 +64,7 @@ public class SecurityConfig {
                 .cors((httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource)))
 
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/user/login", "/user/join", "/user/reissue").permitAll()
+                        .requestMatchers(getWhiteList()).permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(createRestLoginFilter("/user/login"), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(createJWTFilter(jwtUtil), RestLoginFilter.class)
