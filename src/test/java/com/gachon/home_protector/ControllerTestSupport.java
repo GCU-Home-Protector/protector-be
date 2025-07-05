@@ -3,6 +3,7 @@ package com.gachon.home_protector;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gachon.home_protector.domain.music.MusicController;
 import com.gachon.home_protector.domain.music.MusicService;
+import com.gachon.home_protector.domain.music.facade.MusicFacade;
 import com.gachon.home_protector.domain.security.filter.JWTFilter;
 import com.gachon.home_protector.domain.security.filter.RestLoginFilter;
 import com.gachon.home_protector.domain.security.handler.RestAuthenticationFailureHandler;
@@ -53,6 +54,9 @@ public abstract class ControllerTestSupport {
 
     @MockitoBean
     protected MusicService musicService;
+
+    @MockitoBean
+    protected MusicFacade musicFacade;
 
     @MockitoBean
     protected JWTUtil jwtUtil;
