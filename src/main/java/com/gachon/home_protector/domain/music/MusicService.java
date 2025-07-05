@@ -38,6 +38,13 @@ public class MusicService {
         return savedMusic.toRecommendResponse();
     }
 
+    @Transactional
+    public MusicRecommendResponse updateMusic(MusicRecommendResponseFromAI aiResponse) {
+        MusicAssert.validateMusicRecommendation(aiResponse, "추천 결과가 없습니다!"); // IllegalArgumentException throw
+        Music savedMusic = musicRepository.save(aiResponse.toMusic());
+        return savedMusic.toRecommendResponse();
+    }
+
     public List<FavoriteMusicListResponse> getFavoriteMusicList(RestUserDetails userDetails) {
         Long userId = userDetails.getId();
         List<Music> favoriteMusicList = musicRepository.findFavoriteMusicByUserId(userId);
