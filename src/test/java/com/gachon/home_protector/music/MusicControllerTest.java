@@ -77,7 +77,7 @@ class MusicControllerTest extends ControllerTestSupport {
     @WithMockUser(roles = "USER")
     @DisplayName("음악 좋아요를 누르거나 취소할 수 있다.")
     @Test
-    void addOrDeleteFavoriteMusic() throws Exception {
+    void addFavoriteMusic() throws Exception {
         // given
         Long songId = 1L;
         AddFavoriteMusicRequest request = new AddFavoriteMusicRequest(songId);
@@ -96,7 +96,7 @@ class MusicControllerTest extends ControllerTestSupport {
     @WithMockUser(roles = "USER")
     @DisplayName("음악 좋아요를 누르거나 취소할 때 PK의 값은 NULL이면 안 된다.")
     @Test
-    void addOrDeleteFavoriteMusic_NULL() throws Exception {
+    void addFavoriteMusic_NULL() throws Exception {
         // given
         Long songId = null;
         AddFavoriteMusicRequest request = new AddFavoriteMusicRequest(songId);
@@ -115,7 +115,7 @@ class MusicControllerTest extends ControllerTestSupport {
     @WithMockUser(roles = "USER")
     @DisplayName("음악 좋아요를 누르거나 취소할 때 PK의 값은 1 이상이여야 한다")
     @Test
-    void addOrDeleteFavoriteMusic_POSITIVE() throws Exception {
+    void addFavoriteMusic_POSITIVE() throws Exception {
         // given
         Long songId = 0L;
         AddFavoriteMusicRequest request = new AddFavoriteMusicRequest(songId);
