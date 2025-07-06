@@ -19,6 +19,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
@@ -27,6 +28,10 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class MusicService {
+
+    private static final String FAVORITE_MUSIC_CACHE_KEY_PREFIX = "favoriteMusic:";
+    private static final int CACHE_BASE_TTL_SECONDS = 600;
+    private static final int CACHE_JITTER_MAX_SECONDS = 60;
 
     private final MusicRepository musicRepository;
     private final UserRepository userRepository;
@@ -51,7 +56,7 @@ public class MusicService {
 
     public List<FavoriteMusicListResponse> getFavoriteMusicList(RestUserDetails userDetails) {
         Long userId = userDetails.getId();
-        String cacheKey = "favoriteMusic:" + userId;
+        String cacheKey = FAVORITE_MUSIC_CACHE_KEY_PREFIX + userId;
 
         // 1. 캐시에서 조회
         List<FavoriteMusicListResponse> cachedList = (List<FavoriteMusicListResponse>) redisTemplate.opsForValue().get(cacheKey);
@@ -68,9 +73,8 @@ public class MusicService {
                 .toList();
 
         // 3. TTL + Jitter 설정 (예: 10분 + 0~1분)
-        int baseTtlSeconds = 600;
-        int jitterSeconds = ThreadLocalRandom.current().nextInt(0, 60);
-        redisTemplate.opsForValue().set(cacheKey, responseList, baseTtlSeconds + jitterSeconds, TimeUnit.SECONDS);
+        int jitterSeconds = ThreadLocalRandom.current().nextInt(0, CACHE_JITTER_MAX_SECONDS);
+        redisTemplate.opsForValue().set(cacheKey, responseList, CACHE_BASE_TTL_SECONDS + jitterSeconds, TimeUnit.SECONDS);
 
         return responseList;
     }
@@ -86,15 +90,21 @@ public class MusicService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("존재하지 않는 유저입니다!"));
 
+//        boolean alreadyLiked = favoriteMusicRepository.existsByUserAndMusic(user, music);
+//        if (alreadyLiked) {
+//            return "이미 좋아요했습니다!";
+//        }
+
         FavoriteMusic favoriteMusic = FavoriteMusic.of(user, music);
         favoriteMusicRepository.save(favoriteMusic);
 
-        String cacheKey = "favoriteMusic:" + userId;
+        String cacheKey = FAVORITE_MUSIC_CACHE_KEY_PREFIX + userId;
         List<FavoriteMusicListResponse> cachedList = (List<FavoriteMusicListResponse>) redisTemplate.opsForValue().get(cacheKey);
         if (cachedList != null) {
             FavoriteMusicListResponse newFavorite = music.toFavoriteMusicListResponse();
-            cachedList.add(newFavorite);
-            redisTemplate.opsForValue().set(cacheKey, cachedList, 600 + ThreadLocalRandom.current().nextInt(60), TimeUnit.SECONDS);
+            List<FavoriteMusicListResponse> updatedList = new ArrayList<>(cachedList);
+            updatedList.add(newFavorite);
+            redisTemplate.opsForValue().set(cacheKey, updatedList, CACHE_BASE_TTL_SECONDS + ThreadLocalRandom.current().nextInt(CACHE_JITTER_MAX_SECONDS), TimeUnit.SECONDS);
         }
 
         return "좋아요를 눌렀습니다!";
