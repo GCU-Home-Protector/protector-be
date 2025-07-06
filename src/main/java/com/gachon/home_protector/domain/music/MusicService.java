@@ -99,13 +99,7 @@ public class MusicService {
         favoriteMusicRepository.save(favoriteMusic);
 
         String cacheKey = FAVORITE_MUSIC_CACHE_KEY_PREFIX + userId;
-        List<FavoriteMusicListResponse> cachedList = (List<FavoriteMusicListResponse>) redisTemplate.opsForValue().get(cacheKey);
-        if (cachedList != null) {
-            FavoriteMusicListResponse newFavorite = music.toFavoriteMusicListResponse();
-            List<FavoriteMusicListResponse> updatedList = new ArrayList<>(cachedList);
-            updatedList.add(newFavorite);
-            redisTemplate.opsForValue().set(cacheKey, updatedList, CACHE_BASE_TTL_SECONDS + ThreadLocalRandom.current().nextInt(CACHE_JITTER_MAX_SECONDS), TimeUnit.SECONDS);
-        }
+        redisTemplate.delete(cacheKey);
 
         return "좋아요를 눌렀습니다!";
     }
