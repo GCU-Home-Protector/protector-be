@@ -1,5 +1,7 @@
 package com.gachon.home_protector.domain.favorite_music;
 
+import com.gachon.home_protector.domain.music.Music;
+import com.gachon.home_protector.domain.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -9,4 +11,6 @@ public interface FavoriteMusicRepository extends JpaRepository<FavoriteMusic, Lo
 
     @Query("SELECT f FROM FavoriteMusic f WHERE f.user.id = :userId AND f.music.id = :songId")
     Optional<FavoriteMusic> findByUserAndMusicId(Long userId, Long songId);
+
+    boolean existsByUserAndMusic(User user, Music music);
 }

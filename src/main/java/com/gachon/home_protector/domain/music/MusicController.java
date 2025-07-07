@@ -28,9 +28,9 @@ public class MusicController {
     }
 
     @PostMapping("/likes")
-    public SuccessResponse<String> addOrDeleteFavoriteMusic(@AuthenticationPrincipal RestUserDetails userDetails,
-                                                            @Valid @RequestBody AddFavoriteMusicRequest request) {
-        return SuccessResponse.success(musicService.addOrDeleteFavoriteMusic(userDetails, request.toServiceRequest()));
+    public SuccessResponse<String> addFavoriteMusic(@AuthenticationPrincipal RestUserDetails userDetails,
+                                                    @Valid @RequestBody AddFavoriteMusicRequest request) {
+        return SuccessResponse.success(musicService.addFavoriteMusic(userDetails, request.toServiceRequest()));
     }
 
     @GetMapping("/likes")
