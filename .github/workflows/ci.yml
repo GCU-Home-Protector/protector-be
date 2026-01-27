@@ -1,4 +1,4 @@
-name: Dockerize & Push Server Image to ECR (CI Step)
+name: Build & Push Server Image to ECR (CI Step)
 
 on:
   push:
